@@ -1,8 +1,9 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-  loginContainer: {
-    width: '80%'
+  signupContainer: {
+    paddingTop: '15%',
+    width: '100%'
   },
   buttonContainer: {
     paddingTop: 15

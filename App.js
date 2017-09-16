@@ -1,24 +1,74 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import Login from './components/Login/Login';
-import Signup from './components/Signup/Signup';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View, Button} from 'react-native';
+import {StackNavigator, NavigationActions} from 'react-navigation';
+import LoginScreen from './components/Login/Login';
+import SignupScreen from './components/Signup/Signup';
+import {firebaseApp} from './firebaseConfig';
 
-export default class App extends React.Component {
+class HomeScreen extends Component {
+  static navigationOptions = {
+    title: 'Welcome to Retrieve',
+  };
+
+  state = {
+    isLogined: false,
+    loading: true
+  }
+
+  componentDidMount() {
+    this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          isLogined: true,
+          loading: false
+        })
+      } else {
+        this.setState({
+          isLogined: false,
+          loading: false
+        })
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.removeAuthListener();
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-        {/* <Login/> */}
-        <Signup/>
-      </View>
-    );
+    const {navigation} = this.props;
+    const {isLogined, loading} = this.state;
+    const {navigate, routes} = navigation;
+
+    if (loading) {
+      return <Text>Loading</Text>
+    }
+
+    if (isLogined) {
+      return (
+        <View>
+          <Text>Login successfull</Text>
+          <Button 
+            onPress={() => firebaseApp.auth().signOut()}
+            title="Logout"
+          />
+        </View>
+      )
+    } else {
+      return (
+        <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 10}}>
+          <Button
+            onPress={() => navigate('Login')}
+            title="Login here to post"
+          />
+        </View>
+      );
+    }
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
+export default StackNavigator({
+  Home: { screen: HomeScreen },
+  Login: { screen: LoginScreen },
+  Signup: { screen: SignupScreen}
 });
