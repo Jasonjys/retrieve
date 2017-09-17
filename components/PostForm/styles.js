@@ -4,13 +4,12 @@ import { StyleSheet } from 'react-native';
 
 export var styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f2f2f2',
-    flex: 1,
+    backgroundColor: 'white',
+    flex: 1
   },
   navbar: {
     alignItems: 'center',
-    backgroundColor: '#a8c9ff',
-    borderBottomColor: '#eee',
+    backgroundColor: '#b26aed',
     borderColor: 'transparent',
     borderWidth: 1,
     justifyContent: 'center',
@@ -18,13 +17,13 @@ export var styles = StyleSheet.create({
     flexDirection: 'row'
   },
   navbarTitle: {
-    color: '#444',
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: "500",
-    color: 'white'
+    color: 'white',
+    fontFamily: 'Optima-ExtraBlack'
   },
   statusbar: {
-    backgroundColor: '#a8c9ff',
+    backgroundColor: '#b26aed',
     height: 22,
   }
 })
