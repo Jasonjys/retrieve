@@ -6,10 +6,7 @@ import {StackNavigator, NavigationActions} from 'react-navigation';
 import {firebaseApp} from '../../firebaseConfig';
 import style from './LoginStyle';
 
-class Login extends Component {
-  static navigationOptions = {
-    title: 'Login',
-  };
+class LoginScreen extends Component {
   state = {
     email: '',
     password: '',
@@ -38,7 +35,7 @@ class Login extends Component {
   }
 
   render() {
-    const {navigate} = this.props.navigation;
+    const navigate = this.props.navigate;
     const {errorMessage} = this.state;
     return (
       <KeyboardAwareScrollView style={style.loginContainer}>
@@ -71,4 +68,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default LoginScreen;

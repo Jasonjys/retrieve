@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
 import {StackNavigator, NavigationActions} from 'react-navigation';
-import LoginScreen from './components/Login/Login';
-import SignupScreen from './components/Signup/Signup';
+import LoginScreen from './components/LoginScreen/LoginScreen';
+import SignupScreen from './components/SignupScreen/SignupScreen';
+import ProtectedScreen from './components/ProtectedScreen/ProtectedScreen';
 import {firebaseApp} from './firebaseConfig';
 
 class HomeScreen extends Component {
   static navigationOptions = {
-    title: 'Welcome to Retrieve',
+    title: 'Retrieve',
   };
 
   state = {
@@ -38,7 +39,7 @@ class HomeScreen extends Component {
   render() {
     const {navigation} = this.props;
     const {isLogined, loading} = this.state;
-    const {navigate, routes} = navigation;
+    const {navigate} = navigation;
 
     if (loading) {
       return <Text>Loading</Text>
@@ -46,22 +47,11 @@ class HomeScreen extends Component {
 
     if (isLogined) {
       return (
-        <View>
-          <Text>Login successfull</Text>
-          <Button 
-            onPress={() => firebaseApp.auth().signOut()}
-            title="Logout"
-          />
-        </View>
+        <ProtectedScreen />
       )
     } else {
       return (
-        <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 10}}>
-          <Button
-            onPress={() => navigate('Login')}
-            title="Login here to post"
-          />
-        </View>
+        <LoginScreen navigate={navigate} />
       );
     }
   }
