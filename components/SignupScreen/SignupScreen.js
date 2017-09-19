@@ -7,7 +7,11 @@ import {firebaseApp} from '../../firebaseConfig';
 import style from './SignupStyle';
 const userRef = firebaseApp.database().ref().child('users');
 
-class Signup extends Component {
+class SignupScreen extends Component {
+  static navigationOptions = {
+    title: 'Sign up'
+  };
+
   state = {
     email: '',
     password: '',
@@ -99,4 +103,4 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+export default SignupScreen;
