@@ -4,7 +4,7 @@ import {firebaseApp} from '../../firebaseConfig';
 
 class ProfileScreen extends Component {
   static navigationOptions = {
-    tabBarLabel: 'Lost Posts',
+    tabBarLabel: 'Profile',
     tabBarIcon: ({tintColor}) => (
       <Image
         source={require('./account_circle.png')}
