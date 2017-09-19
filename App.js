@@ -53,7 +53,6 @@ class HomeScreen extends Component {
       )
     } else {
       return (
-<<<<<<< HEAD
         // <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 10}}>
         //   <Button
         //     onPress={() => navigate('Login')}
@@ -61,16 +60,7 @@ class HomeScreen extends Component {
         //   />
         // </View>
         <DetailPage />
-||||||| merged common ancestors
-        <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 10}}>
-          <Button
-            onPress={() => navigate('Login')}
-            title="Login here to post"
-          />
-        </View>
-=======
-        <LoginScreen navigate={navigate} />
->>>>>>> 72afe6a94c0ea427628a6b55bf685ebb15104380
+        // <LoginScreen navigate={navigate} />
       );
     }
   }
