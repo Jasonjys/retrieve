@@ -68,6 +68,7 @@ setLocation = (location) => {
 }
   render() {
     let tags = this.handleGenerateTags()
+    console.log(this.state.location)
     return (
       <KeyboardAwareScrollView style={styles.container}>
         <StatusBar title='New Post' />

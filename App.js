@@ -4,6 +4,8 @@ import {StackNavigator, NavigationActions} from 'react-navigation';
 import LoginScreen from './components/Login/Login';
 import SignupScreen from './components/Signup/Signup';
 import {firebaseApp} from './firebaseConfig';
+import DetailPage from './components/DetailPage/DetailPage'
+import PostForm from './components/PostForm/PostForm'
 
 class HomeScreen extends Component {
   static navigationOptions = {
@@ -56,12 +58,13 @@ class HomeScreen extends Component {
       )
     } else {
       return (
-        <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 10}}>
-          <Button
-            onPress={() => navigate('Login')}
-            title="Login here to post"
-          />
-        </View>
+        // <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 10}}>
+        //   <Button
+        //     onPress={() => navigate('Login')}
+        //     title="Login here to post"
+        //   />
+        // </View>
+        <DetailPage />
       );
     }
   }
