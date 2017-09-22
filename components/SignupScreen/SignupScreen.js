@@ -47,7 +47,7 @@ class SignupScreen extends Component {
 
       const resetAction = NavigationActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({routeName: 'Home'})]
+        actions: [NavigationActions.navigate({routeName: 'Protected'})]
       });
       navigation.dispatch(resetAction);
     })
