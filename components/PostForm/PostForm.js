@@ -1,5 +1,5 @@
 import React, {Component}from 'react'
-import { StyleSheet, Text, View, FlatList, TextInput, ScrollView, Image, Button as NativeButton} from 'react-native'
+import { Text, View, FlatList, TextInput, ScrollView, Image, Button as NativeButton} from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { styles } from './styles'
 import { FormLabel, FormInput, Badge, Button, Header, FormValidationMessage } from 'react-native-elements'
