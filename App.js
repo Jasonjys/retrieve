@@ -1,10 +1,32 @@
-import {StackNavigator} from 'react-navigation';
+import {StackNavigator, TabNavigator} from 'react-navigation';
 import LoginScreen from './components/LoginScreen/LoginScreen';
 import SignupScreen from './components/SignupScreen/SignupScreen';
-import ProtectedScreen from './components/ProtectedScreen/ProtectedScreen';
+import ProfileScreen from './components/ProfileScreen/ProfileScreen';
+import FoundPostsScreen from './components/FoundPostsSceen/FoundPostsScreen';
+import LostPostsScreen from './components/LostPostsScreen/LostPostsScreen';
+import CreateFoundPostScreen from './components/PostForm/PostForm';
+
+const Tabs = TabNavigator({
+  Profile: {
+    screen: ProfileScreen
+  },
+  FoundPosts: {
+    screen: FoundPostsScreen
+  },
+  LostPosts: {
+    screen: LostPostsScreen
+  }
+}, {
+  initialRouteName: 'FoundPosts',
+  animationEnabled: true,
+  tabBarOptions: {
+    activeTintColor: '#e91e63'
+  }
+});
 
 export default StackNavigator({
   Login: { screen: LoginScreen },
   Signup: { screen: SignupScreen},
-  Protected: { screen: ProtectedScreen }
+  Tabs: {screen: Tabs},
+  NewPost: {screen: CreateFoundPostScreen},
 });

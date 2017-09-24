@@ -24,7 +24,7 @@ class LoginScreen extends Component {
       if (user) {
         const resetAction = NavigationActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({routeName: 'Protected'})]
+          actions: [NavigationActions.navigate({routeName: 'Tabs'})]
         });
         this.props.navigation.dispatch(resetAction);
       }
@@ -45,7 +45,7 @@ class LoginScreen extends Component {
     .then((payload) => {
       const resetAction = NavigationActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({routeName: 'Protected'})]
+        actions: [NavigationActions.navigate({routeName: 'Tabs'})]
       });
       navigation.dispatch(resetAction);
     })

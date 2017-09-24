@@ -58,7 +58,7 @@ export default class App extends React.Component {
           onPress={this.showActionSheet}/>
           <ActionSheet
           ref={o => this.ActionSheet = o}
-          options={['Cancel','Pick from cameral roll', 'Take a photo']}
+          options={['Cancel','Photo library', 'Open camera']}
           cancelButtonIndex={0}
           destructiveButtonIndex={4}
           onPress={this.handlePress}

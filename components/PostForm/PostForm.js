@@ -1,16 +1,25 @@
 import React, {Component}from 'react'
-import { StyleSheet, Text, View, FlatList, TextInput, ScrollView} from 'react-native'
+import { StyleSheet, Text, View, FlatList, TextInput, ScrollView, Image, Button as NativeButton} from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { styles } from './styles'
 import { FormLabel, FormInput, Badge, Button, Header, FormValidationMessage } from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
-import StatusBar from './StatusBar'
 import Tag from './Tag'
 import AutoComplete from './AutoComplete'
 import PhotoPicker from './PhotoPicker'
 import CameraComponent from './CameraComponent'
 
 export default class PostForm extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: 'New Post',
+    headerLeft: <NativeButton title="Back" onPress={() => navigation.goBack()} />,
+    tabBarIcon: ({tintColor}) => (
+      <Image
+        source={require('../FoundPostsSceen/item.png')}
+        style={{tintColor: tintColor}}
+      />
+    )
+  });
  state = {
     title: '',
     Description: '',
@@ -70,7 +79,6 @@ setLocation = (location) => {
     let tags = this.handleGenerateTags()
     return (
       <KeyboardAwareScrollView style={styles.container}>
-        <StatusBar title='New Post' />
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
         <FormInput placeholder='Enter title here...' 
         containerStyle={{borderBottomWidth: 2}}
@@ -141,19 +149,6 @@ setLocation = (location) => {
               },
               shadowRadius: 5,
               shadowOpacity: 0.3}}/>
-              <Button
-                title='Cancel'
-                buttonStyle={{
-                backgroundColor: 'grey',
-                margin: 10,
-                shadowColor: '#000000',
-                borderRadius:10,
-                shadowOffset: {
-                  width: 0,
-                  height: 3
-                },
-                shadowRadius: 5,
-                shadowOpacity: 0.3}}/>
           </View>
         </View>
       </KeyboardAwareScrollView>
