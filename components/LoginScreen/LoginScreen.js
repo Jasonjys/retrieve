@@ -12,7 +12,6 @@ class LoginScreen extends Component {
   };
 
   state = {
-    loading: true,
     email: '',
     password: '',
     errorMessage: '',
@@ -20,7 +19,6 @@ class LoginScreen extends Component {
 
   componentDidMount() {
     this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
-      this.setState({loading: false});
       if (user) {
         const resetAction = NavigationActions.reset({
           index: 0,
@@ -58,10 +56,6 @@ class LoginScreen extends Component {
 
   render() {
     const {errorMessage} = this.state;
-
-    if (this.state.loading) {
-      return <Text>Loading</Text>
-    }
 
     return (
       <KeyboardAwareScrollView style={style.loginContainer}>

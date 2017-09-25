@@ -28,5 +28,5 @@ export default StackNavigator({
   Login: { screen: LoginScreen },
   Signup: { screen: SignupScreen},
   Tabs: {screen: Tabs},
-  NewPost: {screen: CreateFoundPostScreen},
+  CreateFoundPost: {screen: CreateFoundPostScreen},
 });

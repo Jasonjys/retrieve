@@ -10,7 +10,7 @@ class FoundPostsScreen extends Component {
       color='#e91e63'
       size={35}
       containerStyle={{paddingRight: 12}}
-      onPress={() => navigation.navigate('NewPost')}
+      onPress={() => navigation.navigate('CreateFoundPost')}
     />,
     tabBarIcon: ({tintColor}) => (
       <Image

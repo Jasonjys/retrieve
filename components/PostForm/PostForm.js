@@ -20,7 +20,7 @@ export default class PostForm extends Component {
       />
     )
   });
- state = {
+  state = {
     title: '',
     Description: '',
     tagInput: '',
