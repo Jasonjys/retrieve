@@ -12,7 +12,6 @@ import CameraComponent from './CameraComponent'
 export default class PostForm extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'New Post',
-    headerLeft: <NativeButton title="Back" onPress={() => navigation.goBack()} />,
     tabBarIcon: ({tintColor}) => (
       <Image
         source={require('../FoundPostsSceen/item.png')}
