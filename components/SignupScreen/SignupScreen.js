@@ -5,7 +5,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {StackNavigator, NavigationActions} from 'react-navigation';
 import {firebaseApp} from '../../firebaseConfig';
 import style from './SignupStyle';
-const userRef = firebaseApp.database().ref().child('users');
+import {usersRef} from '../../firebaseConfig';
 
 class SignupScreen extends Component {
   static navigationOptions = {
@@ -39,7 +39,8 @@ class SignupScreen extends Component {
 
     firebaseApp.auth().createUserWithEmailAndPassword(email, password)
     .then(({email, displayName, uid}) => {
-      userRef.child(`${uid}`).set({
+      console.log('push user')
+      usersRef.child(`${uid}`).set({
         uid,
         email,
         displayName: `${firstName} ${lastName}`
@@ -53,6 +54,7 @@ class SignupScreen extends Component {
     })
     .catch((error) => {
       var {code, message} = error;
+      console.log(message);
       if (code === 'auth/weak-password') {
         this.setState({passwordError: message});
       } else {

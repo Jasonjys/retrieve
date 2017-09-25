@@ -25,8 +25,8 @@ const Tabs = TabNavigator({
 });
 
 export default StackNavigator({
-  Login: { screen: LoginScreen },
-  Signup: { screen: SignupScreen},
+  Login: {screen: LoginScreen},
+  Signup: {screen: SignupScreen},
   Tabs: {screen: Tabs},
   CreateFoundPost: {screen: CreateFoundPostScreen},
 });
