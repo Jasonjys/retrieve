@@ -34,7 +34,7 @@ export default class AutoComplete extends Component {
                   alert(error);
                 }
               );
-            }else {
+            } else {
               latLngLocation = data.geometry.location
               this.props.setLocation({latitude: latLngLocation.lat,
                   longitude: latLngLocation.lng,
@@ -55,8 +55,6 @@ export default class AutoComplete extends Component {
             container: {
               paddingHorizontal: 10
             },
-
-            
             textInputContainer: {
               backgroundColor: 'white',
               borderTopWidth: 0,
@@ -74,5 +72,6 @@ export default class AutoComplete extends Component {
           filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
         />
-      )}
+      )
+    }
   }
