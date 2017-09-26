@@ -14,3 +14,4 @@ const getRef = () => {
     return firebaseApp.database().ref();
 }
 export const itemsRef = getRef().child('items');
+export const usersRef = getRef().child('users');

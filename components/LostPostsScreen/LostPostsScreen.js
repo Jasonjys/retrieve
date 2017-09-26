@@ -3,6 +3,7 @@ import {View, Text, Image} from 'react-native';
 
 class LostPostsScreen extends Component {
   static navigationOptions = {
+    title: 'Lost Posts',
     tabBarLabel: 'Lost Posts',
     tabBarIcon: ({tintColor}) => (
       <Image

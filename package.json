@@ -30,7 +30,13 @@
     "react-native-geocoding": "^0.2.0",
     "react-native-google-places-autocomplete": "^1.3.5",
     "react-native-keyboard-aware-scroll-view": "^0.3.0",
+<<<<<<< HEAD
     "react-native-maps": "^0.16.4",
     "react-navigation": "^1.0.0-beta.11"
+||||||| merged common ancestors
+    "react-navigation": "^1.0.0-beta.11"
+=======
+    "react-navigation": "^1.0.0-beta.12"
+>>>>>>> 68314f039d07524c3635ddee8dc81a63836227ee
   }
 }

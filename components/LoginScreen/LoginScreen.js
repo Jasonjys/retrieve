@@ -7,10 +7,30 @@ import {firebaseApp} from '../../firebaseConfig';
 import style from './LoginStyle';
 
 class LoginScreen extends Component {
+  static navigationOptions = {
+    title: 'Login to Retrieve',
+  };
+
   state = {
     email: '',
     password: '',
     errorMessage: '',
+  }
+
+  componentDidMount() {
+    this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({routeName: 'Tabs'})]
+        });
+        this.props.navigation.dispatch(resetAction);
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.removeAuthListener();
   }
 
   handleLogin = () => {
@@ -23,7 +43,7 @@ class LoginScreen extends Component {
     .then((payload) => {
       const resetAction = NavigationActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({routeName: 'Home'})]
+        actions: [NavigationActions.navigate({routeName: 'Tabs'})]
       });
       navigation.dispatch(resetAction);
     })
@@ -35,8 +55,8 @@ class LoginScreen extends Component {
   }
 
   render() {
-    const navigate = this.props.navigate;
     const {errorMessage} = this.state;
+
     return (
       <KeyboardAwareScrollView style={style.loginContainer}>
         <FormLabel>Email</FormLabel>
@@ -59,7 +79,7 @@ class LoginScreen extends Component {
             onPress={this.handleLogin}
           />
           <ButtonText
-            onPress={() => navigate('Signup')}
+            onPress={() => this.props.navigation.navigate('Signup')}
             title="Not yet a user? Sign up here!"
           />
         </View>
