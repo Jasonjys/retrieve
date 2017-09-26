@@ -5,6 +5,7 @@ import LoginScreen from './components/LoginScreen/LoginScreen';
 import SignupScreen from './components/SignupScreen/SignupScreen';
 import ProtectedScreen from './components/ProtectedScreen/ProtectedScreen';
 import {firebaseApp} from './firebaseConfig';
+import Map from './components/Map/Map'
 
 class HomeScreen extends Component {
   static navigationOptions = {
@@ -40,7 +41,6 @@ class HomeScreen extends Component {
     const {navigation} = this.props;
     const {isLogined, loading} = this.state;
     const {navigate} = navigation;
-
     if (loading) {
       return <Text>Loading</Text>
     }
@@ -51,7 +51,7 @@ class HomeScreen extends Component {
       )
     } else {
       return (
-        <LoginScreen navigate={navigate} />
+        <Map />
       );
     }
   }
