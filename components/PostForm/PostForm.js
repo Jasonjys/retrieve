@@ -6,7 +6,6 @@ import {FormLabel, FormInput, Badge, Button, Header, FormValidationMessage} from
 import DatePicker from 'react-native-datepicker'
 import Tag from './Tag'
 import AutoComplete from '../AutoComplete/AutoComplete'
-import PhotoPicker from './PhotoPicker'
 import CameraComponent from './CameraComponent'
 import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig'
 
@@ -80,7 +79,12 @@ export default class PostForm extends Component {
   }
 
   handleSubmit = () => {
-    const {title, date, description, img, location, tagArray} = this.state
+    const {title, description, img, location, tagArray} = this.state
+    let {date} = this.state
+
+    if (date instanceof Date) {
+      date = date.toISOString().substring(0, 10)
+    }
 
     const newPostKey = itemsRef.push({
       title,
@@ -170,13 +174,11 @@ export default class PostForm extends Component {
         </View>
         <CameraComponent onUploadImage={this.handleUploadPicture}/>
         <View style={{alignItems: 'center'}}>
-          <View style={{ flexDirection: 'row'}}>
-            <Button
-              title='Submit'
-              buttonStyle={styles.submitButton}
-              onPress={this.handleSubmit}
-            />
-          </View>
+          <Button
+            title='Submit'
+            buttonStyle={styles.submitButton}
+            onPress={this.handleSubmit}
+          />
         </View>
       </KeyboardAwareScrollView>
     );
