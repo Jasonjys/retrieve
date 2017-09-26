@@ -19,6 +19,7 @@ class LoginScreen extends Component {
   }
 
   componentDidMount() {
+    const {outerNavigation} = this.props.screenProps;
     this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
       this.setState({loading: false});
       if (user) {
@@ -26,7 +27,7 @@ class LoginScreen extends Component {
           index: 0,
           actions: [NavigationActions.navigate({routeName: 'Protected'})]
         });
-        this.props.navigation.dispatch(resetAction);
+        outerNavigation.dispatch(resetAction);
       }
     });
   }
@@ -37,7 +38,7 @@ class LoginScreen extends Component {
 
   handleLogin = () => {
     const {email, password} = this.state;
-    const {navigation} = this.props;
+    const {outerNavigation} = this.props.screenProps;
     if (!email || !password) {
       return;
     }
@@ -47,7 +48,7 @@ class LoginScreen extends Component {
         index: 0,
         actions: [NavigationActions.navigate({routeName: 'Protected'})]
       });
-      navigation.dispatch(resetAction);
+      outerNavigation.dispatch(resetAction);
     })
     .catch((error) => {
       // Handle Errors here.
@@ -85,7 +86,7 @@ class LoginScreen extends Component {
             onPress={this.handleLogin}
           />
           <ButtonText
-            onPress={() => this.props.navigation.navigate('Signup')}
+            onPress={() => this.props.screenProps.outerNavigation.navigate('Signup')}
             title="Not yet a user? Sign up here!"
           />
         </View>

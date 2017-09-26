@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation'
 import { View, Text, Button, Image, TouchableHighlight } from 'react-native';
 
-class LostPostsScreen extends Component {
+class FoundPostsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,8 +15,8 @@ class LostPostsScreen extends Component {
 }
 
   static navigationOptions = {
-    title: 'Lost',
-    tabBarLabel: 'Lost Posts',
+    title: 'Found',
+    tabBarLabel: 'Found Posts',
     tabBarIcon: ({tintColor}) => (
       <Image
         source={require('./item.png')}
@@ -55,7 +55,7 @@ class LostPostsScreen extends Component {
   render() {
     return (
       <View>
-        <Text>This is the lost post page</Text>
+        <Text>This is the found post page</Text>
         <TouchableHighlight onPress={this._onSearchPress.bind(this)}>
           <Text>Search</Text>
         </TouchableHighlight>
@@ -67,4 +67,4 @@ class LostPostsScreen extends Component {
   }
 }
 
-export default LostPostsScreen;
+export default FoundPostsScreen;

@@ -1,24 +1,22 @@
-import React, {Component} from 'react';
-import {View, Button} from 'react-native';
-import {TabNavigator} from 'react-navigation';
+import {TabNavigator, Image} from 'react-navigation';
 import ProfileScreen from '../ProfileScreen/ProfileScreen';
-import FoundPostsScreen from '../FoundPostsSceen/FoundPostsScreen';
-import LostPostsScreen from '../LostPostsScreen/LostPostsScreen';
+import FoundPostsNavigator from '../FoundPostsNavigator/FoundPostsNavigator';
+import LostPostsNavigator from '../LostPostsNavigator/LostPostsNavigator';
 
 export default TabNavigator({
   Profile: {
     screen: ProfileScreen
   },
-  FoundPosts: {
-    screen: FoundPostsScreen
+  FoundPostsNavigator: {
+    screen: FoundPostsNavigator
   },
-  LostPosts: {
-    screen: LostPostsScreen
+  LostPostsNavigator: {
+    screen: LostPostsNavigator
   }
 }, {
-  initialRouteName: 'FoundPosts',
+  initialRouteName: 'FoundPostsNavigator',
   animationEnabled: true,
   tabBarOptions: {
     activeTintColor: '#e91e63'
-  }
+  },
 });

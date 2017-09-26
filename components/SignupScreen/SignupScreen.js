@@ -24,7 +24,7 @@ class SignupScreen extends Component {
 
   handleSignup = () => {
     const {email, password, firstName, lastName} = this.state;
-    const {navigation} = this.props;
+    const {outerNavigation} = this.props.screenProps;
 
     this.setState({
       emailError: '',
@@ -49,7 +49,7 @@ class SignupScreen extends Component {
         index: 0,
         actions: [NavigationActions.navigate({routeName: 'Protected'})]
       });
-      navigation.dispatch(resetAction);
+      outerNavigation.dispatch(resetAction);
     })
     .catch((error) => {
       var {code, message} = error;
