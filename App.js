@@ -6,30 +6,28 @@ import FoundPostsScreen from './components/FoundPostsSceen/FoundPostsScreen';
 import LostPostsScreen from './components/LostPostsScreen/LostPostsScreen';
 import CreateFoundPostScreen from './components/PostForm/PostForm';
 import ListComponent from './components/List/ListComponent'
-// const Tabs = TabNavigator({
-//   Profile: {
-//     screen: ProfileScreen
-//   },
-//   FoundPosts: {
-//     screen: FoundPostsScreen
-//   },
-//   LostPosts: {
-//     screen: LostPostsScreen
-//   }
-// }, {
-//   initialRouteName: 'FoundPosts',
-//   animationEnabled: true,
-//   tabBarOptions: {
-//     activeTintColor: '#e91e63'
-//   }
-// });
+const Tabs = TabNavigator({
+  Profile: {
+    screen: ProfileScreen
+  },
+  FoundPosts: {
+    screen: FoundPostsScreen
+  },
+  LostPosts: {
+    screen: LostPostsScreen
+  }
+}, {
+  initialRouteName: 'FoundPosts',
+  animationEnabled: true,
+  tabBarOptions: {
+    activeTintColor: '#e91e63'
+  }
+});
 
 export default StackNavigator({
-  // Login: {screen: LoginScreen},
-  // Signup: {screen: SignupScreen},
-  // Tabs: {screen: Tabs},
+  Login: {screen: LoginScreen},
+  Signup: {screen: SignupScreen},
+  Tabs: {screen: Tabs},
   CreateFoundPost: {screen: CreateFoundPostScreen},
   // List: {screen: ListComponent}
-}, {
-  headerMode: "none"
 });

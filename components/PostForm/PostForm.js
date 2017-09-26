@@ -28,7 +28,8 @@ export default class PostForm extends Component {
     tagArray: [],
     date: new Date(),
     location: {},
-    img: ''
+    img: '',
+    titleErrorMessage: ''
   }
 
   checkDuplicateTag = (tagName) => {
@@ -73,7 +74,7 @@ export default class PostForm extends Component {
   setLocation = (location) => {
     const locationObject = {
       address: location.vicinity,
-      geometry: {...location.geometry.location}
+      geometry: {...location.latlng}
     }
     this.setState({location: locationObject})
   }
@@ -85,32 +86,36 @@ export default class PostForm extends Component {
     if (date instanceof Date) {
       date = date.toISOString().substring(0, 10)
     }
-
-    const newPostKey = itemsRef.push({
-      title,
-      foundDate: date,
-      description,
-      img,
-      location,
-      tagArray
-    }).key
-
-    const userId = firebaseApp.auth().currentUser.uid;
-    const user = usersRef.child(`${userId}`);
-
-    user.once('value').then((snapshot) => {
-      var foundPosts = snapshot.val().foundPosts;
-      if (!foundPosts) {
-        user.update({
-          foundPosts: [newPostKey]
-        })
-      } else {
-        user.update({
-          foundPosts: [...foundPosts, newPostKey]
-        })
-      }
-    });
-    this.props.navigation.navigate('FoundPosts')
+    if (title === '') {
+      this.setState({titleErrorMessage: 'Title is required!'})
+    } else {
+      const newPostKey = itemsRef.push({
+        title,
+        foundDate: date,
+        description,
+        img,
+        location,
+        tagArray
+      }).key
+  
+      const userId = firebaseApp.auth().currentUser.uid;
+      const user = usersRef.child(`${userId}`);
+  
+      user.once('value').then((snapshot) => {
+        var foundPosts = snapshot.val().foundPosts;
+        if (!foundPosts) {
+          user.update({
+            foundPosts: [newPostKey]
+          })
+        } else {
+          user.update({
+            foundPosts: [...foundPosts, newPostKey]
+          })
+        }
+      });
+      this.setState({titleErrorMessage: ''})
+      this.props.navigation.navigate('FoundPosts')
+    }
   }
 
   render() {
@@ -123,6 +128,9 @@ export default class PostForm extends Component {
           containerStyle={{borderBottomWidth: 2}}
           onChangeText={(title)=> this.setState({title})}
         />
+        <FormValidationMessage>
+            {this.state.titleErrorMessage === '' ? null : this.state.titleErrorMessage }
+        </FormValidationMessage>
         <FormLabel>Description</FormLabel>
         <FormInput
           multiline={true}
