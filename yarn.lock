@@ -4550,9 +4550,9 @@ react-native-elements@^0.16.0:
     react-native-side-menu "^1.0.2"
     react-native-tab-navigator "^0.3.3"
 
-react-native-geocoder@^0.4.8:
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/react-native-geocoder/-/react-native-geocoder-0.4.8.tgz#4763ad0a45bd365061b80f52c06564fcc62658e1"
+react-native-geocoding@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-geocoding/-/react-native-geocoding-0.2.0.tgz#c76d3b51890e3cc2c76505bf3a4781623cfcccc3"
 
 react-native-gesture-handler@^1.0.0-alpha.14:
   version "1.0.0-alpha.19"

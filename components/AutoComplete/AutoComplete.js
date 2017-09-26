@@ -55,8 +55,6 @@ export default class AutoComplete extends Component {
             container: {
               paddingHorizontal: 10
             },
-
-            
             textInputContainer: {
               backgroundColor: 'white',
               borderTopWidth: 0,
