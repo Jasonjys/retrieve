@@ -4,7 +4,6 @@ import {
   Clipboard,
   Image,
   Share,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -66,8 +65,6 @@ export default class App extends React.Component {
 
         {this._maybeRenderImage()}
         {this._maybeRenderUploadingOverlay()}
-
-        <StatusBar barStyle="default" />
       </View>
     );
   }
