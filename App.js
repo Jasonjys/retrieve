@@ -5,28 +5,32 @@ import ProfileScreen from './components/ProfileScreen/ProfileScreen';
 import FoundPostsScreen from './components/FoundPostsSceen/FoundPostsScreen';
 import LostPostsScreen from './components/LostPostsScreen/LostPostsScreen';
 import CreateFoundPostScreen from './components/PostForm/PostForm';
+import Map from './components/Map/Map'
 
-const Tabs = TabNavigator({
-  Profile: {
-    screen: ProfileScreen
-  },
-  FoundPosts: {
-    screen: FoundPostsScreen
-  },
-  LostPosts: {
-    screen: LostPostsScreen
-  }
-}, {
-  initialRouteName: 'FoundPosts',
-  animationEnabled: true,
-  tabBarOptions: {
-    activeTintColor: '#e91e63'
-  }
-});
+// const Tabs = TabNavigator({
+//   Profile: {
+//     screen: ProfileScreen
+//   },
+//   FoundPosts: {
+//     screen: FoundPostsScreen
+//   },
+//   LostPosts: {
+//     screen: LostPostsScreen
+//   }
+// }, {
+//   initialRouteName: 'FoundPosts',
+//   animationEnabled: true,
+//   tabBarOptions: {
+//     activeTintColor: '#e91e63'
+//   }
+// });
 
 export default StackNavigator({
-  Login: {screen: LoginScreen},
-  Signup: {screen: SignupScreen},
-  Tabs: {screen: Tabs},
-  CreateFoundPost: {screen: CreateFoundPostScreen},
+  Map: {screen: Map}
+  // Login: {screen: LoginScreen},
+  // Signup: {screen: SignupScreen},
+  // Tabs: {screen: Tabs},
+  // CreateFoundPost: {screen: CreateFoundPostScreen},
+}, {
+  headerMode: 'none'
 });
