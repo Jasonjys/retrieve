@@ -31,17 +31,17 @@ class SearchScreen extends Component {
                 <Text>Search</Text>
                 </TouchableHighlight>
                 <TextInput
-                    placeholder={this.state.search_string}
+                    placeholder={"Search String"}
                     onChangeText={(search_string) => this.setState({ search_string })}
                     value={this.state.search_string}
                     />
                 <TextInput
-                    placeholder={this.state.search_location}
+                    placeholder={"Search Location"}
                     onChangeText={(search_location) => this.setState({ search_location })}
                     value={this.state.search_location}
                 />
                 <TextInput
-                    placeholder={this.state.search_date}
+                    placeholder={"Search Date"}
                     onChangeText={(search_date) => this.setState({ search_date })}
                     value={this.state.search_date}
                 />
