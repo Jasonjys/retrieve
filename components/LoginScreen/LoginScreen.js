@@ -12,22 +12,20 @@ class LoginScreen extends Component {
   };
 
   state = {
-    loading: true,
     email: '',
     password: '',
     errorMessage: '',
   }
 
   componentDidMount() {
-    const {outerNavigation} = this.props.screenProps;
+    const {navigation} = this.props;
     this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
-      this.setState({loading: false});
       if (user) {
         const resetAction = NavigationActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({routeName: 'Protected'})]
+          actions: [NavigationActions.navigate({routeName: 'Tabs'})]
         });
-        outerNavigation.dispatch(resetAction);
+        navigation.dispatch(resetAction);
       }
     });
   }
@@ -38,7 +36,7 @@ class LoginScreen extends Component {
 
   handleLogin = () => {
     const {email, password} = this.state;
-    const {outerNavigation} = this.props.screenProps;
+    const {navigation} = this.props;
     if (!email || !password) {
       return;
     }
@@ -46,9 +44,9 @@ class LoginScreen extends Component {
     .then((payload) => {
       const resetAction = NavigationActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({routeName: 'Protected'})]
+        actions: [NavigationActions.navigate({routeName: 'Tabs'})]
       });
-      outerNavigation.dispatch(resetAction);
+      navigation.dispatch(resetAction);
     })
     .catch((error) => {
       // Handle Errors here.
@@ -59,10 +57,6 @@ class LoginScreen extends Component {
 
   render() {
     const {errorMessage} = this.state;
-
-    if (this.state.loading) {
-      return <Text>Loading</Text>
-    }
 
     return (
       <KeyboardAwareScrollView style={style.loginContainer}>
@@ -86,7 +80,7 @@ class LoginScreen extends Component {
             onPress={this.handleLogin}
           />
           <ButtonText
-            onPress={() => this.props.screenProps.outerNavigation.navigate('Signup')}
+            onPress={() => this.props.navigation.navigate('Signup')}
             title="Not yet a user? Sign up here!"
           />
         </View>

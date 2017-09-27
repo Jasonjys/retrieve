@@ -21,7 +21,7 @@ class ProfileScreen extends Component {
         index: 0,
         actions: [NavigationActions.navigate({routeName: 'Login'})]
       });
-      this.props.screenProps.outerNavigation.dispatch(resetAction);
+      this.props.navigation.dispatch(resetAction);
     })
   }
 

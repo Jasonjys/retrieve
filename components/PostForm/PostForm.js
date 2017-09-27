@@ -1,80 +1,136 @@
 import React, {Component}from 'react'
-import { StyleSheet, Text, View, FlatList, TextInput, ScrollView} from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { styles } from './styles'
-import { FormLabel, FormInput, Badge, Button, Header, FormValidationMessage } from 'react-native-elements'
+import {Text, View, FlatList, TextInput, ScrollView, Image, Button as NativeButton} from 'react-native'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import {styles} from './styles'
+import {FormLabel, FormInput, Badge, Button, Header, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
-import StatusBar from './StatusBar'
 import Tag from './Tag'
-import AutoComplete from './AutoComplete'
-import PhotoPicker from './PhotoPicker'
+import AutoComplete from '../AutoComplete/AutoComplete'
 import CameraComponent from './CameraComponent'
+import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig'
 
 export default class PostForm extends Component {
- state = {
+  static navigationOptions = ({ navigation }) => ({
+    title: 'New Post',
+    tabBarIcon: ({tintColor}) => (
+      <Image
+        source={require('./item.png')}
+        style={{tintColor: tintColor}}
+      />
+    )
+  });
+
+  state = {
     title: '',
-    Description: '',
+    description: '',
     tagInput: '',
     errorMessage: '',
     tagArray: [],
-    date: "2016-05-15",
+    date: new Date(),
     location: {},
-    img: ''
- }
- checkDuplicateTag = (tagName) => {
-   return this.state.tagArray.find((tag) => {
-     return tagName.toLowerCase() === tag.toLowerCase()
-   })
- }
-
- currentTime = () => {
-  var today = new Date()
-  return today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
- }
-handleUploadPicture = (img) => {
-  this.setState({img: img})
-}
- handleTagSubmit = (tagInput, errorMessage) => {
-  if(this.checkDuplicateTag(tagInput)) {
-    this.setState({errorMessage: 'Tag already exist!'})
-  } else if (!isNaN(tagInput)){
-    this.setState({errorMessage: 'Invalid Tag!'})
-  }else {
-    this.setState({errorMessage: ''})
-    this.state.tagArray.push(tagInput)
-    this.setState({tagInput: ''})
+    img: '',
+    titleErrorMessage: ''
   }
- }
-handleGenerateTags = () => {
+
+  checkDuplicateTag = (tagName) => {
+    return this.state.tagArray.find((tag) => {
+      return tagName.toLowerCase() === tag.toLowerCase()
+    })
+  }
+
+  handleUploadPicture = (img) => {
+    this.setState({img: img})
+  }
+
+  handleTagSubmit = (tagInput, errorMessage) => {
+    if(this.checkDuplicateTag(tagInput)) {
+      this.setState({errorMessage: 'Tag already exist!'})
+    } else if (!isNaN(tagInput)) {
+      this.setState({errorMessage: 'Invalid Tag!'})
+    } else {
+      this.setState({errorMessage: ''})
+      this.state.tagArray.push(tagInput)
+      this.setState({tagInput: ''})
+    }
+  }
+  handleGenerateTags = () => {
     return (
       <View style={{flexDirection: 'row', flexWrap:'wrap'}}>
         {this.state.tagArray.map((tag, key) => (
-              <Badge key={key} containerStyle={{ backgroundColor: 'violet', height: 40, margin: 10}}
-                onPress={() => {
-                let arr = this.state.tagArray.filter((tag, index) => {
-                  return index !== key
-                })
-                this.setState({tagArray: arr})
-              }}
-              value={tag}>
-              </Badge>
+          <Badge key={key} containerStyle={{ backgroundColor: 'violet', height: 40, margin: 10}}
+            onPress={() => {
+              let arr = this.state.tagArray.filter((tag, index) => {
+                return index !== key
+              })
+              this.setState({tagArray: arr})
+            }}
+            value={tag}>
+          </Badge>
         ))}
       </View>
     );
-}
+  }
 
-setLocation = (location) => {
-  this.setState({location: location})
-}
+  setLocation = (location) => {
+    const locationObject = {
+      address: location.vicinity,
+      geometry: {...location.latlng}
+    }
+    this.setState({location: locationObject})
+  }
+
+  handleSubmit = () => {
+    const {title, description, img, location, tagArray} = this.state
+    let {date} = this.state
+
+    if (date instanceof Date) {
+      date = date.toISOString().substring(0, 10)
+    }
+    if (title === '') {
+      this.setState({titleErrorMessage: 'Title is required!'})
+    } else {
+      const newPostKey = itemsRef.push({
+        title,
+        foundDate: date,
+        description,
+        img,
+        location,
+        tagArray
+      }).key
+  
+      const userId = firebaseApp.auth().currentUser.uid;
+      const user = usersRef.child(`${userId}`);
+  
+      user.once('value').then((snapshot) => {
+        var foundPosts = snapshot.val().foundPosts;
+        if (!foundPosts) {
+          user.update({
+            foundPosts: [newPostKey]
+          })
+        } else {
+          user.update({
+            foundPosts: [...foundPosts, newPostKey]
+          })
+        }
+      });
+      this.setState({titleErrorMessage: ''})
+      this.props.navigation.navigate('FoundPosts')
+    }
+  }
+
   render() {
     let tags = this.handleGenerateTags()
     return (
       <KeyboardAwareScrollView style={styles.container}>
-        <StatusBar title='New Post' />
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
-        <FormInput placeholder='Enter title here...' 
-        containerStyle={{borderBottomWidth: 2}}
-        onChangeText={(value)=>{this.setState({'title': value})}} />
+        <FormInput
+          placeholder='Enter title here...' 
+          containerStyle={{borderBottomWidth: 2}}
+          onChangeText={(title)=> this.setState({title})}
+        />
+        <FormValidationMessage>
+            {this.state.titleErrorMessage === '' ? null : this.state.titleErrorMessage }
+        </FormValidationMessage>
         <FormLabel>Description</FormLabel>
         <FormInput
           multiline={true}
@@ -84,10 +140,9 @@ setLocation = (location) => {
           multiline={true}
           placeholder='Found:...'
           autoCapitalize='words'
-          onChangeText={(value)=>{
-            this.setState({'Description': value})}}
-          />
-          <Tag 
+          onChangeText={(description)=> this.setState({description})}
+        />
+        <Tag 
           onChangeText={(value) => this.setState({tagInput: value})}
           onTagSubmit={this.handleTagSubmit}
           tagInput={this.state.tagInput}
@@ -98,63 +153,40 @@ setLocation = (location) => {
         <View style={{margin: 10}}>
           <AutoComplete setLocation={this.setLocation}/>
         </View>
-        <FormLabel>Date</FormLabel>
+        <FormLabel>Found Date</FormLabel>
         <View style={{margin: 20}}>
-        <DatePicker
-          style={{width: 200}}
-          date={this.state.date}
-          mode="date"
-          placeholder="select date"
-          format="YYYY-MM-DD"
-          maxDate={this.currentTime()}
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              position: 'absolute',
-              left: 0,
-              top: 4,
-              marginLeft: 0
-            },
-            dateInput: {
-              marginLeft: 50,
-              borderWidth: 0,
-              borderBottomWidth: 2
-            }
-          }}
-          onDateChange={(date) => {this.setState({date: date})}}
-        />
+          <DatePicker
+            style={{width: 200}}
+            date={this.state.date}
+            mode="date"
+            placeholder="select date"
+            format="YYYY-MM-DD"
+            maxDate={new Date()}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={{
+              dateIcon: {
+                position: 'absolute',
+                left: 0,
+                top: 4,
+                marginLeft: 0
+              },
+              dateInput: {
+                marginLeft: 50,
+                borderWidth: 0,
+                borderBottomWidth: 2
+              }
+            }}
+            onDateChange={(date) => this.setState({date})}
+          />
         </View>
         <CameraComponent onUploadImage={this.handleUploadPicture}/>
         <View style={{alignItems: 'center'}}>
-          <View style={{ flexDirection: 'row'}}>
-            <Button
-              title='Submit'
-              buttonStyle={{
-              backgroundColor: '#b26aed',
-              margin: 10,
-              shadowColor: '#000000',
-              borderRadius:10,
-              shadowOffset: {
-                width: 0,
-                height: 3
-              },
-              shadowRadius: 5,
-              shadowOpacity: 0.3}}/>
-              <Button
-                title='Cancel'
-                buttonStyle={{
-                backgroundColor: 'grey',
-                margin: 10,
-                shadowColor: '#000000',
-                borderRadius:10,
-                shadowOffset: {
-                  width: 0,
-                  height: 3
-                },
-                shadowRadius: 5,
-                shadowOpacity: 0.3}}/>
-          </View>
+          <Button
+            title='Submit'
+            buttonStyle={styles.submitButton}
+            onPress={this.handleSubmit}
+          />
         </View>
       </KeyboardAwareScrollView>
     );

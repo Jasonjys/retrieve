@@ -15,7 +15,7 @@ class LostPostsScreen extends Component {
 }
 
   static navigationOptions = {
-    title: 'Lost',
+    title: 'Lost Posts',
     tabBarLabel: 'Lost Posts',
     tabBarIcon: ({tintColor}) => (
       <Image

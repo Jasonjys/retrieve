@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation'
-import { View, Text, Button, Image, TouchableHighlight } from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, Image, Button, TouchableHighlight} from 'react-native';
+import {NavigationActions} from 'react-navigation';
+import { Icon } from 'react-native-elements';
 
 class FoundPostsScreen extends Component {
   constructor(props) {
@@ -12,18 +13,24 @@ class FoundPostsScreen extends Component {
         "search_date": ""
     }
     this.searchUpdatedCallback = this.searchUpdatedCallback.bind(this);
-}
+  }
 
-  static navigationOptions = {
-    title: 'Found',
-    tabBarLabel: 'Found Posts',
+  static navigationOptions = ({ navigation }) => ({
+    title: 'Found Posts',
+    headerRight: <Icon
+      name='add-circle'
+      color='#e91e63'
+      size={35}
+      containerStyle={{paddingRight: 12}}
+      onPress={() => navigation.navigate('CreateFoundPost')}
+    />,
     tabBarIcon: ({tintColor}) => (
       <Image
         source={require('./item.png')}
         style={{tintColor: tintColor}}
       />
     )
-  };
+  });
 
   searchUpdatedCallback = (new_state, callback) => {
     this.setState({
@@ -51,10 +58,10 @@ class FoundPostsScreen extends Component {
     navigation.dispatch(navigateAction);
   };
 
-
   render() {
     return (
       <View>
+        <Text>FoundPostsScreen</Text>
         <Text>This is the found post page</Text>
         <TouchableHighlight onPress={this._onSearchPress.bind(this)}>
           <Text>Search</Text>
@@ -62,6 +69,7 @@ class FoundPostsScreen extends Component {
         <Text>Search String: {this.state.search_string}</Text>
         <Text>Search location:{this.state.search_location}</Text>
         <Text>Search date: {this.state.search_date}</Text>
+        <Button onPress={() => this.props.navigation.navigate('Map')} title="Map"/>
       </View>
     );
   }
