@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Button} from 'react-native';
 import { Icon } from 'react-native-elements'
 
 class FoundPostsScreen extends Component {
@@ -24,6 +24,7 @@ class FoundPostsScreen extends Component {
     return (
       <View>
         <Text>FoundPostsScreen</Text>
+        <Button onPress={() => this.props.navigation.navigate('Map')} title="Map"/>
       </View>
     );
   }
