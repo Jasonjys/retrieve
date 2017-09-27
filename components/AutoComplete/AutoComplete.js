@@ -25,10 +25,14 @@ export default class AutoComplete extends Component {
               Geocoder.getFromLocation(data.description).then(
                 json => {
                   latLngLocation = json.results[0].geometry.location
-                  this.props.setLocation({latitude: latLngLocation.lat,
-                  longitude: latLngLocation.lng,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421})
+                  this.props.setLocation({
+                  vicinity: data.description,
+                  latlng: {
+                    latitude: latLngLocation.lat,
+                    longitude: latLngLocation.lng,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421
+                  }})
                 },
                 error => {
                   alert(error);
@@ -36,10 +40,14 @@ export default class AutoComplete extends Component {
               );
             } else {
               latLngLocation = data.geometry.location
-              this.props.setLocation({latitude: latLngLocation.lat,
-                  longitude: latLngLocation.lng,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421})
+              this.props.setLocation({
+                  vicinity: data.vicinity,
+                  latlng: {
+                    latitude: latLngLocation.lat,
+                    longitude: latLngLocation.lng,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421
+                  }})
             }
           }}
           query={{
