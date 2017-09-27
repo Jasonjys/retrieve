@@ -19,12 +19,19 @@ class Map extends Component {
   onRegionChange = (region) => {
     this.setState({region})
   }
-  onEnterLocation = (region) => {
-    this.setState({region})
+  onEnterLocation = (location) => {
+    this.setState({
+      region: {
+        latitude: location.latlng.latitude,
+        longitude: location.latlng.longitude,
+        latitudeDelta: location.latlng.latitudeDelta,
+        longitudeDelta: location.latlng.longitudeDelta
+       }
+    })
     this.setState({
       markerLocation: {
-        latitude: region.latitude,
-        longitude: region.longitude
+        latitude: location.latlng.latitude,
+        longitude: location.latlng.longitude
       }
     })
   } 
@@ -53,7 +60,7 @@ class Map extends Component {
           lng: -75.6834678
         }
       }]
-      console.log(this.state.region)
+  
     return (
       <View style={{
         flex: 1
