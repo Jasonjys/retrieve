@@ -14,7 +14,7 @@ export default class PostForm extends Component {
     title: 'New Post',
     tabBarIcon: ({tintColor}) => (
       <Image
-        source={require('../FoundPostsSceen/item.png')}
+        source={require('./item.png')}
         style={{tintColor: tintColor}}
       />
     )
