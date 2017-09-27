@@ -25,21 +25,29 @@ export default class AutoComplete extends Component {
               Geocoder.getFromLocation(data.description).then(
                 json => {
                   latLngLocation = json.results[0].geometry.location
-                  this.props.setLocation({latitude: latLngLocation.lat,
-                  longitude: latLngLocation.lng,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421})
+                  this.props.setLocation({
+                  vicinity: data.description,
+                  latlng: {
+                    latitude: latLngLocation.lat,
+                    longitude: latLngLocation.lng,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421
+                  }})
                 },
                 error => {
                   alert(error);
                 }
               );
-            }else {
+            } else {
               latLngLocation = data.geometry.location
-              this.props.setLocation({latitude: latLngLocation.lat,
-                  longitude: latLngLocation.lng,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421})
+              this.props.setLocation({
+                  vicinity: data.vicinity,
+                  latlng: {
+                    latitude: latLngLocation.lat,
+                    longitude: latLngLocation.lng,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421
+                  }})
             }
           }}
           query={{
@@ -55,8 +63,6 @@ export default class AutoComplete extends Component {
             container: {
               paddingHorizontal: 10
             },
-
-            
             textInputContainer: {
               backgroundColor: 'white',
               borderTopWidth: 0,
@@ -74,5 +80,6 @@ export default class AutoComplete extends Component {
           filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
         />
-      )}
+      )
+    }
   }

@@ -5,7 +5,13 @@ import ProfileScreen from './components/ProfileScreen/ProfileScreen';
 import FoundPostsScreen from './components/FoundPostsSceen/FoundPostsScreen';
 import LostPostsScreen from './components/LostPostsScreen/LostPostsScreen';
 import CreateFoundPostScreen from './components/PostForm/PostForm';
+<<<<<<< HEAD
 import Map from './components/Map/Map'
+||||||| merged common ancestors
+=======
+import ListComponent from './components/List/ListComponent';
+import MapScreen from './components/Map/Map';
+>>>>>>> 835c84542bec69b6e23148832893092f93118886
 
 // const Tabs = TabNavigator({
 //   Profile: {
@@ -26,6 +32,7 @@ import Map from './components/Map/Map'
 // });
 
 export default StackNavigator({
+<<<<<<< HEAD
   Map: {screen: Map}
   // Login: {screen: LoginScreen},
   // Signup: {screen: SignupScreen},
@@ -33,4 +40,17 @@ export default StackNavigator({
   // CreateFoundPost: {screen: CreateFoundPostScreen},
 }, {
   headerMode: 'none'
+||||||| merged common ancestors
+  Login: {screen: LoginScreen},
+  Signup: {screen: SignupScreen},
+  Tabs: {screen: Tabs},
+  CreateFoundPost: {screen: CreateFoundPostScreen},
+=======
+  Login: {screen: LoginScreen},
+  Signup: {screen: SignupScreen},
+  Tabs: {screen: Tabs},
+  CreateFoundPost: {screen: CreateFoundPostScreen},
+  List: {screen: ListComponent},
+  Map: {screen: MapScreen}
+>>>>>>> 835c84542bec69b6e23148832893092f93118886
 });

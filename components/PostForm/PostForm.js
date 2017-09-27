@@ -5,8 +5,7 @@ import {styles} from './styles'
 import {FormLabel, FormInput, Badge, Button, Header, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import Tag from './Tag'
-import AutoComplete from './AutoComplete'
-import PhotoPicker from './PhotoPicker'
+import AutoComplete from '../AutoComplete/AutoComplete'
 import CameraComponent from './CameraComponent'
 import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig'
 
@@ -29,7 +28,8 @@ export default class PostForm extends Component {
     tagArray: [],
     date: new Date(),
     location: {},
-    img: ''
+    img: '',
+    titleErrorMessage: ''
   }
 
   checkDuplicateTag = (tagName) => {
@@ -74,39 +74,48 @@ export default class PostForm extends Component {
   setLocation = (location) => {
     const locationObject = {
       address: location.vicinity,
-      geometry: {...location.geometry.location}
+      geometry: {...location.latlng}
     }
     this.setState({location: locationObject})
   }
 
   handleSubmit = () => {
-    const {title, date, description, img, location, tagArray} = this.state
+    const {title, description, img, location, tagArray} = this.state
+    let {date} = this.state
 
-    const newPostKey = itemsRef.push({
-      title,
-      foundDate: date,
-      description,
-      img,
-      location,
-      tagArray
-    }).key
-
-    const userId = firebaseApp.auth().currentUser.uid;
-    const user = usersRef.child(`${userId}`);
-
-    user.once('value').then((snapshot) => {
-      var foundPosts = snapshot.val().foundPosts;
-      if (!foundPosts) {
-        user.update({
-          foundPosts: [newPostKey]
-        })
-      } else {
-        user.update({
-          foundPosts: [...foundPosts, newPostKey]
-        })
-      }
-    });
-    this.props.navigation.navigate('FoundPosts')
+    if (date instanceof Date) {
+      date = date.toISOString().substring(0, 10)
+    }
+    if (title === '') {
+      this.setState({titleErrorMessage: 'Title is required!'})
+    } else {
+      const newPostKey = itemsRef.push({
+        title,
+        foundDate: date,
+        description,
+        img,
+        location,
+        tagArray
+      }).key
+  
+      const userId = firebaseApp.auth().currentUser.uid;
+      const user = usersRef.child(`${userId}`);
+  
+      user.once('value').then((snapshot) => {
+        var foundPosts = snapshot.val().foundPosts;
+        if (!foundPosts) {
+          user.update({
+            foundPosts: [newPostKey]
+          })
+        } else {
+          user.update({
+            foundPosts: [...foundPosts, newPostKey]
+          })
+        }
+      });
+      this.setState({titleErrorMessage: ''})
+      this.props.navigation.navigate('FoundPosts')
+    }
   }
 
   render() {
@@ -119,6 +128,9 @@ export default class PostForm extends Component {
           containerStyle={{borderBottomWidth: 2}}
           onChangeText={(title)=> this.setState({title})}
         />
+        <FormValidationMessage>
+            {this.state.titleErrorMessage === '' ? null : this.state.titleErrorMessage }
+        </FormValidationMessage>
         <FormLabel>Description</FormLabel>
         <FormInput
           multiline={true}
@@ -170,13 +182,11 @@ export default class PostForm extends Component {
         </View>
         <CameraComponent onUploadImage={this.handleUploadPicture}/>
         <View style={{alignItems: 'center'}}>
-          <View style={{ flexDirection: 'row'}}>
-            <Button
-              title='Submit'
-              buttonStyle={styles.submitButton}
-              onPress={this.handleSubmit}
-            />
-          </View>
+          <Button
+            title='Submit'
+            buttonStyle={styles.submitButton}
+            onPress={this.handleSubmit}
+          />
         </View>
       </KeyboardAwareScrollView>
     );

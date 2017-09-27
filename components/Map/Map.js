@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {StyleSheet, Text, View} from 'react-native'
 import MapView from 'react-native-maps'
-import AutoComplete from '../PostForm/AutoComplete'
+import AutoComplete from '../AutoComplete/AutoComplete'
 
 class Map extends Component {
   state = {
