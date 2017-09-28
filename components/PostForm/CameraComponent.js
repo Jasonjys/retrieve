@@ -165,7 +165,7 @@ export default class App extends React.Component {
 }
 
 async function uploadImageAsync(uri) {
-  let apiUrl = 'https://file-upload-example-backend-dkhqoilqqn.now.sh/upload';
+  let apiUrl = 'https://file-upload-example-backend-vujayctbev.now.sh/upload';
 
   // Note:
   // Uncomment this if you want to experiment with local server
