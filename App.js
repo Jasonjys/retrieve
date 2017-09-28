@@ -1,73 +1,38 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, View, Button} from 'react-native';
-import {StackNavigator, NavigationActions} from 'react-navigation';
+import {StackNavigator, TabNavigator} from 'react-navigation';
 import LoginScreen from './components/LoginScreen/LoginScreen';
 import SignupScreen from './components/SignupScreen/SignupScreen';
-import ProtectedScreen from './components/ProtectedScreen/ProtectedScreen';
-import {firebaseApp} from './firebaseConfig';
-import DetailPage from './components/DetailPage/DetailPage'
-import PostForm from './components/PostForm/PostForm'
+import ProfileScreen from './components/ProfileScreen/ProfileScreen';
+import FoundPostsScreen from './components/FoundPostsScreen/FoundPostsScreen';
+import LostPostsScreen from './components/LostPostsScreen/LostPostsScreen';
+import CreateFoundPostScreen from './components/PostForm/PostForm';
+import ListComponent from './components/List/ListComponent';
+import MapScreen from './components/Map/Map';
+import SearchScreen from './components/SearchScreen/SearchScreen'
 
-class HomeScreen extends Component {
-  static navigationOptions = {
-    title: 'Retrieve',
-  };
-
-  state = {
-    isLogined: false,
-    loading: true
+const Tabs = TabNavigator({
+  Profile: {
+    screen: ProfileScreen
+  },
+  FoundPosts: {
+    screen: FoundPostsScreen
+  },
+  LostPosts: {
+    screen: LostPostsScreen
   }
-
-  componentDidMount() {
-    this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({
-          isLogined: true,
-          loading: false
-        })
-      } else {
-        this.setState({
-          isLogined: false,
-          loading: false
-        })
-      }
-    });
+}, {
+  initialRouteName: 'FoundPosts',
+  animationEnabled: true,
+  tabBarOptions: {
+    activeTintColor: '#e91e63'
   }
-
-  componentWillUnmount() {
-    this.removeAuthListener();
-  }
-
-  render() {
-    const {navigation} = this.props;
-    const {isLogined, loading} = this.state;
-    const {navigate} = navigation;
-
-    if (loading) {
-      return <Text>Loading</Text>
-    }
-
-    if (isLogined) {
-      return (
-        <ProtectedScreen />
-      )
-    } else {
-      return (
-        // <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 10}}>
-        //   <Button
-        //     onPress={() => navigate('Login')}
-        //     title="Login here to post"
-        //   />
-        // </View>
-        <DetailPage />
-        // <LoginScreen navigate={navigate} />
-      );
-    }
-  }
-}
+});
 
 export default StackNavigator({
-  Home: { screen: HomeScreen },
-  Login: { screen: LoginScreen },
-  Signup: { screen: SignupScreen}
+  Login: {screen: LoginScreen},
+  Signup: {screen: SignupScreen},
+  Tabs: {screen: Tabs},
+  CreateFoundPost: {screen: CreateFoundPostScreen},
+  List: {screen: ListComponent},
+  Map: {screen: MapScreen},
+  Search: {screen: SearchScreen}
 });
