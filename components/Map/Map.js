@@ -69,7 +69,7 @@ class Map extends Component {
           style={{
           justifyContent: 'flex-end',
           height: '40%',
-          zIndex: 100
+          zIndex: 1
         }}>
           <AutoComplete setLocation={this.onEnterLocation}/>
         </View>
