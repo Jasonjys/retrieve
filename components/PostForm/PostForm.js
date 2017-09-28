@@ -120,6 +120,7 @@ export default class PostForm extends Component {
 
   render() {
     let tags = this.handleGenerateTags()
+    console.log(this.state.location)
     return (
       <KeyboardAwareScrollView style={styles.container}>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
