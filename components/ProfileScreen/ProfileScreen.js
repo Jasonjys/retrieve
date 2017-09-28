@@ -23,7 +23,6 @@ class ProfileScreen extends Component {
       });
       this.props.navigation.dispatch(resetAction);
     })
-
   }
 
   render() {
