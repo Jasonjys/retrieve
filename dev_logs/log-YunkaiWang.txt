@@ -1,0 +1,4 @@
+Week Sep 17-23
+- set up running EC2 instance on AWS that can return a hello world message
+- working on adding search page to both found post page and lost post page, add extra navigator to both pages, but the bug about the title disappeared from the page is still not fixed
+
