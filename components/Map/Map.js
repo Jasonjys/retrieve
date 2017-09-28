@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {StyleSheet, Text, View} from 'react-native'
 import MapView from 'react-native-maps'
 import AutoComplete from '../AutoComplete/AutoComplete'
+import BottomSheet from './BottomSheet'
+import ListComponent from '../List/ListComponent'
 
 class Map extends Component {
   state = {
@@ -76,7 +78,7 @@ class Map extends Component {
         <MapView
           style={{
           height: '100%',
-          marginTop: -270
+          marginTop: -240
         }}
           region={this.state.region}
           onRegionChange={this.onRegionChange}>
@@ -98,6 +100,7 @@ class Map extends Component {
           />
         ))}
           </MapView>
+          <ListComponent style={{height: '100%', width: '100%', marginTop: -200, zIndex: 200}}/>
       </View>
     );
   }

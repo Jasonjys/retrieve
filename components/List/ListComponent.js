@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Image} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import { StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import { List, ListItem, Icon} from 'react-native-elements'
 
 class ListComponent extends Component {
@@ -60,7 +59,7 @@ class ListComponent extends Component {
       }
     ]
     return (
-      <KeyboardAwareScrollView style={{
+      <ScrollView style={{
         flex: 1,
         backgroundColor: 'white'}}>
         <List>
@@ -98,7 +97,7 @@ class ListComponent extends Component {
             ))
           }
         </List>
-      </KeyboardAwareScrollView>
+      </ScrollView>
     );
   }
 }

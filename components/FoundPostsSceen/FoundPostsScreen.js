@@ -25,6 +25,7 @@ class FoundPostsScreen extends Component {
       <View>
         <Text>FoundPostsScreen</Text>
         <Button onPress={() => this.props.navigation.navigate('Map')} title="Map"/>
+        <Button onPress={() => this.props.navigation.navigate('List')} title="List"/>
       </View>
     );
   }
