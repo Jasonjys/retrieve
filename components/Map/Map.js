@@ -18,6 +18,8 @@ class Map extends Component {
       longitude: -122.4324
     }
   }
+
+
   onRegionChange = (region) => {
     this.setState({region})
   }
@@ -62,23 +64,14 @@ class Map extends Component {
           lng: -75.6834678
         }
       }]
-  
+      console.log(this.state.region)
     return (
       <View style={{
-        flex: 1
+        position: 'relative'
       }}>
-        <View
-          style={{
-          justifyContent: 'flex-end',
-          height: '40%',
-          zIndex: 100
-        }}>
-          <AutoComplete setLocation={this.onEnterLocation}/>
-        </View>
         <MapView
           style={{
-          height: '100%',
-          marginTop: -240
+          height: '100%'
         }}
           region={this.state.region}
           onRegionChange={this.onRegionChange}>
@@ -100,7 +93,7 @@ class Map extends Component {
           />
         ))}
           </MapView>
-          <ListComponent style={{height: '100%', width: '100%', marginTop: -200, zIndex: 200}}/>
+          <AutoComplete setLocation={this.onEnterLocation} style={{position: 'absolute'}}/>
       </View>
     );
   }
