@@ -64,26 +64,18 @@ class Map extends Component {
           lng: -75.6834678
         }
       }]
-      console.log(this.state.region)
+    console.log(this.state.region)
     return (
-      <View style={{
-        position: 'relative'
-      }}>
-        <View
-          style={{
-          justifyContent: 'flex-end',
-          height: '40%',
-          zIndex: 1
-        }}>
+      <View>
+        <View style={{height: "40%", backgroundColor: 'transparent', zIndex: 1}}>
           <AutoComplete setLocation={this.onEnterLocation}/>
         </View>
         <MapView
-          style={{
-          height: '100%'
-        }}
+          style={{height: '100%', marginTop: "-65%"}}
           region={this.state.region}
-          onRegionChange={this.onRegionChange}>
-          <MapView.Marker          
+          onRegionChange={this.onRegionChange}
+        >
+          <MapView.Marker
             coordinate={{
               latitude: this.state.markerLocation.latitude,
               longitude: this.state.markerLocation.longitude
@@ -91,17 +83,16 @@ class Map extends Component {
             image={require('./currentLocation.png')}
           />
           {fakeCoordinate.map((marker, key) => (
-          <MapView.Marker
-          key={key}
-          coordinate={{
-              latitude: marker.geometry.lat,
-              longitude: marker.geometry.lng
-            }}
-            title={marker.address}
-          />
-        ))}
-          </MapView>
-          <AutoComplete setLocation={this.onEnterLocation} style={{position: 'absolute'}}/>
+            <MapView.Marker
+              key={key}
+              coordinate={{
+                latitude: marker.geometry.lat,
+                longitude: marker.geometry.lng
+              }}
+              title={marker.address}
+            />
+          ))}
+        </MapView>
       </View>
     );
   }

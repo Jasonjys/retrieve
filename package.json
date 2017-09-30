@@ -32,6 +32,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.3.0",
     "react-native-maps": "^0.16.4",
     "react-native-nested-scroll-view": "^3.0.0",
+    "react-native-overlay": "^0.5.0",
     "react-navigation": "^1.0.0-beta.13"
   }
 }
