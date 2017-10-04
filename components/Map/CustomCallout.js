@@ -5,7 +5,7 @@ class CustomCallout extends Component {
   render() {
     return (
       <View style={{height: 50, width: 100, zIndex: 10}}>
-        <Text>djkfl</Text>
+        <Text>{this.props.text}</Text>
       </View>
     );
   }

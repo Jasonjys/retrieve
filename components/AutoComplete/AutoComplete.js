@@ -19,7 +19,8 @@ export default class AutoComplete extends Component {
           getDefaultValue={() => {
             return ''; // text input default value
           }}
-          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+          onPress={(data, details = null) => { 
+            console.log('press')// 'details' is provided when fetchDetails = true
           let latLngLocation
             if(data.description){
               Geocoder.getFromLocation(data.description).then(
