@@ -59,8 +59,7 @@ class ListComponent extends Component {
       }
     ]
     return (
-      <ScrollView style={{
-        backgroundColor: 'white'}}>
+      <ScrollView>
         <List>
           {
             list.map((list, key) => (
@@ -69,28 +68,35 @@ class ListComponent extends Component {
                 key={key}
                 title={list.title}
                 titleNumberOfLines={2}
-                containerStyle={{
-                  borderColor: 'grey',
-                  height: 190}}
-                  titleStyle={{fontWeight: '900', fontSize: 18}}
+                containerStyle={{borderColor: 'grey', height: 190}}
+                titleStyle={{fontWeight: '900', fontSize: 18}}
                 subtitle={
-                <View style={{flexDirection: 'row',
-                      paddingLeft: 10,
-                      paddingTop: 5,
-                      paddingBottom: 10}}>
-                  <Image source={{uri: list.img}} style={{height: 130, width: 100}}/>
-                  <View style={{flexDirection: 'column', paddingLeft: 15}}>
-                    <Text style={{marginTop: 10, color: 'grey'}}>
-                    <Icon
-                      name='query-builder' style={{height: 10, width: 23, marginTop: -3}} size={18} color='grey'/>
-                       {list.date} </Text>
-                    <Text style={{marginTop: 10, color: 'grey', width: 230}}>
-                    <Icon
-                      name='room' style={{height: 10, width:23, marginTop: -3}} size={18} color='grey'/>
-                      {list.location.address}</Text>
+                  <View style={{flexDirection: 'row',
+                        paddingLeft: 10,
+                        paddingTop: 5,
+                        paddingBottom: 10}}>
+                    <Image source={{uri: list.img}} style={{height: 130, width: 100}}/>
+                    <View style={{flexDirection: 'column', paddingLeft: 15}}>
+                      <Text style={{marginTop: 10, color: 'grey'}}>
+                        <Icon
+                          name='query-builder'
+                          style={{height: 10, width: 23, marginTop: -3}}
+                          size={18} color='grey'
+                        />
+                        {list.date} 
+                      </Text>
+                      <Text style={{marginTop: 10, color: 'grey', width: 230}}>
+                        <Icon
+                          name='room'
+                          style={{height: 10, width:23, marginTop: -3}}
+                          size={18}
+                          color='grey'
+                        />
+                        {list.location.address}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              }
+                }
               />
             ))
           }
