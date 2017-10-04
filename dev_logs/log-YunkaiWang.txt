@@ -2,3 +2,6 @@ Week Sep 17-23
 - set up running EC2 instance on AWS that can return a hello world message
 - working on adding search page to both found post page and lost post page, add extra navigator to both pages, but the bug about the title disappeared from the page is still not fixed
 
+Week Sep 24 - Oct 1
+- set up image upload server on ec2 that handles image upload and save to s3 bucket on AWS
+- working with priority queue and post ranking that will be used to handle search event of this app
