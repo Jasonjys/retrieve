@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Image, Button} from 'react-native';
 import { Icon } from 'react-native-elements';
+import List from '../List/ListComponent'
 
 class FoundPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -61,6 +62,9 @@ class FoundPostsScreen extends Component {
         <Text>Search date: {this.state.search_date}</Text>
         <Button title='Search Page' onPress={this._onSearchPress}/>
         <Button title="Map" onPress={() => this.props.navigation.navigate('Map')}/>
+        <View style={{height: '80%', width: '100%'}}>
+          <List/>
+        </View>
       </View>
     );
   }
