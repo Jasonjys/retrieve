@@ -69,7 +69,6 @@ class ListComponent extends Component {
                 key={key}
                 title={list.title}
                 titleNumberOfLines={2}
-                hideChevron={true}
                 containerStyle={{
                   borderColor: 'grey',
                   height: 190}}
@@ -79,7 +78,8 @@ class ListComponent extends Component {
                       paddingLeft: 10,
                       paddingTop: 5,
                       paddingBottom: 10}}>
-                  <View style={{flexDirection: 'column'}}>
+                  <Image source={{uri: list.img}} style={{height: 130, width: 100}}/>
+                  <View style={{flexDirection: 'column', paddingLeft: 15}}>
                     <Text style={{marginTop: 10, color: 'grey'}}>
                     <Icon
                       name='query-builder' style={{height: 10, width: 23, marginTop: -3}} size={18} color='grey'/>
@@ -89,7 +89,6 @@ class ListComponent extends Component {
                       name='room' style={{height: 10, width:23, marginTop: -3}} size={18} color='grey'/>
                       {list.location.address}</Text>
                   </View>
-                  <Image source={{uri: list.img}} style={{height: 130, width: 100, marginLeft:10}}/>
                 </View>
               }
               />

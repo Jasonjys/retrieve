@@ -22,6 +22,7 @@ class Map extends Component {
   onRegionChange = (region) => {
     this.setState({region})
   }
+
   onEnterLocation = (location) => {
     this.setState({
       region: {
@@ -94,7 +95,7 @@ class Map extends Component {
               latitude: this.state.markerLocation.latitude,
               longitude: this.state.markerLocation.longitude
             }}
-            image={require('./currentLocation.png')}
+            image={require('../../assets/images/currentLocation.png')}
           >
              <MapView.Callout
                 {...this.state.markerLocation}>

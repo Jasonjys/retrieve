@@ -9,11 +9,22 @@ class ProfileScreen extends Component {
     tabBarLabel: 'Profile',
     tabBarIcon: ({tintColor}) => (
       <Image
-        source={require('./account_circle.png')}
+        source={require('../../assets/images/account_circle.png')}
         style={{tintColor: tintColor}}
       />
     )
   };
+
+  state = {
+    userInfo: null
+  }
+
+  componentDidMount() {
+    const user = firebaseApp.auth().currentUser;
+    if (user) {
+      this.setState({userInfo: user.providerData[0]})
+    }
+  }
 
   handleSignout = () => {
     firebaseApp.auth().signOut().then(() => {
@@ -26,6 +37,7 @@ class ProfileScreen extends Component {
   }
 
   render() {
+    console.log(this.state.userInfo)
     return (
       <View>
         <Text>Profile Screen</Text>

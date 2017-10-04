@@ -1,20 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, Image, Button, TouchableHighlight} from 'react-native';
-import {NavigationActions} from 'react-navigation';
+import {View, Text, Image, Button} from 'react-native';
 import { Icon } from 'react-native-elements';
+import List from '../List/ListComponent'
 
 class FoundPostsScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        "loading": false,
-        "search_string": "",
-        "search_location": "",
-        "search_date": ""
-    }
-    this.searchUpdatedCallback = this.searchUpdatedCallback.bind(this);
-  }
-
   static navigationOptions = ({ navigation }) => ({
     title: 'Found Posts',
     headerRight: <Icon
@@ -26,50 +15,56 @@ class FoundPostsScreen extends Component {
     />,
     tabBarIcon: ({tintColor}) => (
       <Image
-        source={require('./item.png')}
+        source={require('../../assets/images/item.png')}
         style={{tintColor: tintColor}}
       />
     )
   });
 
-  searchUpdatedCallback = (new_state, callback) => {
+  state = {
+    loading: false,
+    search_string: '',
+    search_location: '',
+    search_date: ''
+  }
+
+  searchUpdatedCallback = (newState) => {
+    const {search_string, search_location, search_date} = newState;
     this.setState({
-      search_string: new_state.search_string,
-      search_location: new_state.search_location,
-      search_date: new_state.search_date
-    }, () => {
-      callback();
+      search_string,
+      search_location,
+      search_date
     })
   }
 
-  _onSearchPress() {
-    const { navigation } = this.props;
-    const navigateAction = NavigationActions.navigate({
-      routeName: 'Search',
-      params: {
-        key: this.props.navigation.state.key,
-        search_string: this.state.search_string,
-        search_date: this.state.search_date,
-        search_location: this.state.search_location,
-        searchUpdatedCallback: this.searchUpdatedCallback
-      },
-      actions: NavigationActions.navigate({routeName: 'Search'})
-    });
-    navigation.dispatch(navigateAction);
+  _onSearchPress = () => {
+    const {navigate} = this.props.navigation;
+    const {
+      navigation,
+      search_string,
+      search_date,
+      search_location,
+    } = this.state;
+    navigate('Search', {
+      search_string,
+      search_date,
+      search_location,
+      searchUpdatedCallback: this.searchUpdatedCallback
+    })
   };
 
   render() {
     return (
       <View>
         <Text>FoundPostsScreen</Text>
-        <Text>This is the found post page</Text>
-        <TouchableHighlight onPress={this._onSearchPress.bind(this)}>
-          <Text>Search</Text>
-        </TouchableHighlight>
         <Text>Search String: {this.state.search_string}</Text>
         <Text>Search location:{this.state.search_location}</Text>
         <Text>Search date: {this.state.search_date}</Text>
-        <Button onPress={() => this.props.navigation.navigate('Map')} title="Map"/>
+        <Button title='Search Page' onPress={this._onSearchPress}/>
+        <Button title="Map" onPress={() => this.props.navigation.navigate('Map')}/>
+        <View style={{height: '80%', width: '100%'}}>
+          <List/>
+        </View>
       </View>
     );
   }

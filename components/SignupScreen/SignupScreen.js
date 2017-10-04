@@ -38,13 +38,18 @@ class SignupScreen extends Component {
     }
 
     firebaseApp.auth().createUserWithEmailAndPassword(email, password)
-    .then(({email, displayName, uid}) => {
-      console.log('push user')
-      usersRef.child(`${uid}`).set({
-        uid,
-        email,
-        displayName: `${firstName} ${lastName}`
-      });
+    .then(({uid}) => {
+      const user = firebaseApp.auth().currentUser;
+      user.updateProfile({
+        displayName: `${firstName} ${lastName}`,
+      }).then(() => {
+        usersRef.child(`${uid}`).set({
+          email,
+          displayName: `${firstName} ${lastName}`
+        });
+      }).catch((error) => {
+        console.log(error);
+      })
 
       const resetAction = NavigationActions.reset({
         index: 0,
