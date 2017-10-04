@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Image} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import { StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import { List, ListItem, Icon} from 'react-native-elements'
 
 class ListComponent extends Component {
@@ -60,9 +59,7 @@ class ListComponent extends Component {
       }
     ]
     return (
-      <KeyboardAwareScrollView style={{
-        flex: 1,
-        backgroundColor: 'white'}}>
+      <ScrollView>
         <List>
           {
             list.map((list, key) => (
@@ -71,34 +68,40 @@ class ListComponent extends Component {
                 key={key}
                 title={list.title}
                 titleNumberOfLines={2}
-                hideChevron={true}
-                containerStyle={{
-                  borderColor: 'grey',
-                  height: 190}}
-                  titleStyle={{fontWeight: '900', fontSize: 18}}
+                containerStyle={{borderColor: 'grey', height: 190}}
+                titleStyle={{fontWeight: '900', fontSize: 18}}
                 subtitle={
-                <View style={{flexDirection: 'row',
-                      paddingLeft: 10,
-                      paddingTop: 5,
-                      paddingBottom: 10}}>
-                  <View style={{flexDirection: 'column'}}>
-                    <Text style={{marginTop: 10, color: 'grey'}}>
-                    <Icon
-                      name='query-builder' style={{height: 10, width: 23, marginTop: -3}} size={18} color='grey'/>
-                       {list.date} </Text>
-                    <Text style={{marginTop: 10, color: 'grey', width: 230}}>
-                    <Icon
-                      name='room' style={{height: 10, width:23, marginTop: -3}} size={18} color='grey'/>
-                      {list.location.address}</Text>
+                  <View style={{flexDirection: 'row',
+                        paddingLeft: 10,
+                        paddingTop: 5,
+                        paddingBottom: 10}}>
+                    <Image source={{uri: list.img}} style={{height: 130, width: 100}}/>
+                    <View style={{flexDirection: 'column', paddingLeft: 15}}>
+                      <Text style={{marginTop: 10, color: 'grey'}}>
+                        <Icon
+                          name='query-builder'
+                          style={{height: 10, width: 23, marginTop: -3}}
+                          size={18} color='grey'
+                        />
+                        {list.date} 
+                      </Text>
+                      <Text style={{marginTop: 10, color: 'grey', width: 230}}>
+                        <Icon
+                          name='room'
+                          style={{height: 10, width:23, marginTop: -3}}
+                          size={18}
+                          color='grey'
+                        />
+                        {list.location.address}
+                      </Text>
+                    </View>
                   </View>
-                  <Image source={{uri: list.img}} style={{height: 130, width: 100, marginLeft:10}}/>
-                </View>
-              }
+                }
               />
             ))
           }
         </List>
-      </KeyboardAwareScrollView>
+      </ScrollView>
     );
   }
 }

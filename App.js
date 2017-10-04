@@ -5,8 +5,9 @@ import ProfileScreen from './components/ProfileScreen/ProfileScreen';
 import FoundPostsScreen from './components/FoundPostsScreen/FoundPostsScreen';
 import LostPostsScreen from './components/LostPostsScreen/LostPostsScreen';
 import CreateFoundPostScreen from './components/PostForm/PostForm';
-import ListComponent from './components/List/ListComponent';
+import SearchScreen from './components/SearchScreen/SearchScreen';
 import MapScreen from './components/Map/Map';
+import DetailsScreen from './components/DetailPage/DetailPage';
 
 const Tabs = TabNavigator({
   Profile: {
@@ -31,6 +32,7 @@ export default StackNavigator({
   Signup: {screen: SignupScreen},
   Tabs: {screen: Tabs},
   CreateFoundPost: {screen: CreateFoundPostScreen},
-  List: {screen: ListComponent},
-  Map: {screen: MapScreen}
+  Map: {screen: MapScreen},
+  Search: {screen: SearchScreen},
+  Details: {screen: DetailsScreen}
 });

@@ -4598,6 +4598,14 @@ react-native-maps@^0.16.4:
   version "0.16.4"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.16.4.tgz#c18c3cab8cd0ce05431cd74dac11a39afaa579e4"
 
+react-native-nested-scroll-view@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-nested-scroll-view/-/react-native-nested-scroll-view-3.0.0.tgz#9ccf3fc9a6ad3375f040c4e90a0b573df23c76ad"
+
+react-native-overlay@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-overlay/-/react-native-overlay-0.5.0.tgz#68d44e2d643d896414e78cbe87aa336d831b0614"
+
 react-native-safe-module@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {StyleSheet, Text, View} from 'react-native'
 import MapView from 'react-native-maps'
 import AutoComplete from '../AutoComplete/AutoComplete'
+import CustomCallout from './CustomCallout'
 
 class Map extends Component {
   state = {
@@ -16,9 +17,12 @@ class Map extends Component {
       longitude: -122.4324
     }
   }
+
+
   onRegionChange = (region) => {
     this.setState({region})
   }
+
   onEnterLocation = (location) => {
     this.setState({
       region: {
@@ -39,7 +43,7 @@ class Map extends Component {
     let fakeCoordinate = [{
       address: '1755 Riverside Drive, Ottawa, Canada',
       geometry: {
-        lat: 45.4019377,
+        lat: 45.4019379,
         lng: -75.6652049
       }},{
         address: 'Carleton University, Ottawa, ON, Canada',
@@ -60,44 +64,46 @@ class Map extends Component {
           lng: -75.6834678
         }
       }]
-  
     return (
-      <View style={{
-        flex: 1
-      }}>
-        <View
-          style={{
-          justifyContent: 'flex-end',
-          height: '40%',
-          zIndex: 1
-        }}>
+      <View style={{flex: 1}}>
+        <View style={{height: "40%", backgroundColor: 'transparent', zIndex: 1}}>
           <AutoComplete setLocation={this.onEnterLocation}/>
         </View>
         <MapView
-          style={{
-          height: '100%',
-          marginTop: -270
-        }}
+          style={{height: '100%', marginTop: "-65%"}}
           region={this.state.region}
-          onRegionChange={this.onRegionChange}>
-          <MapView.Marker          
+          onRegionChange={this.onRegionChange}
+        >
+          {fakeCoordinate.map((marker, key) => (
+            <MapView.Marker
+              key={key}
+              coordinate={{
+                latitude: marker.geometry.lat,
+                longitude: marker.geometry.lng
+              }}
+            >
+              <MapView.Callout
+                key={key}
+                {...marker.geometry}>
+                <CustomCallout>
+                </CustomCallout>
+              </MapView.Callout>
+            </MapView.Marker>
+          ))}
+          <MapView.Marker
             coordinate={{
               latitude: this.state.markerLocation.latitude,
               longitude: this.state.markerLocation.longitude
             }}
-            image={require('./currentLocation.png')}
-          />
-          {fakeCoordinate.map((marker, key) => (
-          <MapView.Marker
-          key={key}
-          coordinate={{
-              latitude: marker.geometry.lat,
-              longitude: marker.geometry.lng
-            }}
-            title={marker.address}
-          />
-        ))}
-          </MapView>
+            image={require('../../assets/images/currentLocation.png')}
+          >
+             <MapView.Callout
+                {...this.state.markerLocation}>
+                <CustomCallout>
+                </CustomCallout>
+              </MapView.Callout>
+          </MapView.Marker>
+        </MapView>
       </View>
     );
   }
