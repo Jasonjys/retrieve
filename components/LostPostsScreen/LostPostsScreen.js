@@ -19,7 +19,7 @@ class LostPostsScreen extends Component {
     tabBarLabel: 'Lost Posts',
     tabBarIcon: ({tintColor}) => (
       <Image
-        source={require('./item.png')}
+        source={require('../../assets/images/item.png')}
         style={{tintColor: tintColor}}
       />
     )

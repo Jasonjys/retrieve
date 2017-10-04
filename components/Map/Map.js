@@ -19,6 +19,7 @@ class Map extends Component {
   onRegionChange = (region) => {
     this.setState({region})
   }
+
   onEnterLocation = (location) => {
     this.setState({
       region: {
@@ -67,37 +68,39 @@ class Map extends Component {
       }}>
         <View
           style={{
-          justifyContent: 'flex-end',
-          height: '40%',
-          zIndex: 1
-        }}>
+            justifyContent: 'flex-end',
+            height: '40%',
+            zIndex: 1
+          }}
+        >
           <AutoComplete setLocation={this.onEnterLocation}/>
         </View>
         <MapView
           style={{
-          height: '100%',
-          marginTop: -270
-        }}
+            height: '100%',
+            marginTop: -270
+          }}
           region={this.state.region}
-          onRegionChange={this.onRegionChange}>
+          onRegionChange={this.onRegionChange}
+        >
           <MapView.Marker          
             coordinate={{
               latitude: this.state.markerLocation.latitude,
               longitude: this.state.markerLocation.longitude
             }}
-            image={require('./currentLocation.png')}
+            image={require('../../assets/images/currentLocation.png')}
           />
           {fakeCoordinate.map((marker, key) => (
-          <MapView.Marker
-          key={key}
-          coordinate={{
-              latitude: marker.geometry.lat,
-              longitude: marker.geometry.lng
-            }}
-            title={marker.address}
-          />
-        ))}
-          </MapView>
+            <MapView.Marker
+              key={key}
+              coordinate={{
+                latitude: marker.geometry.lat,
+                longitude: marker.geometry.lng
+              }}
+              title={marker.address}
+            />
+          ))}
+        </MapView>
       </View>
     );
   }

@@ -5,6 +5,7 @@ import ProfileScreen from './components/ProfileScreen/ProfileScreen';
 import FoundPostsScreen from './components/FoundPostsScreen/FoundPostsScreen';
 import LostPostsScreen from './components/LostPostsScreen/LostPostsScreen';
 import CreateFoundPostScreen from './components/PostForm/PostForm';
+import SearchScreen from './components/SearchScreen/SearchScreen';
 import ListComponent from './components/List/ListComponent';
 import MapScreen from './components/Map/Map';
 
@@ -32,5 +33,6 @@ export default StackNavigator({
   Tabs: {screen: Tabs},
   CreateFoundPost: {screen: CreateFoundPostScreen},
   List: {screen: ListComponent},
-  Map: {screen: MapScreen}
+  Map: {screen: MapScreen},
+  Search: {screen: SearchScreen}
 });

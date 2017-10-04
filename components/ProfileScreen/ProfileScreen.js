@@ -9,7 +9,7 @@ class ProfileScreen extends Component {
     tabBarLabel: 'Profile',
     tabBarIcon: ({tintColor}) => (
       <Image
-        source={require('./account_circle.png')}
+        source={require('../../assets/images/account_circle.png')}
         style={{tintColor: tintColor}}
       />
     )

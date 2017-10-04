@@ -1,5 +1,5 @@
 import React, {Component}from 'react'
-import {Text, View, FlatList, TextInput, ScrollView, Image, Button as NativeButton} from 'react-native'
+import {Text, View, FlatList, TextInput, ScrollView, Image} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {styles} from './styles'
 import {FormLabel, FormInput, Badge, Button, Header, FormValidationMessage} from 'react-native-elements'
@@ -14,7 +14,7 @@ export default class PostForm extends Component {
     title: 'New Post',
     tabBarIcon: ({tintColor}) => (
       <Image
-        source={require('./item.png')}
+        source={require('../../assets/images/item.png')}
         style={{tintColor: tintColor}}
       />
     )
@@ -97,10 +97,10 @@ export default class PostForm extends Component {
         location,
         tagArray
       }).key
-  
+
       const userId = firebaseApp.auth().currentUser.uid;
       const user = usersRef.child(`${userId}`);
-  
+
       user.once('value').then((snapshot) => {
         const foundPosts = snapshot.val().foundPosts;
         if (!foundPosts) {
@@ -120,7 +120,6 @@ export default class PostForm extends Component {
 
   render() {
     let tags = this.handleGenerateTags()
-    console.log(this.state.location)
     return (
       <KeyboardAwareScrollView style={styles.container}>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
