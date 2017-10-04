@@ -15,6 +15,17 @@ class ProfileScreen extends Component {
     )
   };
 
+  state = {
+    userInfo: null
+  }
+
+  componentDidMount() {
+    const user = firebaseApp.auth().currentUser;
+    if (user) {
+      this.setState({userInfo: user.providerData[0]})
+    }
+  }
+
   handleSignout = () => {
     firebaseApp.auth().signOut().then(() => {
       const resetAction = NavigationActions.reset({
@@ -26,6 +37,7 @@ class ProfileScreen extends Component {
   }
 
   render() {
+    console.log(this.state.userInfo)
     return (
       <View>
         <Text>Profile Screen</Text>

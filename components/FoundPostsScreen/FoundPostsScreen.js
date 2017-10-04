@@ -4,17 +4,6 @@ import {NavigationActions} from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
 class FoundPostsScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        "loading": false,
-        "search_string": "",
-        "search_location": "",
-        "search_date": ""
-    }
-    this.searchUpdatedCallback = this.searchUpdatedCallback.bind(this);
-  }
-
   static navigationOptions = ({ navigation }) => ({
     title: 'Found Posts',
     headerRight: <Icon
@@ -31,6 +20,13 @@ class FoundPostsScreen extends Component {
       />
     )
   });
+
+  state = {
+    "loading": false,
+    "search_string": "",
+    "search_location": "",
+    "search_date": ""
+  }
 
   searchUpdatedCallback = (new_state, callback) => {
     this.setState({
@@ -62,6 +58,7 @@ class FoundPostsScreen extends Component {
     return (
       <View>
         <Text>FoundPostsScreen</Text>
+        {/* <Text>{params.userInfo}</Text> */}
         <Text>This is the found post page</Text>
         <TouchableHighlight onPress={this._onSearchPress.bind(this)}>
           <Text>Search</Text>

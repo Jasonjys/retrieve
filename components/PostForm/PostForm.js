@@ -102,7 +102,7 @@ export default class PostForm extends Component {
       const user = usersRef.child(`${userId}`);
   
       user.once('value').then((snapshot) => {
-        var foundPosts = snapshot.val().foundPosts;
+        const foundPosts = snapshot.val().foundPosts;
         if (!foundPosts) {
           user.update({
             foundPosts: [newPostKey]
