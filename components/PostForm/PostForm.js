@@ -94,7 +94,7 @@ export default class PostForm extends Component {
         foundDate: date,
         description,
         img,
-        location,
+        location: '' || location,
         tagArray
       }).key
 

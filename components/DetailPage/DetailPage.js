@@ -12,8 +12,8 @@ class DetailPage extends Component {
         <View style={{alignItems: 'center'}}>
           <FormLabel labelStyle={style.title}>{title}</FormLabel>
           <FormLabel>Found on: {date}</FormLabel>
-          <FormLabel>Location: {location.address}</FormLabel>
-          <FormLabel>{description}</FormLabel>
+          {location ? <FormLabel>Found at: {location.address}</FormLabel> : null}
+          {description ? <FormLabel>{description}</FormLabel> : null}
         </View>
       </ScrollView>
     );

@@ -15,7 +15,7 @@ class ListComponent extends Component {
       <ScrollView>
         <List containerStyle={style.listContainer}>
           {
-            fakeList.map((item, key) => (
+            this.props.list.map((item, key) => (
               <ListItem
                 key={key}
                 title={item.title}
@@ -25,7 +25,8 @@ class ListComponent extends Component {
                 onLongPress={() => this.handleLongPress(key)}
                 subtitle={
                   <View style={style.itemContainer}>
-                    <Image source={{uri: item.img}} style={{height: 100, width: 100}}/>
+                    {item.img ? <Image source={{uri: item.img}} style={{height: 100, width: 100}}/> 
+                    : <Image source={require('../../assets/images/noImage.jpg')} style={{height: 100, width: 100}}/>}
                     <View style={{flexDirection: 'column', paddingLeft: 15}}>
                       <Text style={{marginTop: 10, color: 'grey'}}>
                         <Icon
@@ -34,17 +35,19 @@ class ListComponent extends Component {
                           size={18}
                           color='grey'
                         />
-                        {item.date}
+                        {item.foundDate}
                       </Text>
-                      <Text style={{marginTop: 10, color: 'grey', width: 230}}>
-                        <Icon
-                          name='room'
-                          style={{height: 10, width:23, marginTop: -3}}
-                          size={18}
-                          color='grey'
-                        />
-                        {item.location.address}
-                      </Text>
+                      {item.location ? 
+                        <Text style={{marginTop: 10, color: 'grey', width: 230}}>
+                          <Icon
+                            name='room'
+                            style={{height: 10, width:23, marginTop: -3}}
+                            size={18}
+                            color='grey'
+                          />
+                          {item.location.address}
+                        </Text> : null
+                      }
                     </View>
                   </View>
                 }

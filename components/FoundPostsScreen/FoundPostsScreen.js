@@ -30,6 +30,14 @@ class FoundPostsScreen extends Component {
     search_date: ''
   }
 
+  componentDidMount() {
+    itemsRef.on('value', (snapshot) => {
+      if (snapshot.val()) {
+        this.setState({list: Object.values(snapshot.val())});
+      }
+    })
+  }
+
   searchUpdatedCallback = (newState) => {
     const {search_string, search_location, search_date} = newState;
     this.setState({
@@ -57,9 +65,6 @@ class FoundPostsScreen extends Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    itemsRef.on('value', (snapshot) => {
-      console.log(Object.values(snapshot.val()))
-    })
     return (
       <View style={{flex: 1, height: '100%'}}>
         <View style={{flex:1, height: '5%', backgroundColor: 'white'}}>
@@ -75,11 +80,11 @@ class FoundPostsScreen extends Component {
           />
         </View>
         <View style={{height: '95%', width: '100%'}}>
-          <List navigate={navigate}/>
+          <List navigate={navigate} list={this.state.list} />
         </View>
       </View>
     );
   }
 }
-// list={this.state.list}
+
 export default FoundPostsScreen;
