@@ -52,15 +52,15 @@ export const fakeList = [
       }
     },
     {
-      title: 'Found keys at Billings bridge',
-      description: 'I found keys at Rideau, please contact me for more imformation.',
-      img: 'https://proudamericans.org/wp-content/uploads/Keys.jpg',
-      date: '2017-09-19',
+      title: 'Found wallet at China town',
+      description: 'I found a wallet at China town, please contact me for more imformation.',
+      img: 'https://cdn.shopclues.com/images/thumbnails/9451/320/320/111417954345.jpg',
+      date: '2017-09-20',
       location: {
-        address: 'Billings bridge, Ottawa, ON, Canada',
+        address: 'China Town, Ottawa, ON, Canada',
         geometry: { 
-          lat: 45.3859731,
-          lng: -75.6779533
+          lat: 45.4098833,
+          lng: -75.70631190000002
         }
       }
     }
