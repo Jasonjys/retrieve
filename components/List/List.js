@@ -5,6 +5,11 @@ import {fakeList} from './mockList'
 import style from './Style';
 
 class ListComponent extends Component {
+  handleLongPress = (key) => {
+      if(this.props.handleLongPress){
+        this.props.handleLongPress(key)
+      }
+  }
   render() {
     return (
       <ScrollView>
@@ -16,12 +21,8 @@ class ListComponent extends Component {
                 title={item.title}
                 titleNumberOfLines={2}
                 titleStyle={style.itemTitle}
-                onPress={() => {this.props.navigate('Details', item)}}
-                onLongPress={()=>{
-                  if(this.props.handleLongPress){
-                    this.props.handleLongPress(key)
-                  }
-                }}
+                onPress={() => this.props.navigate('Details', item)}
+                onLongPress={() => this.handleLongPress(key)}
                 subtitle={
                   <View style={style.itemContainer}>
                     <Image source={{uri: item.img}} style={{height: 100, width: 100}}/>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, TouchableHighlight, Image, ScrollView} from 'react-native'
+import {Text, View, TouchableHighlight, Image} from 'react-native'
 import MapView from 'react-native-maps'
 import AutoComplete from '../AutoComplete/AutoComplete'
 import List from '../List/List'
@@ -63,8 +63,10 @@ class Map extends Component {
       <TouchableHighlight
       onPress={()=>{
         if(this.state.markerPress === -1){
-          this.setState({showList: true})
-          this.state.listOpenTime ++
+          this.setState({
+            showList: true,
+            listOpenTime: ++this.state.listOpenTime
+          })
           if(this.state.listOpenTime === 1) {
             this.dropdown.alertWithType('info', 'Tip', 'Long press to see item location');
           }
@@ -83,7 +85,6 @@ class Map extends Component {
         <MapView
           style={{height: this.state.showList ? '55%' : '88%'}}
           region={this.state.region}
-          ref={ref => { this.marker1 = ref}}
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChange}
           onPress={()=>{
@@ -97,30 +98,23 @@ class Map extends Component {
           {fakeList.map((marker, key) => (
             <MapView.Marker
               key={key}
-              identifier={key.toString()}
               coordinate={{
                 latitude: marker.location.geometry.lat,
                 longitude: marker.location.geometry.lng
               }}
-              identifier={key.toString()}
               onPress={(e)=>{
                 e.stopPropagation()
                 this.setState({
                   markerPress: key,
                   showList: false})
               }}
-              
-            >
-              <MapView.Callout>
-                <Text>{key}</Text>
-              </MapView.Callout>
-            </MapView.Marker>
+            />
           ))}
           <MapView.Marker
             coordinate={{
               latitude: this.state.currentLocationMarker.latitude,
               longitude: this.state.currentLocationMarker.longitude
-            }}         
+            }}
             image={require('../../assets/images/currentLocation.png')}
           />
         </MapView>

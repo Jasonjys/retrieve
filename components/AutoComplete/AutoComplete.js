@@ -25,7 +25,6 @@ export default class AutoComplete extends Component {
               Geocoder.getFromLocation(data.description).then(
                 json => {
                   latLngLocation = json.results[0].geometry.location
-                  console.log(latLngLocation)
                   this.props.setLocation({
                   vicinity: data.description,
                   latlng: {
