@@ -42,7 +42,7 @@ class ProfileScreen extends Component {
       <View style={styles.container}>
         <ProfileHeader userInfo={this.state.userInfo}/>
         <ProfileBar />
-        <ProfilePosts />
+        {/* <ProfilePosts /> */}
         <Button title='signout' onPress={this.handleSignout}/>
       </View>
     );

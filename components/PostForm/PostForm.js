@@ -96,14 +96,8 @@ export default class PostForm extends Component {
         foundDate: date,
         description,
         img,
-<<<<<<< HEAD
-        location: '' || location,
-||||||| merged common ancestors
-        location,
-=======
         location,
         categoryValue,
->>>>>>> cbcb59c0f953728bb4941e11567e50a0da1148e7
         tagArray
       }).key
 

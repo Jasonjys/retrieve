@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Image} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
+import {ActivityIndicator} from 'antd-mobile';
 import List from '../List/List';
 import {itemsRef} from '../../firebaseConfig';
 
@@ -23,7 +24,7 @@ class FoundPostsScreen extends Component {
   });
 
   state = {
-    loading: false,
+    loading: true,
     list: [],
     search_string: '',
     search_location: '',
@@ -32,6 +33,7 @@ class FoundPostsScreen extends Component {
 
   componentDidMount() {
     itemsRef.on('value', (snapshot) => {
+      this.setState({loading: false});
       if (snapshot.val()) {
         this.setState({list: Object.values(snapshot.val())});
       }
@@ -65,6 +67,11 @@ class FoundPostsScreen extends Component {
 
   render() {
     const {navigate} = this.props.navigation;
+    const loadingOrList = this.state.loading 
+      ? <View style={{height: '95%', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+          <ActivityIndicator animating text='Fetching Items'/>
+        </View>
+      : <List navigate={navigate} list={this.state.list} />
     return (
       <View style={{flex: 1, height: '100%'}}>
         <View style={{flex:1, height: '5%', backgroundColor: 'white'}}>
@@ -80,7 +87,7 @@ class FoundPostsScreen extends Component {
           />
         </View>
         <View style={{height: '95%', width: '100%'}}>
-          <List navigate={navigate} list={this.state.list} />
+          {loadingOrList}
         </View>
       </View>
     );
