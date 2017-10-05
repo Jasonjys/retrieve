@@ -37,7 +37,6 @@ class ProfileScreen extends Component {
   }
 
   render() {
-    console.log(this.state.userInfo)
     return (
       <View>
         <Text>Profile Screen</Text>

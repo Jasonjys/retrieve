@@ -155,27 +155,16 @@ export default class App extends React.Component {
       // // console.log({ uploadResponse });
       // // console.log({ uploadResult });
       // // console.log({ e });
-      // alert('Upload failed, sorry :(');
+      alert('Upload failed, sorry :(');
     } finally {
       this.setState({ uploading: false });
     }
     this.props.onUploadImage(this.state.image)
   }
-  
 }
 
 async function uploadImageAsync(uri) {
-  let apiUrl = 'https://file-upload-example-backend-vujayctbev.now.sh/upload';
-
-  // Note:
-  // Uncomment this if you want to experiment with local server
-  //
-  // if (Constants.isDevice) {
-  //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
-  // } else {
-  //   apiUrl = `http://localhost:3000/upload`
-  // }
-
+  let apiUrl = 'https://file-upload-example-backend-qgbeirpxua.now.sh/upload';
   let uriParts = uri.split('.');
   let fileType = uri[uri.length - 1];
 
