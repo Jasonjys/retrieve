@@ -85,32 +85,35 @@ class Map extends Component {
   generateUnexpendList = (key) => {
     //Just incase two style will be different, will change it back if there is no different
     let expandListButtonStyle = {
+      flex: 1,
       backgroundColor: 'white',
       height: '40%',
-      alignItems: 'center',
       paddingHorizontal: 10,
-      flex: 1
     }
     let itemDetailStyle = {
+      flex: 1,
       backgroundColor: 'white',
       height: '40%',
-      alignItems: 'center',
-      paddingHorizontal: 10,
-      flex: 1
+      paddingHorizontal: 10
     }
     return(
-      this.state.markerPress === -1 ?
+      this.state.markerPress === -1 
+      ?
       <TouchableHighlight
-      onPress={()=>{
-        if(this.state.markerPress === -1){
-          this.setState({showList: true})
-        }
-      }}
-      style={this.state.markerPress === -1 ? expandListButtonStyle: itemDetailStyle}
-      underlayColor='#d6d7d8'>
-        <Text style={{fontSize: 18, marginTop: '5%',fontWeight: '900'}} >Expand list</Text>
+        onPress={()=>{
+          if(this.state.markerPress === -1){
+            this.setState({showList: true})
+          }
+        }}
+        style={this.state.markerPress === -1 ? expandListButtonStyle: itemDetailStyle}
+        underlayColor='#d6d7d8'
+      >
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{fontSize: 18, fontWeight: '900'}} >Expand list</Text>
+        </View>
       </TouchableHighlight>
-      : <BottomItemDetail navigate={this.props.navigation.navigate} detail={this.generateFakeList()[key]}/>
+      : 
+      <BottomItemDetail navigate={this.props.navigation.navigate} detail={this.generateFakeList()[key]}/>
     )
   }
   render() {
