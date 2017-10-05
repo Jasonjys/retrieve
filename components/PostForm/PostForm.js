@@ -1,8 +1,8 @@
 import React, {Component}from 'react'
-import {Text, View, FlatList, TextInput, ScrollView, Image} from 'react-native'
+import {View, Image} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
-import {styles} from './styles'
-import {FormLabel, FormInput, Badge, Button, Header, FormValidationMessage} from 'react-native-elements'
+import style from './Style'
+import {FormLabel, FormInput, Badge, Button, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import Tag from './Tag'
 import AutoComplete from '../AutoComplete/AutoComplete'
@@ -121,7 +121,7 @@ export default class PostForm extends Component {
   render() {
     let tags = this.handleGenerateTags()
     return (
-      <KeyboardAwareScrollView style={styles.container}>
+      <KeyboardAwareScrollView style={style.container}>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
         <FormInput
           placeholder='Enter title here...' 
@@ -184,7 +184,7 @@ export default class PostForm extends Component {
         <View style={{alignItems: 'center'}}>
           <Button
             title='Submit'
-            buttonStyle={styles.submitButton}
+            buttonStyle={style.submitButton}
             onPress={this.handleSubmit}
           />
         </View>

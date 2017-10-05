@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
-import style from './SearchStyle'
+import style from './Style'
 
 class SearchScreen extends Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { View, Image, Text } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import {View} from 'react-native';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import Geocoder from 'react-native-geocoding'
 
 export default class AutoComplete extends Component {  
@@ -25,6 +25,7 @@ export default class AutoComplete extends Component {
               Geocoder.getFromLocation(data.description).then(
                 json => {
                   latLngLocation = json.results[0].geometry.location
+                  console.log(latLngLocation)
                   this.props.setLocation({
                   vicinity: data.description,
                   latlng: {
