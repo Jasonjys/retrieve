@@ -44,9 +44,9 @@ export default class PostForm extends Component {
   }
 
   handleSubmit = () => {
-    const {title, description, date, img, location, tagArray, categoryValue} = this.state
+    const {title, description, date, img, location, categoryValue} = this.state
     
-    if (title === '') {
+    if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
       const newPostKey = itemsRef.push({
@@ -55,8 +55,7 @@ export default class PostForm extends Component {
         description,
         img,
         location,
-        categoryValue,
-        tagArray,
+        categoryValue: categoryValue[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss')
       }).key
 
@@ -93,8 +92,8 @@ export default class PostForm extends Component {
         <FormLabel>Description</FormLabel>
         <FormInput
           multiline={true}
-          numberOfLines = {2}
-          inputStyle={{height: 50}}
+          numberOfLines = {4}
+          inputStyle={{height: 80, width: '100%'}}
           containerStyle={{borderBottomWidth: 2}}
           multiline={true}
           placeholder='Found:...'

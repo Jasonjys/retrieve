@@ -107,25 +107,25 @@ export default class App extends React.Component {
             borderTopLeftRadius: 3,
             overflow: 'hidden',
           }}>
-          <Image source={{ uri: image }}
-          style={{
-            borderRadius: 5,
-            margin: 10,
-            width: 200,
-            height: 200,}}>
-            <Icon
-              name='clear'
-              color='white'
-              size={18}
-              containerStyle={{
-                backgroundColor: 'rgb(204, 204, 204)', 
-                height: 25, 
-                width: 25, 
-                borderRadius: 50,
-                opacity: 0.8}}
-              onPress={()=>this.setState({image: ''})}
-            />
-            </Image>
+        <Image source={{ uri: image }}
+        style={{
+          borderRadius: 5,
+          margin: 10,
+          width: 200,
+          height: 200,}}>
+          <Icon
+            name='clear'
+            color='white'
+            size={18}
+            containerStyle={{
+              backgroundColor: 'rgb(204, 204, 204)', 
+              height: 25, 
+              width: 25, 
+              borderRadius: 50,
+              opacity: 0.8}}
+            onPress={()=>this.setState({image: ''})}
+          />
+          </Image>
         </View>
       </View>
     );
