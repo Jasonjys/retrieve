@@ -63,7 +63,7 @@ class FoundPostsScreen extends Component {
         <Button title='Search Page' onPress={this._onSearchPress}/>
         <Button title="Map" onPress={() => this.props.navigation.navigate('TemSearch')}/>
         <View style={{height: '80%', width: '100%'}}>
-          <List/>
+          <List navigate={this.props.navigation.navigate}/>
         </View>
       </View>
     );

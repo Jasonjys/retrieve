@@ -3,7 +3,6 @@ import {StyleSheet, Text, View, TouchableHighlight, Image} from 'react-native'
 import MapView from 'react-native-maps'
 import AutoComplete from '../AutoComplete/AutoComplete'
 import {Button} from 'react-native-elements'
-import CustomCallout from './CustomCallout'
 import ListComponent from '../List/ListComponent'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import BottomItemDetail from './BottomItemDetail'
@@ -102,6 +101,7 @@ class Map extends Component {
       flex: 1
     }
     return(
+      this.state.markerPress === -1 ?
       <TouchableHighlight
       onPress={()=>{
         if(this.state.markerPress === -1){
@@ -110,13 +110,13 @@ class Map extends Component {
       }}
       style={this.state.markerPress === -1 ? expandListButtonStyle: itemDetailStyle}
       underlayColor='#d6d7d8'>
-        {this.state.markerPress === -1 ?
         <Text style={{fontSize: 18, marginTop: '5%',fontWeight: '900'}} >Expand list</Text>
-        :<BottomItemDetail title={this.generateFakeList()[key].title} img={this.generateFakeList()[key].img}/>}
       </TouchableHighlight>
+      : <BottomItemDetail navigate={this.props.navigation.navigate} detail={this.generateFakeList()[key]}/>
     )
   }
   render() {
+    console.log(this.props)
     return (
       <View style={{flex: 1, width: '100%'}}>
         <MapView
@@ -160,7 +160,7 @@ class Map extends Component {
           </MapView.Marker>
         </MapView>
         {this.state.showList ?
-          <ListComponent/> 
+          <ListComponent navigate={this.props.navigation.navigate}/> 
             : this.generateUnexpendList(this.state.markerPress)
         }
       </View>

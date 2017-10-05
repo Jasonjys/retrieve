@@ -64,17 +64,17 @@ class ListComponent extends Component {
           {
             list.map((list, key) => (
               <ListItem
-                roundAvatar
                 key={key}
                 title={list.title}
                 titleNumberOfLines={2}
-                containerStyle={{borderColor: 'grey', height: 190}}
                 titleStyle={{fontWeight: '900', fontSize: 18}}
+                onPress={() => {this.props.navigate('Details', list)}}
                 subtitle={
-                  <View style={{flexDirection: 'row',
-                        paddingLeft: 10,
-                        paddingTop: 5,
-                        paddingBottom: 10}}>
+                  <View 
+                    style={{flexDirection: 'row',
+                    paddingLeft: 10,
+                    paddingTop: 5,
+                    paddingBottom: 10}}>
                     <Image source={{uri: list.img}} style={{height: 130, width: 100}}/>
                     <View style={{flexDirection: 'column', paddingLeft: 15}}>
                       <Text style={{marginTop: 10, color: 'grey'}}>
