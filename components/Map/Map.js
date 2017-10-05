@@ -1,49 +1,34 @@
 import React, {Component} from 'react'
-import {StyleSheet, Text, View} from 'react-native'
+import {StyleSheet, Text, View, TouchableHighlight, Image} from 'react-native'
 import MapView from 'react-native-maps'
 import AutoComplete from '../AutoComplete/AutoComplete'
+import {Button} from 'react-native-elements'
 import CustomCallout from './CustomCallout'
 import ListComponent from '../List/ListComponent'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import BottomItemDetail from './BottomItemDetail'
 
 class Map extends Component {
   state = {
     region: {
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421
+      latitude: this.props.navigation.state.params.region.latitude,
+      longitude: this.props.navigation.state.params.region.longitude,
+      latitudeDelta: this.props.navigation.state.params.region.latitudeDelta,
+      longitudeDelta: this.props.navigation.state.params.region.longitudeDelta
     },
-    markerLocation: {
-      latitude: 37.78825,
-      longitude: -122.4324
+    currentLocationMarker: {
+      latitude: this.props.navigation.state.params.region.latitude,
+      longitude: this.props.navigation.state.params.region.longitude
     },
-    showSearchBar : true
+    showList: false,
+    markerPress: -1
   }
-
 
   onRegionChange = (region) => {
     this.setState({region})
   }
 
-  onEnterLocation = (location) => {
-    this.setState({
-      region: {
-        latitude: location.latlng.latitude,
-        longitude: location.latlng.longitude,
-        latitudeDelta: location.latlng.latitudeDelta,
-        longitudeDelta: location.latlng.longitudeDelta
-       },
-       showSearchBar: false
-    })
-    this.setState({
-      markerLocation: {
-        latitude: location.latlng.latitude,
-        longitude: location.latlng.longitude
-      }
-    })
-  } 
-  render() {
-
+  generateFakeList = () => {
     const list = [
       {
         title: 'Found black Nike bag at 1755 riverside dr',
@@ -98,47 +83,86 @@ class Map extends Component {
         }
       }
     ]
+    return list
+  }
+  generateUnexpendList = (key) => {
+    //Just incase two style will be different, will change it back if there is no different
+    let expandListButtonStyle = {
+      backgroundColor: 'white',
+      height: '40%',
+      alignItems: 'center',
+      paddingHorizontal: 10,
+      flex: 1
+    }
+    let itemDetailStyle = {
+      backgroundColor: 'white',
+      height: '40%',
+      alignItems: 'center',
+      paddingHorizontal: 10,
+      flex: 1
+    }
+    return(
+      <TouchableHighlight
+      onPress={()=>{
+        if(this.state.markerPress === -1){
+          this.setState({showList: true})
+        }
+      }}
+      style={this.state.markerPress === -1 ? expandListButtonStyle: itemDetailStyle}
+      underlayColor='#d6d7d8'>
+        {this.state.markerPress === -1 ?
+        <Text style={{fontSize: 18, marginTop: '5%',fontWeight: '900'}} >Expand list</Text>
+        :<BottomItemDetail title={this.generateFakeList()[key].title} img={this.generateFakeList()[key].img}/>}
+      </TouchableHighlight>
+    )
+  }
+  render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, width: '100%'}}>
         <MapView
-          style={{height: this.state.showSearchBar ? '65%' : '46%'}}
+          style={{height: this.state.showList ? '55%' : this.state.markerPress === -1 ? '88%' : '88%'}}
           region={this.state.region}
           onRegionChange={this.onRegionChange}
+          onRegionChangeComplete={this.onRegionChange}
+          onPress={()=>{
+            if(this.state.showList){
+              this.setState({showList: !this.state.showList})
+            } else {
+              this.setState({markerPress: -1})
+            }
+          }}
         >
-          {list.map((marker, key) => (
+          {this.generateFakeList().map((marker, key) => (
             <MapView.Marker
               key={key}
               coordinate={{
                 latitude: marker.location.geometry.lat,
                 longitude: marker.location.geometry.lng
               }}
+              onPress={(e)=>{
+                e.stopPropagation()
+                this.setState({
+                  markerPress: key,
+                  showList: false})
+              }}
+              
             >
-              <MapView.Callout
-                key={key}
-                {...marker.location.geometry}>
-                <CustomCallout text={marker.title}>
-                </CustomCallout>
-              </MapView.Callout>
             </MapView.Marker>
           ))}
           <MapView.Marker
             coordinate={{
-              latitude: this.state.markerLocation.latitude,
-              longitude: this.state.markerLocation.longitude
+              latitude: this.state.currentLocationMarker.latitude,
+              longitude: this.state.currentLocationMarker.longitude
             }}
+            
             image={require('../../assets/images/currentLocation.png')}
           >
-             <MapView.Callout
-                {...this.state.markerLocation}>
-                <CustomCallout text=''>
-                </CustomCallout>
-              </MapView.Callout>
           </MapView.Marker>
         </MapView>
-        {this.state.showSearchBar ? 
-        <View style={{height: "40%", backgroundColor: 'transparent', zIndex: 1}}>
-          <AutoComplete setLocation={this.onEnterLocation}/>
-        </View> : <ListComponent/>}
+        {this.state.showList ?
+          <ListComponent/> 
+            : this.generateUnexpendList(this.state.markerPress)
+        }
       </View>
     );
   }

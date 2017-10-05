@@ -60,7 +60,7 @@ class ListComponent extends Component {
     ]
     return (
       <ScrollView>
-        <List>
+        <List containerStyle={{marginTop: 0}}>
           {
             list.map((list, key) => (
               <ListItem
