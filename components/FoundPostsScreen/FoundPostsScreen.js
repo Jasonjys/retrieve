@@ -56,9 +56,14 @@ class FoundPostsScreen extends Component {
   render() {
     return (
       <View style={{flex: 1, height: '100%'}}>
-        <Button title="Map" onPress={() => this.props.navigation.navigate('Map')}/>
-        <View style={{height: '95%', width: '100%'}}>
-          <List/>
+        <Text>FoundPostsScreen</Text>
+        <Text>Search String: {this.state.search_string}</Text>
+        <Text>Search location:{this.state.search_location}</Text>
+        <Text>Search date: {this.state.search_date}</Text>
+        <Button title='Search Page' onPress={this._onSearchPress}/>
+        <Button title="Map" onPress={() => this.props.navigation.navigate('TemSearch')}/>
+        <View style={{height: '80%', width: '100%'}}>
+          <List navigate={this.props.navigation.navigate}/>
         </View>
       </View>
     );
