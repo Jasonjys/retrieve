@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {View, Button as ButtonText} from 'react-native';
 import {FormLabel, FormInput, FormValidationMessage, Button, Text} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {StackNavigator, NavigationActions} from 'react-navigation';
+import {NavigationActions} from 'react-navigation';
 import {firebaseApp} from '../../firebaseConfig';
 import firebase from 'firebase';
 import {usersRef} from '../../firebaseConfig';
-import style from './LoginStyle';
+import style from './Style';
 
 const FB_APP_ID = '1376485632449872';
 
@@ -23,7 +23,6 @@ class LoginScreen extends Component {
 
   componentDidMount() {
     const {navigation} = this.props;
-    //console.log(firebaseApp.);
     this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
       if (user) {
         const resetAction = NavigationActions.reset({

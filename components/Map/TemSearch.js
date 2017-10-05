@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import AutoComplete from '../AutoComplete/AutoComplete'
+import {View} from 'react-native';
+import AutoComplete from '../AutoComplete/AutoComplete';
 
 class TemSearch extends Component {
   state = {

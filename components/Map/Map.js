@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
-import {StyleSheet, Text, View, TouchableHighlight, Image} from 'react-native'
+import {Text, View, TouchableHighlight, Image} from 'react-native'
 import MapView from 'react-native-maps'
 import AutoComplete from '../AutoComplete/AutoComplete'
-import {Button} from 'react-native-elements'
-import ListComponent from '../List/ListComponent'
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import List from '../List/List'
 import BottomItemDetail from './BottomItemDetail'
 
 class Map extends Component {
@@ -116,7 +114,6 @@ class Map extends Component {
     )
   }
   render() {
-    console.log(this.props)
     return (
       <View style={{flex: 1, width: '100%'}}>
         <MapView
@@ -145,22 +142,18 @@ class Map extends Component {
                   markerPress: key,
                   showList: false})
               }}
-              
-            >
-            </MapView.Marker>
+            />
           ))}
           <MapView.Marker
             coordinate={{
               latitude: this.state.currentLocationMarker.latitude,
               longitude: this.state.currentLocationMarker.longitude
             }}
-            
             image={require('../../assets/images/currentLocation.png')}
-          >
-          </MapView.Marker>
+          />
         </MapView>
         {this.state.showList ?
-          <ListComponent navigate={this.props.navigation.navigate}/> 
+          <List navigate={this.props.navigation.navigate}/> 
             : this.generateUnexpendList(this.state.markerPress)
         }
       </View>

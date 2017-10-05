@@ -7,6 +7,10 @@ export default StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
     paddingLeft: 10,
-    paddingTop: 5,
+    paddingTop: 5
+  },
+  itemTitle: {
+    fontWeight: '700',
+    fontSize: 17
   }
 });
