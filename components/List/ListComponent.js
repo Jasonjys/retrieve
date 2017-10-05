@@ -83,6 +83,11 @@ class ListComponent extends Component {
                 titleNumberOfLines={2}
                 titleStyle={{fontWeight: '900', fontSize: 17}}
                 onPress={() => {this.props.navigate('Details', list)}}
+                onLongPress={()=>{
+                  if(this.props.handleLongPress){
+                    this.props.handleLongPress(key)
+                  }
+                }}
                 subtitle={
                   <View style={style.itemContainer}>
                     <Image source={{uri: list.img}} style={{height: 100, width: 100}}/>

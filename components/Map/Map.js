@@ -84,6 +84,9 @@ class Map extends Component {
     ]
     return list
   }
+  handleLongPress = () => {
+    
+  }
   generateUnexpendList = (key) => {
     //Just incase two style will be different, will change it back if there is no different
     let expandListButtonStyle = {
@@ -116,7 +119,6 @@ class Map extends Component {
     )
   }
   render() {
-    console.log(this.props)
     return (
       <View style={{flex: 1, width: '100%'}}>
         <MapView
@@ -147,6 +149,9 @@ class Map extends Component {
               }}
               
             >
+              <MapView.Callout>
+                <Text>{key}</Text>
+              </MapView.Callout>
             </MapView.Marker>
           ))}
           <MapView.Marker
@@ -160,7 +165,7 @@ class Map extends Component {
           </MapView.Marker>
         </MapView>
         {this.state.showList ?
-          <ListComponent navigate={this.props.navigation.navigate}/> 
+          <ListComponent navigate={this.props.navigation.navigate} handleLongPress={this.handleLongPress}/> 
             : this.generateUnexpendList(this.state.markerPress)
         }
       </View>
