@@ -4,6 +4,7 @@ export const fakeList = [
       description: 'I found a black Nike bag on Bank street, there are some stuff inside, please contact me for more imformation.',
       img: 'http://media3.newlookassets.com/i/newlook/538303001.jpg',
       date: '2017-09-18',
+      categoryValue: 'bag',
       location: {
         address: '1755 Riverside Drive, Ottawa, Canada',
         geometry: {
@@ -17,6 +18,7 @@ export const fakeList = [
       description: 'I found red shoes at Billings, please contact me for more imformation.',
       img: 'https://previews.123rf.com/images/pretoperola/pretoperola1201/pretoperola120100029/11936982-vintage-red-shoes-on-white-background-Stock-Photo-shoes-tennis.jpg',
       date: '2017-09-15',
+      categoryValue: 'clothingShoes',
       location: {
         address: 'Carleton University, Ottawa, ON, Canada',
         geometry: {
@@ -30,6 +32,7 @@ export const fakeList = [
       description: 'I found a Macbook pro at Rideau, please contact me for more imformation.',
       img: 'https://cnet4.cbsistatic.com/img/zRSypNZhBIJeuedE2_1iMDb0dYc=/770x433/2016/10/27/8facf3fa-d4e1-4221-bdcf-053ad6ce8c2f/apple-macbook-pro-13-inch-2016-1684-017.jpg',
       date: '2017-09-17',
+      categoryValue: 'eletronic',
       location: {
         address: 'TD place, Bank street, Ottawa, ON, Canada',
         geometry: {
@@ -43,6 +46,7 @@ export const fakeList = [
       description: 'I found keys at Rideau, please contact me for more imformation.',
       img: 'https://proudamericans.org/wp-content/uploads/Keys.jpg',
       date: '2017-09-19',
+      categoryValue: 'wck',
       location: {
         address: 'Billings bridge, Ottawa, ON, Canada',
         geometry: { 
@@ -56,6 +60,7 @@ export const fakeList = [
       description: 'I found a wallet at China town, please contact me for more imformation.',
       img: 'https://cdn.shopclues.com/images/thumbnails/9451/320/320/111417954345.jpg',
       date: '2017-09-20',
+      categoryValue: 'wck',
       location: {
         address: 'China Town, Ottawa, ON, Canada',
         geometry: { 

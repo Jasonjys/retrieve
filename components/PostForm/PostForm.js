@@ -8,6 +8,7 @@ import Tag from './Tag'
 import AutoComplete from '../AutoComplete/AutoComplete'
 import CameraComponent from './CameraComponent'
 import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig'
+import CategoryPicker from './CategoryPicker'
 
 export default class PostForm extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -29,6 +30,7 @@ export default class PostForm extends Component {
     date: new Date(),
     location: {},
     img: '',
+    categoryValue: '',
     titleErrorMessage: ''
   }
 
@@ -95,6 +97,7 @@ export default class PostForm extends Component {
         description,
         img,
         location,
+        categoryValue,
         tagArray
       }).key
 
@@ -180,14 +183,27 @@ export default class PostForm extends Component {
             onDateChange={(date) => this.setState({date})}
           />
         </View>
+        <CategoryPicker
+          categoryValue={this.state.categoryValue}
+          handleOnChange={(v)=>{
+            this.setState({categoryValue: v})}}/>
         <CameraComponent onUploadImage={this.handleUploadPicture}/>
-        <View style={{alignItems: 'center'}}>
           <Button
             title='Submit'
-            buttonStyle={style.submitButton}
+            buttonStyle={{
+              backgroundColor: '#b26aed',
+              margin: 10,
+              shadowColor: '#000000',
+              borderRadius:10,
+              shadowOffset: {
+                width: 0,
+                height: 3
+              },
+              shadowRadius: 5,
+              shadowOpacity: 0.3}}
             onPress={this.handleSubmit}
+            style={{width: '100%', height: '50%'}}
           />
-        </View>
       </KeyboardAwareScrollView>
     );
   }

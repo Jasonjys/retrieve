@@ -10,7 +10,7 @@ import {
   View
 } from 'react-native';
 import Exponent, { Constants, ImagePicker, registerRootComponent } from 'expo'
-import { Button } from 'react-native-elements'
+import { Button, Icon } from 'react-native-elements'
 import ActionSheet from 'react-native-actionsheet'
 
 export default class App extends React.Component {
@@ -38,23 +38,21 @@ export default class App extends React.Component {
     let { image } = this.state;
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, width: '60%'}}>
         <Button
-          title='Upload Picture'
+          title=''
           large
           icon={{name: 'add'}}
           buttonStyle={{
-            backgroundColor: '#b26aed',
+            backgroundColor: 'black',
+            borderRadius: 5,
             margin: 10,
-            shadowColor: '#000000',
-            borderRadius:10,
-            shadowOffset: {
-              width: 0,
-              height: 3
-            },
-            shadowRadius: 5,
-            shadowOpacity: 0.3}}
-          onPress={this.showActionSheet}/>
+            borderColor: '#e2e2e2',
+            borderWidth: 0.9,
+            width: 150,
+            height: 150,}}
+          onPress={this.showActionSheet}>
+          </Button>
           <ActionSheet
           ref={o => this.ActionSheet = o}
           options={['Cancel','Photo library', 'Open camera']}
