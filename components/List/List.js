@@ -10,6 +10,31 @@ class ListComponent extends Component {
         this.props.handleLongPress(key)
       }
   }
+  generateCategory = (category) => {
+    switch (category){
+      case 'eletronic':
+        return 'Eletronic'
+        break;
+      case 'clothingShoes':
+        return 'Clothing/Shoes'
+        break;
+      case 'supply':
+        return 'School/Office Supply'
+        break;
+      case 'jewelry':
+        return 'Jewelry & Watch';
+        break;
+      case 'wck':
+        return 'Wallet/Card/Key'
+        break;
+      case 'bag':
+        return 'Bag'
+        break;
+      case 'other':
+        return 'Other'
+        break;
+    }
+  }
   render() {
     return (
       <ScrollView>
@@ -27,6 +52,15 @@ class ListComponent extends Component {
                   <View style={style.itemContainer}>
                     <Image source={{uri: item.img}} style={{height: 100, width: 100}}/>
                     <View style={{flexDirection: 'column', paddingLeft: 15}}>
+                      <Text style={{marginTop: 10, color: 'grey'}}> 
+                      <Icon
+                          name='label'
+                          style={{height: 10, width: 23, marginTop: -3}}
+                          size={18}
+                          color='grey'
+                        />
+                        {this.generateCategory(item.categoryValue)}
+                        </Text>
                       <Text style={{marginTop: 10, color: 'grey'}}>
                         <Icon
                           name='query-builder'

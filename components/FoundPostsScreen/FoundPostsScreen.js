@@ -58,7 +58,7 @@ class FoundPostsScreen extends Component {
   render() {
     const {navigate} = this.props.navigation;
     itemsRef.on('value', (snapshot) => {
-      console.log(Object.values(snapshot.val()))
+      // console.log(Object.values(snapshot.val()))
     })
     return (
       <View style={{flex: 1, height: '100%'}}>
