@@ -12,8 +12,6 @@ import {
 import Exponent, { Constants, ImagePicker, registerRootComponent } from 'expo'
 import { Button, Icon } from 'react-native-elements'
 import ActionSheet from 'react-native-actionsheet'
-import Lightbox from 'react-native-lightbox'
-import ImageViewer from 'react-native-image-zoom-viewer'
 
 export default class App extends React.Component {
   state = {
