@@ -21,7 +21,7 @@ const Tabs = TabNavigator({
     screen: LostPostsScreen
   }
 }, {
-  initialRouteName: 'FoundPosts',
+  initialRouteName: 'Profile',
   animationEnabled: true,
   tabBarOptions: {
     activeTintColor: '#e91e63'

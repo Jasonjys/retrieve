@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Button as ButtonText} from 'react-native';
 import {FormLabel, FormInput, FormValidationMessage, Button, Text} from 'react-native-elements';
+import {ActivityIndicator} from 'antd-mobile';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NavigationActions} from 'react-navigation';
 import {firebaseApp} from '../../firebaseConfig';
@@ -16,6 +17,7 @@ class LoginScreen extends Component {
   };
 
   state = {
+    loading: true,
     email: '',
     password: '',
     errorMessage: '',
@@ -24,6 +26,7 @@ class LoginScreen extends Component {
   componentDidMount() {
     const {navigation} = this.props;
     this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
+      this.setState({loading: false});
       if (user) {
         const resetAction = NavigationActions.reset({
           index: 0,
@@ -44,8 +47,10 @@ class LoginScreen extends Component {
     if (!email || !password) {
       return;
     }
+    this.setState({loading: true});
     firebaseApp.auth().signInWithEmailAndPassword(email, password)
     .then(() => {
+      this.setState({loading: false});
       const resetAction = NavigationActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({routeName: 'Tabs'})]
@@ -99,8 +104,15 @@ class LoginScreen extends Component {
   }
 
   render() {
-    const {errorMessage} = this.state;
+    const {errorMessage, loading} = this.state;
 
+    if (loading) {
+      return (
+        <View style={{height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+          <ActivityIndicator animating text='Loading'/>
+        </View>
+      );
+    }
     return (
       <KeyboardAwareScrollView style={style.loginContainer}>
         <FormLabel>Email</FormLabel>
