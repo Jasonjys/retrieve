@@ -82,9 +82,9 @@ export default class PostForm extends Component {
   }
 
   handleSubmit = () => {
-    const {title, description, img, location, tagArray} = this.state
+    const {title, description, img, location, tagArray, categoryValue} = this.state
     let {date} = this.state
-
+    
     if (date instanceof Date) {
       date = date.toISOString().substring(0, 10)
     }
