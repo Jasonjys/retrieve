@@ -27,6 +27,9 @@ class ListComponent extends Component {
       case 'wck':
         return 'Wallet/Card/Key'
         break;
+      case 'Pet':
+        return 'pet'
+        break;
       case 'bag':
         return 'Bag'
         break;

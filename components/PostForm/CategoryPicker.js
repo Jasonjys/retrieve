@@ -25,6 +25,10 @@ class CategoryPicker extends Component {
         value: 'jewelry'
       },
       {
+        label: 'Pet',
+        value: 'pet'
+      },
+      {
         label: 'Wallet/Card/Key',
         value: 'wck'
       },
