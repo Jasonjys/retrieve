@@ -2,10 +2,11 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 
-export var styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    flex: 1
+    flex: 1,
+    height: '100%'
   },
   submitButton: {
     backgroundColor: '#b26aed',

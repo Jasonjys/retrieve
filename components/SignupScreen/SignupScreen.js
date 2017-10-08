@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import {FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {StackNavigator, NavigationActions} from 'react-navigation';
+import {NavigationActions} from 'react-navigation';
 import {firebaseApp} from '../../firebaseConfig';
-import style from './SignupStyle';
+import style from './Style';
 import {usersRef} from '../../firebaseConfig';
 
 class SignupScreen extends Component {

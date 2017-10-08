@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation'
-import { View, Text, Button, Image, TouchableHighlight } from 'react-native';
+import React, {Component} from 'react';
+import {NavigationActions} from 'react-navigation'
+import {View, Text, Image, TouchableHighlight} from 'react-native';
 
 class LostPostsScreen extends Component {
   constructor(props) {

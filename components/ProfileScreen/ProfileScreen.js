@@ -1,13 +1,16 @@
-import React, {Component} from 'react';
-import {View, Button, Text, Image} from 'react-native';
+import React, { Component } from 'react';
+import {View, Button, Text, Image, StyleSheet} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {firebaseApp} from '../../firebaseConfig';
+import ProfileHeader from './ProfileHeader';
+import ProfileBar from './ProfileBar';
+import ProfilePosts from './ProfilePosts';
 
 class ProfileScreen extends Component {
   static navigationOptions = {
     title: 'User Profile',
     tabBarLabel: 'Profile',
-    tabBarIcon: ({tintColor}) => (
+    tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../assets/images/account_circle.png')}
         style={{tintColor: tintColor}}
@@ -21,9 +24,7 @@ class ProfileScreen extends Component {
 
   componentDidMount() {
     const user = firebaseApp.auth().currentUser;
-    if (user) {
-      this.setState({userInfo: user.providerData[0]})
-    }
+    this.setState({userInfo: user.providerData[0]})
   }
 
   handleSignout = () => {
@@ -37,14 +38,21 @@ class ProfileScreen extends Component {
   }
 
   render() {
-    console.log(this.state.userInfo)
     return (
-      <View>
-        <Text>Profile Screen</Text>
-        <Button onPress={this.handleSignout} title="Logout"/>
+      <View style={styles.container}>
+        <ProfileHeader userInfo={this.state.userInfo}/>
+        <ProfileBar />
+        {/* <ProfilePosts /> */}
+        <Button title='signout' onPress={this.handleSignout}/>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  }
+});
 
 export default ProfileScreen;

@@ -8,6 +8,7 @@ import CreateFoundPostScreen from './components/PostForm/PostForm';
 import SearchScreen from './components/SearchScreen/SearchScreen';
 import MapScreen from './components/Map/Map';
 import DetailsScreen from './components/DetailPage/DetailPage';
+import TemSearchSreen from './components/Map/TemSearch'
 
 const Tabs = TabNavigator({
   Profile: {
@@ -20,7 +21,7 @@ const Tabs = TabNavigator({
     screen: LostPostsScreen
   }
 }, {
-  initialRouteName: 'FoundPosts',
+  initialRouteName: 'Profile',
   animationEnabled: true,
   tabBarOptions: {
     activeTintColor: '#e91e63'
@@ -34,5 +35,6 @@ export default StackNavigator({
   CreateFoundPost: {screen: CreateFoundPostScreen},
   Map: {screen: MapScreen},
   Search: {screen: SearchScreen},
-  Details: {screen: DetailsScreen}
+  Details: {screen: DetailsScreen},
+  TemSearch: {screen: TemSearchSreen}
 });

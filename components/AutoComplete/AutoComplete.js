@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { View, Image, Text } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import {View} from 'react-native';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import Geocoder from 'react-native-geocoding'
 
 export default class AutoComplete extends Component {  
@@ -45,8 +45,8 @@ export default class AutoComplete extends Component {
                   latlng: {
                     latitude: latLngLocation.lat,
                     longitude: latLngLocation.lng,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421
+                    latitudeDelta: 0.100,
+                    longitudeDelta: 0.0521
                   }})
             }
           }}

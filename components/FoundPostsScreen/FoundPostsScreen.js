@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, Image, Button} from 'react-native';
-import { Icon } from 'react-native-elements';
-import List from '../List/ListComponent'
+import {View, Text, Image} from 'react-native';
+import {Icon, Button} from 'react-native-elements';
+import {ActivityIndicator} from 'antd-mobile';
+import List from '../List/List';
+import {itemsRef} from '../../firebaseConfig';
 
 class FoundPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -22,10 +24,20 @@ class FoundPostsScreen extends Component {
   });
 
   state = {
-    loading: false,
+    loading: true,
+    list: [],
     search_string: '',
     search_location: '',
     search_date: ''
+  }
+
+  componentDidMount() {
+    itemsRef.on('value', (snapshot) => {
+      this.setState({loading: false});
+      if (snapshot.val()) {
+        this.setState({list: Object.values(snapshot.val())});
+      }
+    })
   }
 
   searchUpdatedCallback = (newState) => {
@@ -54,16 +66,28 @@ class FoundPostsScreen extends Component {
   };
 
   render() {
+    const {navigate} = this.props.navigation;
+    const loadingOrList = this.state.loading 
+      ? <View style={{height: '95%', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+          <ActivityIndicator animating text='Fetching Items'/>
+        </View>
+      : <List navigate={navigate} list={this.state.list} />
     return (
-      <View>
-        <Text>FoundPostsScreen</Text>
-        <Text>Search String: {this.state.search_string}</Text>
-        <Text>Search location:{this.state.search_location}</Text>
-        <Text>Search date: {this.state.search_date}</Text>
-        <Button title='Search Page' onPress={this._onSearchPress}/>
-        <Button title="Map" onPress={() => this.props.navigation.navigate('Map')}/>
-        <View style={{height: '80%', width: '100%'}}>
-          <List/>
+      <View style={{flex: 1, height: '100%'}}>
+        <View style={{flex:1, height: '5%', backgroundColor: 'white'}}>
+          <Button
+            iconLeft
+            icon={{name: 'search', size: 26}}
+            title='Search'
+            fontWeight={'500'}
+            containerViewStyle={{width: '100%', marginLeft: 0}}
+            buttonStyle={{height: 30, backgroundColor: '#dbdde0'}}
+            onPress={() => this.props.navigation.navigate('TemSearch')}
+            borderRadius={50}
+          />
+        </View>
+        <View style={{height: '95%', width: '100%'}}>
+          {loadingOrList}
         </View>
       </View>
     );
