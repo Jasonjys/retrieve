@@ -1,73 +1,37 @@
 import React, {Component} from 'react';
-import {View, Button, Text, Image, StyleSheet, TouchableHighlight} from 'react-native';
+import {View, Button, Text, Image, StyleSheet, TouchableHighlight, ScrollView} from 'react-native';
 import {TabViewAnimated, TabBar, SceneMap} from 'react-native-tab-view';
 import Swipeable from 'react-native-swipeable';
 import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig';
-
-const rightButtons = [
-  <TouchableHighlight><Text>Button 1</Text></TouchableHighlight>,
-  <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
-];
-
-const FirstRoute = () => {
-  return (
-    <View
-      style={[ styles.container, {backgroundColor: 'white'} ]} 
-    >
-      <Swipeable style={{backgroundColor: 'red', height: '20%'}} rightButtons={rightButtons}>
-        <Text>My swipeable content</Text>
-      </Swipeable>
-    </View>
-  )
-}
-
-const SecondRoute = () => <View style={[ styles.container, {backgroundColor: 'white'} ]} />;
-let numPost = 8;
-let numClaims = 2;
+import SwipeList from '../SwipeList/SwipeList';
 
 class ProfileBar extends Component {
   state = {
-    index: 0,
-    routes: [
-      { key: '1', title: 'Posts' },
-      { key: '2', title: 'Claims' },
-    ],
-    list: []
+    foundPosts: []
   };
 
   componentDidMount() {
     const uid = firebaseApp.auth().currentUser.uid;
-    console.log(uid)
-    let userFoundPostsIds, foundPostsArray;
+    let userFoundPostsIds;
+    let foundPosts = [];
     usersRef.on('value', (snapshot) => {
       userFoundPostsIds = snapshot.val()[uid].foundPosts
-      console.log(userFoundPostsIds)
     })
 
-    // itemsRef.on('value', (snapshot) => {
-      
-    // })
+    itemsRef.on('value', (snapshot) => {
+      userFoundPostsIds.map((id) => {
+        const post = snapshot.val()[id];
+        if (post) {foundPosts.push(post)}
+      })
+      this.setState({foundPosts})
+    })
   }
-
-  handleIndexChange = index => this.setState({index});
-  
-  renderHeader = props => <TabBar style={{backgroundColor: '#404040'}}{...props} />;
-
-  renderScene = SceneMap({
-    '1': FirstRoute,
-    '2': SecondRoute,
-  });
 
   render() {
     return (
-      <TabViewAnimated
-        swipeEnabled={false}
-        style={styles.container}
-        navigationState={this.state}
-        renderScene={this.renderScene}
-        renderHeader={this.renderHeader}
-        onIndexChange={this.handleIndexChange}
-      />
+      <ScrollView style={[ styles.container, {backgroundColor: 'white'} ]}>
+        <SwipeList list={this.state.foundPosts}/>
+      </ScrollView>
     );
   }
 }
@@ -75,6 +39,8 @@ class ProfileBar extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: '100%',
+    width: '100%'
   },
   profilebar: {
     height: 60,
@@ -121,3 +87,6 @@ export default ProfileBar;
   <Text style={styles.topItem}>{numClaims}</Text>
   <Text style={styles.botItem}>Claims</Text>
 </View> */}
+
+// let numPost = 8;
+// let numClaims = 2;
