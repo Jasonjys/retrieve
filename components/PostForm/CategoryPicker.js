@@ -48,7 +48,9 @@ class CategoryPicker extends Component {
         <Picker
           data={this.generateData()}
           cols={1}
-          onChange={(v)=>{this.props.handleOnChange(v)}}
+          onChange={(v)=>{
+            console.log(v)
+            this.props.handleOnChange(v)}}
           value={this.props.categoryValue}
           extra='Tap to choose'
           okText='Confirm'

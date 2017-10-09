@@ -26,7 +26,6 @@ export default class PostForm extends Component {
     description: '',
     tagInput: '',
     errorMessage: '',
-    tagArray: [],
     date: new Date(),
     location: {},
     img: '',
@@ -34,44 +33,44 @@ export default class PostForm extends Component {
     titleErrorMessage: ''
   }
 
-  checkDuplicateTag = (tagName) => {
-    return this.state.tagArray.find((tag) => {
-      return tagName.toLowerCase() === tag.toLowerCase()
-    })
-  }
+  // checkDuplicateTag = (tagName) => {
+  //   return this.state.tagArray.find((tag) => {
+  //     return tagName.toLowerCase() === tag.toLowerCase()
+  //   })
+  // }
 
   handleUploadPicture = (img) => {
     this.setState({img: img})
   }
 
-  handleTagSubmit = (tagInput, errorMessage) => {
-    if(this.checkDuplicateTag(tagInput)) {
-      this.setState({errorMessage: 'Tag already exist!'})
-    } else if (!isNaN(tagInput)) {
-      this.setState({errorMessage: 'Invalid Tag!'})
-    } else {
-      this.setState({errorMessage: ''})
-      this.state.tagArray.push(tagInput)
-      this.setState({tagInput: ''})
-    }
-  }
-  handleGenerateTags = () => {
-    return (
-      <View style={{flexDirection: 'row', flexWrap:'wrap'}}>
-        {this.state.tagArray.map((tag, key) => (
-          <Badge key={key} containerStyle={{ backgroundColor: 'violet', height: 40, margin: 10}}
-            onPress={() => {
-              let arr = this.state.tagArray.filter((tag, index) => {
-                return index !== key
-              })
-              this.setState({tagArray: arr})
-            }}
-            value={tag}>
-          </Badge>
-        ))}
-      </View>
-    );
-  }
+  // handleTagSubmit = (tagInput, errorMessage) => {
+  //   if(this.checkDuplicateTag(tagInput)) {
+  //     this.setState({errorMessage: 'Tag already exist!'})
+  //   } else if (!isNaN(tagInput)) {
+  //     this.setState({errorMessage: 'Invalid Tag!'})
+  //   } else {
+  //     this.setState({errorMessage: ''})
+  //     this.state.tagArray.push(tagInput)
+  //     this.setState({tagInput: ''})
+  //   }
+  // }
+  // handleGenerateTags = () => {
+  //   return (
+  //     <View style={{flexDirection: 'row', flexWrap:'wrap'}}>
+  //       {this.state.tagArray.map((tag, key) => (
+  //         <Badge key={key} containerStyle={{ backgroundColor: 'violet', height: 40, margin: 10}}
+  //           onPress={() => {
+  //             let arr = this.state.tagArray.filter((tag, index) => {
+  //               return index !== key
+  //             })
+  //             this.setState({tagArray: arr})
+  //           }}
+  //           value={tag}>
+  //         </Badge>
+  //       ))}
+  //     </View>
+  //   );
+  // }
 
   setLocation = (location) => {
     const locationObject = {
@@ -84,7 +83,6 @@ export default class PostForm extends Component {
   handleSubmit = () => {
     const {title, description, img, location, tagArray, categoryValue} = this.state
     let {date} = this.state
-    
     if (date instanceof Date) {
       date = date.toISOString().substring(0, 10)
     }
@@ -97,8 +95,7 @@ export default class PostForm extends Component {
         description,
         img,
         location,
-        categoryValue,
-        tagArray
+        categoryValue: categoryValue[0]
       }).key
 
       const userId = firebaseApp.auth().currentUser.uid;
@@ -122,7 +119,6 @@ export default class PostForm extends Component {
   }
 
   render() {
-    let tags = this.handleGenerateTags()
     return (
       <KeyboardAwareScrollView style={style.container}>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
@@ -137,20 +133,13 @@ export default class PostForm extends Component {
         <FormLabel>Description</FormLabel>
         <FormInput
           multiline={true}
-          numberOfLines = {2}
-          inputStyle={{height: 50}}
+          numberOfLines = {4}
+          inputStyle={{height: 80, width: '100%'}}
           containerStyle={{borderBottomWidth: 2}}
           multiline={true}
           placeholder='Found:...'
           autoCapitalize='words'
           onChangeText={(description)=> this.setState({description})}
-        />
-        <Tag 
-          onChangeText={(value) => this.setState({tagInput: value})}
-          onTagSubmit={this.handleTagSubmit}
-          tagInput={this.state.tagInput}
-          errorMessage={this.state.errorMessage}
-          tags={tags}
         />
         <FormLabel>Location</FormLabel>
         <View style={{margin: 10}}>
