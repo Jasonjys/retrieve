@@ -3,12 +3,13 @@ import {Text, View, TouchableHighlight, Image} from 'react-native'
 import MapView from 'react-native-maps'
 import AutoComplete from '../AutoComplete/AutoComplete'
 import List from '../List/List'
-import {fakeList} from '../List/mockList'
 import BottomItemDetail from './BottomItemDetail'
 import DropdownAlert from 'react-native-dropdownalert'
+import {itemsRef} from '../../firebaseConfig'
 
 class Map extends Component {
   state = {
+    list: [],
     region: {
       latitude: this.props.navigation.state.params.region.latitude,
       longitude: this.props.navigation.state.params.region.longitude,
@@ -24,12 +25,21 @@ class Map extends Component {
     listOpenTime: 0
   }
 
+  componentDidMount() {
+    itemsRef.on('value', (snapshot) => {
+      this.setState({loading: false});
+      if (snapshot.val()) {
+        this.setState({list: Object.values(snapshot.val())});
+      }
+    })
+  }
+
   onRegionChange = (region) => {
     this.setState({region})
   }
 
   handleLongPress = (key) => {
-    let {lat, lng} = fakeList[key].location.geometry
+    let {lat, lng} = this.state.list[key].location.geometry
     this.setState({
       region: {
         ...this.state.region, 
@@ -78,7 +88,7 @@ class Map extends Component {
           <Text style={{fontSize: 18, fontWeight: '900'}} >Expand list</Text>
         </View>
       </TouchableHighlight>
-      : <BottomItemDetail navigate={this.props.navigation.navigate} detail={fakeList[key]}/>
+      : <BottomItemDetail navigate={this.props.navigation.navigate} detail={this.state.list[key]}/>
     )
   }
   render() {
@@ -97,7 +107,8 @@ class Map extends Component {
             }
           }}
         >
-          {fakeList.map((marker, key) => (
+          {this.state.list.length ? this.state.list.map((marker, key) => (
+            marker.location ? 
             <MapView.Marker
               key={key}
               coordinate={{
@@ -110,8 +121,8 @@ class Map extends Component {
                   markerPress: key,
                   showList: false})
               }}
-            />
-          ))}
+            /> : null
+          )) : null}
           <MapView.Marker
             coordinate={{
               latitude: this.state.currentLocationMarker.latitude,
@@ -121,7 +132,7 @@ class Map extends Component {
           />
         </MapView>
         {this.state.showList ?
-            <List navigate={this.props.navigation.navigate} handleLongPress={this.handleLongPress}/> 
+            <List list={this.state.list} navigate={this.props.navigation.navigate} handleLongPress={this.handleLongPress}/> 
             : this.generateUnexpendList(this.state.markerPress)
         }
         <DropdownAlert

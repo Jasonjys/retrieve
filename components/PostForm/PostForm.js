@@ -2,13 +2,13 @@ import React, {Component}from 'react'
 import {View, Image} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import style from './Style'
-import {FormLabel, FormInput, Badge, Button, FormValidationMessage} from 'react-native-elements'
+import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
-import Tag from './Tag'
 import AutoComplete from '../AutoComplete/AutoComplete'
 import CameraComponent from './CameraComponent'
 import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig'
 import CategoryPicker from './CategoryPicker'
+import moment from 'moment'
 
 export default class PostForm extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -24,53 +24,15 @@ export default class PostForm extends Component {
   state = {
     title: '',
     description: '',
-    tagInput: '',
-    errorMessage: '',
-    tagArray: [],
-    date: new Date(),
+    date: moment().format('YYYY-MM-DD'),
     location: {},
     img: '',
     categoryValue: '',
     titleErrorMessage: ''
   }
 
-  checkDuplicateTag = (tagName) => {
-    return this.state.tagArray.find((tag) => {
-      return tagName.toLowerCase() === tag.toLowerCase()
-    })
-  }
-
   handleUploadPicture = (img) => {
     this.setState({img: img})
-  }
-
-  handleTagSubmit = (tagInput, errorMessage) => {
-    if(this.checkDuplicateTag(tagInput)) {
-      this.setState({errorMessage: 'Tag already exist!'})
-    } else if (!isNaN(tagInput)) {
-      this.setState({errorMessage: 'Invalid Tag!'})
-    } else {
-      this.setState({errorMessage: ''})
-      this.state.tagArray.push(tagInput)
-      this.setState({tagInput: ''})
-    }
-  }
-  handleGenerateTags = () => {
-    return (
-      <View style={{flexDirection: 'row', flexWrap:'wrap'}}>
-        {this.state.tagArray.map((tag, key) => (
-          <Badge key={key} containerStyle={{ backgroundColor: 'violet', height: 40, margin: 10}}
-            onPress={() => {
-              let arr = this.state.tagArray.filter((tag, index) => {
-                return index !== key
-              })
-              this.setState({tagArray: arr})
-            }}
-            value={tag}>
-          </Badge>
-        ))}
-      </View>
-    );
   }
 
   setLocation = (location) => {
@@ -82,13 +44,9 @@ export default class PostForm extends Component {
   }
 
   handleSubmit = () => {
-    const {title, description, img, location, tagArray, categoryValue} = this.state
-    let {date} = this.state
+    const {title, description, date, img, location, categoryValue} = this.state
     
-    if (date instanceof Date) {
-      date = date.toISOString().substring(0, 10)
-    }
-    if (title === '') {
+    if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
       const newPostKey = itemsRef.push({
@@ -97,8 +55,8 @@ export default class PostForm extends Component {
         description,
         img,
         location,
-        categoryValue,
-        tagArray
+        categoryValue: categoryValue[0],
+        postDate: moment().format('YYYY-MM-DD HH:mm:ss')
       }).key
 
       const userId = firebaseApp.auth().currentUser.uid;
@@ -122,7 +80,6 @@ export default class PostForm extends Component {
   }
 
   render() {
-    let tags = this.handleGenerateTags()
     return (
       <KeyboardAwareScrollView style={style.container}>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
@@ -131,31 +88,18 @@ export default class PostForm extends Component {
           containerStyle={{borderBottomWidth: 2}}
           onChangeText={(title)=> this.setState({title})}
         />
-        <FormValidationMessage>
-            {this.state.titleErrorMessage === '' ? null : this.state.titleErrorMessage }
-        </FormValidationMessage>
+        <FormValidationMessage>{this.state.titleErrorMessage}</FormValidationMessage>
         <FormLabel>Description</FormLabel>
         <FormInput
           multiline={true}
-          numberOfLines = {2}
-          inputStyle={{height: 50}}
+          numberOfLines = {4}
+          inputStyle={{height: 80, width: '100%'}}
           containerStyle={{borderBottomWidth: 2}}
           multiline={true}
           placeholder='Found:...'
           autoCapitalize='words'
           onChangeText={(description)=> this.setState({description})}
         />
-        <Tag 
-          onChangeText={(value) => this.setState({tagInput: value})}
-          onTagSubmit={this.handleTagSubmit}
-          tagInput={this.state.tagInput}
-          errorMessage={this.state.errorMessage}
-          tags={tags}
-        />
-        <FormLabel>Location</FormLabel>
-        <View style={{margin: 10}}>
-          <AutoComplete setLocation={this.setLocation}/>
-        </View>
         <FormLabel>Found Date</FormLabel>
         <View style={{margin: 20}}>
           <DatePicker
@@ -182,6 +126,10 @@ export default class PostForm extends Component {
             }}
             onDateChange={(date) => this.setState({date})}
           />
+        </View>
+        <FormLabel>Location</FormLabel>
+        <View style={{margin: 10}}>
+          <AutoComplete setLocation={this.setLocation}/>
         </View>
         <CategoryPicker
           categoryValue={this.state.categoryValue}

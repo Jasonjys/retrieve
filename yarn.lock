@@ -3927,7 +3927,7 @@ mkdirp@*, "mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.1:
   dependencies:
     minimist "0.0.8"
 
-moment@2.x, moment@2.x.x, moment@^2.10.6, moment@~2.18.1:
+moment@2.x, moment@2.x.x, moment@^2.10.6, moment@^2.18.1, moment@~2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
@@ -4927,12 +4927,6 @@ react-native-keyboard-aware-scroll-view@^0.3.0:
     prop-types "^15.5.10"
     react-timer-mixin "^0.13.3"
 
-react-native-lightbox@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/react-native-lightbox/-/react-native-lightbox-0.7.0.tgz#e52b4d7fcc141f59d7b23f0180de535e35b20ec9"
-  dependencies:
-    prop-types "^15.5.10"
-
 react-native-maps@0.15.3:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.15.3.tgz#5d9e0a8e30ecc51dc755b7a3b9d6b6ed5e2dd08c"
@@ -4946,6 +4940,12 @@ react-native-menu@~0.21.0:
   resolved "https://registry.yarnpkg.com/react-native-menu/-/react-native-menu-0.21.0.tgz#ebc647862eb80ed00e2289397bf8b634b09b1e8b"
   dependencies:
     react-timer-mixin "^0.13.3"
+
+react-native-photo-view@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-photo-view/-/react-native-photo-view-1.5.2.tgz#5d7f406ed5532a5a8a78c8ef8f40e81f688de1e2"
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-safe-module@^1.1.0:
   version "1.2.0"
@@ -4992,6 +4992,12 @@ react-native-svg@5.3.0:
     color "^0.11.1"
     lodash "^4.16.6"
 
+react-native-swipeable@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-swipeable/-/react-native-swipeable-0.6.0.tgz#0fe551330018b83c754d27f505709a594f554370"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-swipeout@~2.1.1:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/react-native-swipeout/-/react-native-swipeout-2.1.5.tgz#eb3a7ac3cf9418441b84a3a6fa7aa64b701598a4"
@@ -5010,6 +5016,10 @@ react-native-tab-view@^0.0.69:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.69.tgz#f52d4354a98a382f10eb5fcf61db5216c91dc7e7"
   dependencies:
     prop-types "^15.5.8"
+
+react-native-tooltip-menu@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-native-tooltip-menu/-/react-native-tooltip-menu-1.0.9.tgz#eb61458fe669de5b0d49db037b30749b44b77390"
 
 react-native-vector-icons@4.1.1:
   version "4.1.1"
