@@ -5,3 +5,9 @@ Week Sep 17-23
 Week Sep 24 - Oct 1
 - set up image upload server on ec2 that handles image upload and save to s3 bucket on AWS
 - working with priority queue and post ranking that will be used to handle search event of this app
+
+Week Oct 2 - Oct 8
+- ranking posts based on the given attributes, include location, keyword, date and category. If any of those attributes are not given, the server should return the most recent post
+
+Week Oct 9 - Oct 15
+
