@@ -4,6 +4,7 @@ import {TabViewAnimated, TabBar, SceneMap} from 'react-native-tab-view';
 import Swipeable from 'react-native-swipeable';
 import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig';
 import SwipeList from '../SwipeList/SwipeList';
+import style from './Style'
 
 class ProfileBar extends Component {
   state = {
@@ -28,7 +29,7 @@ class ProfileBar extends Component {
 
   render() {
     return (
-      <ScrollView style={[ styles.container, {backgroundColor: 'white'} ]}>
+      <ScrollView style={[ style.barContainerStyle, {backgroundColor: 'white'} ]}>
         <SwipeList list={this.state.foundPosts}/>
       </ScrollView>
     );
@@ -40,52 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     width: '100%'
-  },
-  profilebar: {
-    height: 60,
-    backgroundColor: '#404040',
-    flexDirection: 'row',
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
-    borderTopColor: '#fff',
-    borderBottomColor: '#fff'
-  },
-
-  separator: {
-    borderRightWidth: 2,
-    borderRightColor: '#fff'
-  },
-
-  barItem: {
-    flex: 1,
-    padding: 12,
-    alignItems: 'center'
-  },
-
-  topItem: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    fontStyle: 'italic'
-  },
-
-  botItem: {
-    color: '#fff',
-    fontSize: 12
   }
 });
 
 export default ProfileBar;
-
-{/* <View style={[styles.barItem, styles.separator]}>
-  <Text style={styles.topItem}>{numPost}</Text>
-  <Text style={styles.botItem}>Posts</Text>
-</View>
-
-<View style={styles.barItem}>
-  <Text style={styles.topItem}>{numClaims}</Text>
-  <Text style={styles.botItem}>Claims</Text>
-</View> */}
-
-// let numPost = 8;
-// let numClaims = 2;

@@ -6,6 +6,7 @@ import List from '../List/List'
 import BottomItemDetail from './BottomItemDetail'
 import DropdownAlert from 'react-native-dropdownalert'
 import {itemsRef} from '../../firebaseConfig'
+import style from './MapStyle'
 
 class Map extends Component {
   state = {
@@ -53,19 +54,6 @@ class Map extends Component {
     })
   }
   generateUnexpendList = (key) => {
-    //Just incase two style will be different, will change it back if there is no different
-    let expandListButtonStyle = {
-      flex: 1,
-      backgroundColor: 'white',
-      height: '40%',
-      paddingHorizontal: 10,
-    }
-    let itemDetailStyle = {
-      flex: 1,
-      backgroundColor: 'white',
-      height: '40%',
-      paddingHorizontal: 10
-    }
     return(
       this.state.markerPress === -1 
       ?
@@ -81,11 +69,11 @@ class Map extends Component {
             }
           }
         }}
-        style={this.state.markerPress === -1 ? expandListButtonStyle: itemDetailStyle}
+        style={style.itemDetailStyle}
         underlayColor='#d6d7d8'
       >
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{fontSize: 18, fontWeight: '900'}} >Expand list</Text>
+        <View style={style.expandListContainerStyle}>
+          <Text style={style.expandListTextStyle} >Expand list</Text>
         </View>
       </TouchableHighlight>
       : <BottomItemDetail navigate={this.props.navigation.navigate} detail={this.state.list[key]}/>
@@ -93,7 +81,7 @@ class Map extends Component {
   }
   render() {
     return (
-      <View style={{flex: 1, width: '100%'}}>
+      <View style={style.containerStyle}>
         <MapView
           style={{height: this.state.showList ? '55%' : '88%'}}
           region={this.state.region}
@@ -139,7 +127,7 @@ class Map extends Component {
           ref={ref => this.dropdown = ref }
           activeStatusBarStyle='default'
           closeInterval={3000}
-          titleStyle={{marginTop: -15, color: 'white', fontWeight: '900'}}/>
+          titleStyle={style.dropAlertTitleStyle}/>
       </View>
     );
   }
