@@ -59,8 +59,10 @@ class LoginScreen extends Component {
     })
     .catch((error) => {
       // Handle Errors here.
-      const errorMessage = 'Wrong email or password'
-      this.setState({errorMessage})
+      this.setState({loading: false});
+      const errorMessage = 'Wrong email or password';
+      console.log(errorMessage);
+      this.setState({errorMessage});
     });
   }
 
