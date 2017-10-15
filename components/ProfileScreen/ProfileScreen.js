@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {View, Button, Text, Image, StyleSheet} from 'react-native';
+import {View, Button, Text, Image} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
 import {firebaseApp} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
 import ProfileBar from './ProfileBar';
-import ProfilePosts from './ProfilePosts';
+import style from './Style'
 
 class ProfileScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -54,19 +54,12 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={style.profileScreenContainer}>
         <ProfileHeader userInfo={this.state.userInfo}/>
         <ProfileBar />
-        {/* <ProfilePosts /> */}
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  }
-});
 
 export default ProfileScreen;

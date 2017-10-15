@@ -3,7 +3,7 @@ import {View, Button, Text, Image, TouchableHighlight} from 'react-native';
 import { Icon } from 'react-native-elements'
 import Swipeable from 'react-native-swipeable';
 import {firebaseApp} from '../../firebaseConfig';
-
+import style from './Style'
 
 class SwipeList extends Component {
 
@@ -13,13 +13,13 @@ class SwipeList extends Component {
 
   render() {
     const rightButtons = [
-      <TouchableHighlight style={{backgroundColor: '#c4e6ff',flex: 1}}>
-          <View style={{width: 50, height: 90, alignItems: 'center',justifyContent: 'center', marginLeft: '3%'}}>
+      <TouchableHighlight style={style.editButtonContainerStyle}>
+          <View style={style.buttonContainerViewStyle}>
             <Icon name='create'color="white" size={33}/>
           </View>
         </TouchableHighlight>,
-      <TouchableHighlight style={{backgroundColor: '#ffc1cc'}}>
-        <View style={{width: 50, height: 90, alignItems: 'center',justifyContent: 'center', marginLeft: '3%'}}>
+      <TouchableHighlight style={style.deleteButtonContainerStyle}>
+        <View style={style.buttonContainerViewStyle}>
           <Icon color="white" name='delete' size={33}/>
         </View>
       </TouchableHighlight>
@@ -28,26 +28,21 @@ class SwipeList extends Component {
       <View>
         {this.props.list.map((item, key) => (
           <Swipeable key={key} rightButtons={rightButtons}>
-            <View style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
-              height: 90}}>
+            <View style={style.listItemStyle}>
               <Image 
                 source={{uri: item.img}}
-                style={{height: 50, width: 50, borderRadius:25}}
+                style={style.imageStyle}
               />
-              <View style={{width: '70%',flexWrap: 'wrap', paddingBottom: '4%', justifyContent: 'center', alignItems: 'center'}}>
+              <View style={style.textContainerStyle}>
                   <Text 
                     numberOfLines={2}
-                    style={{fontWeight: '900', fontSize: 18, margin: 10,textAlign: 'center',flexWrap: 'wrap'}}
+                    style={style.textStyle}
                   >
                     {item.title}
                   </Text>
               </View>
             </View>
-            <View style={{width: '100%', borderBottomColor: '#d8d8d8', borderBottomWidth: 0.2}}/>
+            <View style={style.borderStyle}/>
           </Swipeable>
         ))}
       </View>
