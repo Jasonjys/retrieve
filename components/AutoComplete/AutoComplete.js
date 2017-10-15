@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import Geocoder from 'react-native-geocoding'
+import style from './Style'
 
 export default class AutoComplete extends Component {  
     render() {
@@ -55,23 +56,7 @@ export default class AutoComplete extends Component {
             key: 'AIzaSyBjTDxZGYSrhW6vbTW8mALhx3uIvbvBKbQ',
             language: 'en'
           }}
-          styles={{
-            description: {
-              fontWeight: 'bold',
-              borderWidth: 0
-            },
-            container: {
-              paddingHorizontal: 10
-            },
-            textInputContainer: {
-              backgroundColor: 'white',
-              borderTopWidth: 0,
-              borderBottomWidth: 2
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb'
-            }
-          }}
+          styles={style}
           currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
           nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
           GoogleReverseGeocodingQuery={{
