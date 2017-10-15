@@ -2,7 +2,8 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   listContainer: {
-    marginTop: 0
+    marginTop: 0,
+    borderTopColor: 'transparent'
   },
   itemContainer: {
     flexDirection: 'row',

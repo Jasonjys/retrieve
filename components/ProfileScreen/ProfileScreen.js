@@ -1,30 +1,45 @@
-import React, {Component} from 'react';
-import {View, Button, Text, Image} from 'react-native';
+import React, { Component } from 'react';
+import {View, Button, Text, Image, StyleSheet} from 'react-native';
 import {NavigationActions} from 'react-navigation';
+import {Icon} from 'react-native-elements';
 import {firebaseApp} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
 import ProfileBar from './ProfileBar';
 import ProfilePosts from './ProfilePosts';
 
 class ProfileScreen extends Component {
-  static navigationOptions = {
-    title: 'User Profile',
-    tabBarLabel: 'Profile',
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../../assets/images/account_circle.png')}
-        style={{tintColor: tintColor}}
-      />
-    )
+  static navigationOptions = ({ navigation }) => {
+    const {params = {}} = navigation.state
+    return {
+      title: 'User Profile',
+      tabBarLabel: 'Profile',
+      headerRight: <Icon
+        name='exit-to-app'
+        size={35}
+        containerStyle={{paddingRight: 12}}
+        onPress={() => params.handleSignout()}
+      />,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('../../assets/images/account_circle.png')}
+          style={{tintColor: tintColor}}
+        />
+      )
+    }
   };
 
   state = {
-    userInfo: null
+    userInfo: null,
+    counterItem1: 0,
+    counterItem2: 0
   }
 
   componentDidMount() {
     const user = firebaseApp.auth().currentUser;
     this.setState({userInfo: user.providerData[0]})
+    this.props.navigation.setParams({
+      handleSignout: this.handleSignout
+    })
   }
 
   handleSignout = () => {
@@ -41,11 +56,9 @@ class ProfileScreen extends Component {
     console.log(this.state.userInfo)
     return (
       <View style={styles.container}>
-      
-        <ProfileHeader stuff={this.state.userInfo}/>
+        <ProfileHeader userInfo={this.state.userInfo}/>
         <ProfileBar />
-        <ProfilePosts />
-        <Button title='signout' onPress={this.handleSignout}/>
+        {/* <ProfilePosts /> */}
       </View>
     );
   }

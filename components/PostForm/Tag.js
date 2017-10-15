@@ -30,3 +30,48 @@ class Tag extends Component {
 }
 
 export default Tag;
+
+{/* <Tag 
+onChangeText={(value) => this.setState({tagInput: value})}
+onTagSubmit={this.handleTagSubmit}
+tagInput={this.state.tagInput}
+errorMessage={this.state.errorMessage}
+tags={tags}
+/> */}
+
+// checkDuplicateTag = (tagName) => {
+//   return this.state.tagArray.find((tag) => {
+//     return tagName.toLowerCase() === tag.toLowerCase()
+//   })
+// }
+
+// handleTagSubmit = (tagInput, errorMessage) => {
+//   if(this.checkDuplicateTag(tagInput)) {
+//     this.setState({errorMessage: 'Tag already exist!'})
+//   } else if (!isNaN(tagInput)) {
+//     this.setState({errorMessage: 'Invalid Tag!'})
+//   } else {
+//     this.setState({errorMessage: ''})
+//     this.state.tagArray.push(tagInput)
+//     this.setState({tagInput: ''})
+//   }
+// }
+// handleGenerateTags = () => {
+//   return (
+//     <View style={{flexDirection: 'row', flexWrap:'wrap'}}>
+//       {this.state.tagArray.map((tag, key) => (
+//         <Badge key={key} containerStyle={{ backgroundColor: 'violet', height: 40, margin: 10}}
+//           onPress={() => {
+//             let arr = this.state.tagArray.filter((tag, index) => {
+//               return index !== key
+//             })
+//             this.setState({tagArray: arr})
+//           }}
+//           value={tag}>
+//         </Badge>
+//       ))}
+//     </View>
+//   );
+// }
+
+// let tags = this.handleGenerateTags()

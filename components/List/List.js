@@ -10,12 +10,40 @@ class ListComponent extends Component {
         this.props.handleLongPress(key)
       }
   }
+  generateCategory = (category) => {
+    switch (category){
+      case 'eletronic':
+        return 'Eletronic'
+        break;
+      case 'clothingShoes':
+        return 'Clothing/Shoes'
+        break;
+      case 'supply':
+        return 'School/Office Supply'
+        break;
+      case 'jewelry':
+        return 'Jewelry & Watch';
+        break;
+      case 'wck':
+        return 'Wallet/Card/Key'
+        break;
+      case 'pet':
+        return 'Pet'
+        break;
+      case 'bag':
+        return 'Bag'
+        break;
+      case 'other':
+        return 'Other'
+        break;
+    }
+  }
   render() {
     return (
       <ScrollView>
         <List containerStyle={style.listContainer}>
           {
-            fakeList.map((item, key) => (
+            this.props.list.map((item, key) => (
               <ListItem
                 key={key}
                 title={item.title}
@@ -25,8 +53,18 @@ class ListComponent extends Component {
                 onLongPress={() => this.handleLongPress(key)}
                 subtitle={
                   <View style={style.itemContainer}>
-                    <Image source={{uri: item.img}} style={{height: 100, width: 100}}/>
+                    {item.img ? <Image source={{uri: item.img}} style={{height: 100, width: 100}}/> 
+                    : <Image source={require('../../assets/images/noImage.jpg')} style={{height: 100, width: 100}}/>}
                     <View style={{flexDirection: 'column', paddingLeft: 15}}>
+                      <Text style={{marginTop: 10, color: 'grey'}}> 
+                      <Icon
+                          name='label'
+                          style={{height: 10, width: 23, marginTop: -3}}
+                          size={18}
+                          color='grey'
+                        />
+                        {this.generateCategory(item.categoryValue)}
+                        </Text>
                       <Text style={{marginTop: 10, color: 'grey'}}>
                         <Icon
                           name='query-builder'
@@ -34,17 +72,19 @@ class ListComponent extends Component {
                           size={18}
                           color='grey'
                         />
-                        {item.date}
+                        {item.foundDate}
                       </Text>
-                      <Text style={{marginTop: 10, color: 'grey', width: 230}}>
-                        <Icon
-                          name='room'
-                          style={{height: 10, width:23, marginTop: -3}}
-                          size={18}
-                          color='grey'
-                        />
-                        {item.location.address}
-                      </Text>
+                      {item.location ? 
+                        <Text style={{marginTop: 10, color: 'grey', width: 230}}>
+                          <Icon
+                            name='room'
+                            style={{height: 10, width:23, marginTop: -3}}
+                            size={18}
+                            color='grey'
+                          />
+                          {item.location.address}
+                        </Text> : null
+                      }
                     </View>
                   </View>
                 }
