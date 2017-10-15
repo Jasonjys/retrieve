@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {View, Button, Text, Image} from 'react-native';
-import {ActivityIndicator, WingBlank} from 'antd-mobile';
-import {firebaseApp} from '../../firebaseConfig';
+import {View, Text, Image} from 'react-native';
+import {ActivityIndicator} from 'antd-mobile';
 import style from './Style'
+
 class ProfileHeader extends Component {
   render() {
     if (this.props.userInfo) {

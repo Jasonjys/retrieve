@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import {View, Button, Text, Image} from 'react-native';
+import React, {Component} from 'react';
+import {View, Image} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
-import {firebaseApp} from '../../firebaseConfig';
+import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
-import ProfileBar from './ProfileBar';
+import ProfileConTent from './ProfileContent';
 import style from './Style'
 
 class ProfileScreen extends Component {
@@ -30,13 +30,29 @@ class ProfileScreen extends Component {
 
   state = {
     userInfo: null,
+    foundPosts: [],
     counterItem1: 0,
     counterItem2: 0
   }
 
   componentDidMount() {
+    let userFoundPostsIds;
+    let foundPosts = [];
     const user = firebaseApp.auth().currentUser;
+    const {uid} = user;
     this.setState({userInfo: user.providerData[0]})
+    usersRef.on('value', (snapshot) => {
+      userFoundPostsIds = snapshot.val()[uid].foundPosts || []
+      itemsRef.on('value', (snapshot) => {
+        if (userFoundPostsIds.length) {
+          userFoundPostsIds.map((id) => {
+            const post = snapshot.val()[id];
+            if (post) {foundPosts.push(post)}
+          })
+          this.setState({foundPosts})
+        }
+      })
+    })
     this.props.navigation.setParams({
       handleSignout: this.handleSignout
     })
@@ -56,7 +72,7 @@ class ProfileScreen extends Component {
     return (
       <View style={style.profileScreenContainer}>
         <ProfileHeader userInfo={this.state.userInfo}/>
-        <ProfileBar />
+        <ProfileConTent foundPosts={this.state.foundPosts}/>
       </View>
     );
   }
