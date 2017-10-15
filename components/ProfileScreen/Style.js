@@ -27,6 +27,7 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   headerBackgroundStyle: {
+    width: '100%',
     alignItems: 'center',
     alignSelf: 'stretch'
   },
