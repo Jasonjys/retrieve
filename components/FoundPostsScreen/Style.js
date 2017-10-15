@@ -10,8 +10,6 @@ export default StyleSheet.create({
     height: '100%'
   },
   searchButtonContainerStyle: {
-    flex: 1,
-    height: '5%',
     backgroundColor: 'white'
   },
   containerViewStyle: {

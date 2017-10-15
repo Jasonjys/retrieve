@@ -16,13 +16,15 @@ class ProfileBar extends Component {
     let userFoundPostsIds;
     let foundPosts = [];
     usersRef.on('value', (snapshot) => {
-      userFoundPostsIds = snapshot.val()[uid].foundPosts
+      userFoundPostsIds = snapshot.val()[uid].foundPosts || []
       itemsRef.on('value', (snapshot) => {
-        userFoundPostsIds.map((id) => {
-          const post = snapshot.val()[id];
-          if (post) {foundPosts.push(post)}
-        })
-        this.setState({foundPosts})
+        if (userFoundPostsIds.length) {
+          userFoundPostsIds.map((id) => {
+            const post = snapshot.val()[id];
+            if (post) {foundPosts.push(post)}
+          })
+          this.setState({foundPosts})
+        }
       })
     })
   }
