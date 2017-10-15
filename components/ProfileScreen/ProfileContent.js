@@ -6,8 +6,12 @@ import style from './Style'
 class ProfileContent extends Component {
   render() {
     return (
-      <ScrollView style={[ style.barContainerStyle, {backgroundColor: 'white'} ]}>
-        <SwipeList list={this.props.foundPosts}/>
+      <ScrollView style={[ style.contentContainerStyle, {backgroundColor: 'white'} ]}>
+        <SwipeList
+          list={this.props.foundPosts}
+          onDelete={this.props.onDelete}
+          onEdit={this.props.onEdit}
+        />
       </ScrollView>
     );
   }

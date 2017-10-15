@@ -9,7 +9,6 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     width: 140,
-    alignSelf: 'stretch',
     borderRadius: 100,
     borderColor: 'rgba(0,0,0, 0.4)',
     borderWidth: 6
@@ -46,8 +45,7 @@ export default StyleSheet.create({
     fontWeight: '300',
     fontStyle: 'italic'
   },
-  barContainerStyle: {
-    flex: 1,
+  contentContainerStyle: {
     height: '100%',
     width: '100%'
   }

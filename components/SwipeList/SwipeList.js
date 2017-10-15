@@ -12,24 +12,23 @@ class SwipeList extends Component {
   }
 
   render() {
-    const rightButtons = [
-      <TouchableHighlight style={style.editButtonContainerStyle}>
-          <View style={style.buttonContainerViewStyle}>
-            <Icon name='create'color="white" size={33}/>
-          </View>
-        </TouchableHighlight>,
-      <TouchableHighlight style={style.deleteButtonContainerStyle}>
-        <View style={style.buttonContainerViewStyle}>
-          <Icon color="white" name='delete' size={33}/>
-        </View>
-      </TouchableHighlight>
-    ];
     return (
       <View>
         {this.props.list.map((item, key) => (
-          <Swipeable key={key} rightButtons={rightButtons}>
+          <Swipeable key={key} rightButtons={[
+            <TouchableHighlight style={style.editButtonContainerStyle} onPress={() => this.props.onEdit(item)}>
+                <View style={style.buttonContainerViewStyle}>
+                  <Icon name='create'color="white" size={33}/>
+                </View>
+              </TouchableHighlight>,
+            <TouchableHighlight style={style.deleteButtonContainerStyle} onPress={() => this.props.onDelete(item)}>
+              <View style={style.buttonContainerViewStyle}>
+                <Icon color="white" name='delete' size={33}/>
+              </View>
+            </TouchableHighlight>
+          ]}>
             <View style={style.listItemStyle}>
-              <Image 
+              <Image
                 source={{uri: item.img}}
                 style={style.imageStyle}
               />

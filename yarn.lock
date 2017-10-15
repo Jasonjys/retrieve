@@ -4941,12 +4941,6 @@ react-native-menu@~0.21.0:
   dependencies:
     react-timer-mixin "^0.13.3"
 
-react-native-photo-view@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/react-native-photo-view/-/react-native-photo-view-1.5.2.tgz#5d7f406ed5532a5a8a78c8ef8f40e81f688de1e2"
-  dependencies:
-    prop-types "^15.5.10"
-
 react-native-safe-module@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"
@@ -5016,10 +5010,6 @@ react-native-tab-view@^0.0.69:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.69.tgz#f52d4354a98a382f10eb5fcf61db5216c91dc7e7"
   dependencies:
     prop-types "^15.5.8"
-
-react-native-tooltip-menu@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/react-native-tooltip-menu/-/react-native-tooltip-menu-1.0.9.tgz#eb61458fe669de5b0d49db037b30749b44b77390"
 
 react-native-vector-icons@4.1.1:
   version "4.1.1"

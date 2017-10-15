@@ -19,8 +19,7 @@ messagingSenderId: "709609702934"
 };
   
 export const firebaseApp = firebase.initializeApp(config);
-const getRef = () => {
-    return firebaseApp.database().ref();
-}
+const getRef = () => firebaseApp.database().ref();
+
 export const itemsRef = getRef().child('items');
 export const usersRef = getRef().child('users');

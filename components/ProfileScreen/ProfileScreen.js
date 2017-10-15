@@ -58,6 +58,14 @@ class ProfileScreen extends Component {
     })
   }
 
+  handleDeletePost = (item) => {
+    console.log("delete:", item)
+  }
+
+  handleEditPost = (item) => {
+    console.log("edit", item)
+  }
+
   handleSignout = () => {
     firebaseApp.auth().signOut().then(() => {
       const resetAction = NavigationActions.reset({
@@ -73,7 +81,11 @@ class ProfileScreen extends Component {
     return (
       <View style={style.profileScreenContainer}>
         <ProfileHeader userInfo={this.state.userInfo}/>
-        <ProfileConTent foundPosts={this.state.foundPosts}/>
+        <ProfileConTent
+          foundPosts={this.state.foundPosts}
+          onDelete={this.handleDeletePost}
+          onEdit={this.handleEditPost}
+        />
       </View>
     );
   }
