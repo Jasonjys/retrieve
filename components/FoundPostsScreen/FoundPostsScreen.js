@@ -33,10 +33,10 @@ class FoundPostsScreen extends Component {
   }
 
   componentDidMount() {
-    itemsRef.on('value', (snapshot) => {
+    itemsRef.on('value', (items) => {
       this.setState({loading: false});
-      if (snapshot.val()) {
-        this.setState({list: Object.values(snapshot.val())});
+      if (items.val()) {
+        this.setState({list: Object.values(items.val())});
       }
     })
   }

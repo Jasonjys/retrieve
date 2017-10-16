@@ -43,19 +43,13 @@ class SignupScreen extends Component {
       user.updateProfile({
         displayName: `${firstName} ${lastName}`,
       }).then(() => {
-        usersRef.child(`${uid}`).set({
+        usersRef.child(uid).set({
           email,
           displayName: `${firstName} ${lastName}`
-        });
+        })
       }).catch((error) => {
         console.log(error);
       })
-
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({routeName: 'Tabs'})]
-      });
-      navigation.dispatch(resetAction);
     })
     .catch((error) => {
       var {code, message} = error;

@@ -23,16 +23,21 @@ class LoginScreen extends Component {
     errorMessage: '',
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const {navigation} = this.props;
     this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
-      this.setState({loading: false});
       if (user) {
-        const resetAction = NavigationActions.reset({
-          index: 0,
-          actions: [NavigationActions.navigate({routeName: 'Tabs'})]
-        });
-        navigation.dispatch(resetAction);
+        usersRef.child(user.uid).once('value', userRef => {
+          if (userRef) {
+            const resetAction = NavigationActions.reset({
+              index: 0,
+              actions: [NavigationActions.init({routeName: 'Tabs', params: {userRef: userRef.val()}})]
+            });
+            navigation.dispatch(resetAction);
+          }
+        })
+      } else {
+        this.setState({loading: false});
       }
     });
   }
@@ -49,14 +54,6 @@ class LoginScreen extends Component {
     }
     this.setState({loading: true});
     firebaseApp.auth().signInWithEmailAndPassword(email, password)
-    .then(() => {
-      this.setState({loading: false});
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({routeName: 'Tabs'})]
-      });
-      navigation.dispatch(resetAction);
-    })
     .catch((error) => {
       // Handle Errors here.
       this.setState({loading: false});
@@ -65,7 +62,6 @@ class LoginScreen extends Component {
       this.setState({errorMessage});
     });
   }
-
 
   handleFacebookLogin = async () => {
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(FB_APP_ID, {
@@ -77,8 +73,8 @@ class LoginScreen extends Component {
         // Sign in with credential from the Facebook user.
         firebaseApp.auth().signInWithCredential(credential)
         .then(({uid, email, displayName}) => {
-          usersRef.once('value').then((snapshot) => {
-            const existUser = snapshot.val()[uid];
+          usersRef.once('value').then((users) => {
+            const existUser = users.val()[uid];
             if (!existUser) {
               usersRef.child(`${uid}`).set({
                 email,

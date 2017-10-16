@@ -35,24 +35,29 @@ class ProfileScreen extends Component {
     counterItem2: 0
   }
 
-  componentDidMount() {
-    let userFoundPostsIds;
-    const user = firebaseApp.auth().currentUser;
-    const {uid} = user;
-    this.setState({userInfo: user.providerData[0]})
-    usersRef.on('value', (snapshot) => {
-      userFoundPostsIds = snapshot.val()[uid].foundPosts || []
-      itemsRef.on('value', (snapshot) => {
-        let foundPosts = [];
-        if (userFoundPostsIds.length) {
-          userFoundPostsIds.map((id) => {
-            const post = {...snapshot.val()[id], id: id};
-            if (post) {foundPosts.push(post)}
-          })
-          this.setState({foundPosts})
-        }
-      })
-    })
+  componentWillMount() {
+    let userFoundPostsIds = [];
+    const {userRef} = this.props.navigation.state.params
+    if (userRef) {
+      const user = firebaseApp.auth().currentUser;
+      this.setState({userInfo: user.providerData[0]})
+      if (userRef.foundPosts) {
+        userFoundPostsIds = userRef.foundPosts
+        itemsRef.on('value', (item) => {
+          let foundPosts = [];
+          if (userFoundPostsIds.length) {
+            userFoundPostsIds.map((id) => {
+              if (item.val()[id]) {
+                const post = {...item.val()[id], id: id};
+                foundPosts.push(post)
+              }
+            })
+            this.setState({foundPosts})
+          }
+        })
+      }
+    }
+
     this.props.navigation.setParams({
       handleSignout: this.handleSignout
     })
@@ -62,7 +67,7 @@ class ProfileScreen extends Component {
     itemsRef.child(id).remove();
     const {uid} = firebaseApp.auth().currentUser;
     let newFoundPostsIds = []
-    usersRef.child(uid).once('value').then(function(user) {
+    usersRef.child(uid).once('value').then((user) => {
       const foundPosts = user.val().foundPosts;
       newFoundPostsIds = [
         ...foundPosts.slice(0, index),
@@ -82,7 +87,7 @@ class ProfileScreen extends Component {
     firebaseApp.auth().signOut().then(() => {
       const resetAction = NavigationActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({routeName: 'Login'})]
+        actions: [NavigationActions.init({routeName: 'Login'})]
       });
       this.props.navigation.dispatch(resetAction);
     })
