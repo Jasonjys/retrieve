@@ -31,7 +31,7 @@ class LoginScreen extends Component {
           if (userRef) {
             const resetAction = NavigationActions.reset({
               index: 0,
-              actions: [NavigationActions.init({routeName: 'Tabs', params: {userRef: userRef.val()}})]
+              actions: [NavigationActions.init({routeName: 'Tabs'})]
             });
             navigation.dispatch(resetAction);
           }

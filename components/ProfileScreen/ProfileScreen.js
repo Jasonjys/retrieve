@@ -35,12 +35,12 @@ class ProfileScreen extends Component {
     counterItem2: 0
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let userFoundPostsIds = [];
-    const {userRef} = this.props.navigation.state.params
-    if (userRef) {
-      const user = firebaseApp.auth().currentUser;
-      this.setState({userInfo: user.providerData[0]})
+    const user = firebaseApp.auth().currentUser;
+    this.setState({userInfo: user.providerData[0]})
+    usersRef.child(user.uid).once('value', (user) => {
+      const userRef = user.val();
       if (userRef.foundPosts) {
         userFoundPostsIds = userRef.foundPosts
         itemsRef.on('value', (item) => {
@@ -56,7 +56,7 @@ class ProfileScreen extends Component {
           }
         })
       }
-    }
+    })
 
     this.props.navigation.setParams({
       handleSignout: this.handleSignout

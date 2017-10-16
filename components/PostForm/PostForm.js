@@ -87,20 +87,26 @@ export default class PostForm extends Component {
       const userId = firebaseApp.auth().currentUser.uid;
       const user = usersRef.child(`${userId}`);
 
-      user.once('value').then((snapshot) => {
+      user.once('value', (snapshot) => {
         const foundPosts = snapshot.val().foundPosts;
         if (!foundPosts) {
           user.update({
             foundPosts: [newPostKey]
+          }, (userRef) => {
+            console.log(userRef)
+            this.setState({titleErrorMessage: ''})
+            this.props.navigation.navigate('Tabs')
           })
         } else {
           user.update({
             foundPosts: [...foundPosts, newPostKey]
+          }, (userRef) => {
+              console.log(userRef)
+              this.setState({titleErrorMessage: ''})
+              this.props.navigation.navigate('Tabs')
           })
         }
-      });
-      this.setState({titleErrorMessage: ''})
-      this.props.navigation.navigate('FoundPosts')
+      })
     }
   }
 
