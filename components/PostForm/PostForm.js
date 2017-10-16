@@ -25,13 +25,19 @@ export default class PostForm extends Component {
     title: '',
     description: '',
     date: moment().format('YYYY-MM-DD'),
-    location: {},
+    location: {
+      address: '',
+      geometry: {
+        lat: '',
+        lng: ''
+      }
+    },
     img: '',
     categoryValue: '',
     titleErrorMessage: ''
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const params = this.props.navigation.state.params
     if (params) {
       const {
@@ -165,7 +171,23 @@ export default class PostForm extends Component {
           handleOnChange={(v) => this.setState({categoryValue: v})}
         />
         <CameraComponent onUploadImage={this.handleUploadPicture}/>
+        {this.props.navigation.state.params ? 
           <Button
+            title='Save'
+            buttonStyle={{
+              backgroundColor: '#b26aed',
+              margin: 10,
+              shadowColor: '#000000',
+              borderRadius:10,
+              shadowOffset: {
+                width: 0,
+                height: 3
+              },
+              shadowRadius: 5,
+              shadowOpacity: 0.3}}
+            onPress={() => console.log("save")}
+            style={{width: '100%', height: '50%'}}
+          /> : <Button
             title='Submit'
             buttonStyle={{
               backgroundColor: '#b26aed',
@@ -181,6 +203,7 @@ export default class PostForm extends Component {
             onPress={this.handleSubmit}
             style={{width: '100%', height: '50%'}}
           />
+        }
       </KeyboardAwareScrollView>
     );
   }
