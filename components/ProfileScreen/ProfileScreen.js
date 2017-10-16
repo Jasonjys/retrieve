@@ -60,6 +60,7 @@ class ProfileScreen extends Component {
 
   handleDeletePost = (item) => {
     console.log("delete:", item)
+    //itemsRef.child(ID).remove()
   }
 
   handleEditPost = (item) => {

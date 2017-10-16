@@ -12,7 +12,7 @@ import moment from 'moment'
 
 export default class PostForm extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'New Post',
+    title: navigation.state.params? 'Edit Post' : 'New Post',
     tabBarIcon: ({tintColor}) => (
       <Image
         source={require('../../assets/images/item.png')}
@@ -29,6 +29,14 @@ export default class PostForm extends Component {
     img: '',
     categoryValue: '',
     titleErrorMessage: ''
+  }
+
+  componentDidMount () {
+    const params = this.props.navigation.state.param
+    if (params) {
+      
+    }
+    
   }
 
   handleUploadPicture = (img) => {
