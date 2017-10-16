@@ -4,7 +4,7 @@ import SignupScreen from './components/SignupScreen/SignupScreen';
 import ProfileScreen from './components/ProfileScreen/ProfileScreen';
 import FoundPostsScreen from './components/FoundPostsScreen/FoundPostsScreen';
 import LostPostsScreen from './components/LostPostsScreen/LostPostsScreen';
-import CreateFoundPostScreen from './components/PostForm/PostForm';
+import PostFormScreen from './components/PostForm/PostForm';
 import SearchScreen from './components/SearchScreen/SearchScreen';
 import MapScreen from './components/Map/Map';
 import DetailsScreen from './components/DetailPage/DetailPage';
@@ -32,7 +32,7 @@ export default StackNavigator({
   Login: {screen: LoginScreen},
   Signup: {screen: SignupScreen},
   Tabs: {screen: Tabs},
-  CreateFoundPost: {screen: CreateFoundPostScreen},
+  PostForm: {screen: PostFormScreen},
   Map: {screen: MapScreen},
   Search: {screen: SearchScreen},
   Details: {screen: DetailsScreen},

@@ -63,7 +63,7 @@ class ProfileScreen extends Component {
   }
 
   handleEditPost = (item) => {
-    console.log("edit", item)
+    this.props.navigation.navigate('PostForm', {post: item});
   }
 
   handleSignout = () => {
