@@ -5,12 +5,14 @@ import style from './Style'
 
 class ProfileContent extends Component {
   render() {
+    const {navigate} = this.props.navigation
     return (
       <ScrollView style={[ style.contentContainerStyle, {backgroundColor: 'white'} ]}>
         <SwipeList
           list={this.props.foundPosts}
           onDelete={this.props.onDelete}
           onEdit={this.props.onEdit}
+          navigate={navigate}
         />
       </ScrollView>
     );

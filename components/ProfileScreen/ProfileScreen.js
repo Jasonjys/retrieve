@@ -93,6 +93,7 @@ class ProfileScreen extends Component {
       <View style={style.profileScreenContainer}>
         <ProfileHeader userInfo={this.state.userInfo}/>
         <ProfileConTent
+          navigation={this.props.navigation}
           foundPosts={this.state.foundPosts}
           onDelete={this.handleDeletePost}
           onEdit={this.handleEditPost}
