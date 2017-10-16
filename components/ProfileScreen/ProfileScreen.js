@@ -37,13 +37,13 @@ class ProfileScreen extends Component {
 
   componentDidMount() {
     let userFoundPostsIds;
-    let foundPosts = [];
     const user = firebaseApp.auth().currentUser;
     const {uid} = user;
     this.setState({userInfo: user.providerData[0]})
     usersRef.on('value', (snapshot) => {
       userFoundPostsIds = snapshot.val()[uid].foundPosts || []
       itemsRef.on('value', (snapshot) => {
+        let foundPosts = [];
         if (userFoundPostsIds.length) {
           userFoundPostsIds.map((id) => {
             const post = {...snapshot.val()[id], id: id};
@@ -58,8 +58,20 @@ class ProfileScreen extends Component {
     })
   }
 
-  handleDeletePost = (id) => {
-    console.log("delete:", id)
+  handleDeletePost = (id, index) => {
+    itemsRef.child(id).remove();
+    const {uid} = firebaseApp.auth().currentUser;
+    let newFoundPostsIds = []
+    usersRef.child(uid).once('value').then(function(user) {
+      const foundPosts = user.val().foundPosts;
+      newFoundPostsIds = [
+        ...foundPosts.slice(0, index),
+        ...foundPosts.slice(index + 1)
+      ]
+      usersRef.child(uid).update({
+        foundPosts: newFoundPostsIds
+      })
+    });
   }
 
   handleEditPost = (item) => {
