@@ -74,7 +74,7 @@ class ListComponent extends Component {
                         />
                         {item.foundDate}
                       </Text>
-                      {item.location ? 
+                      {item.location.address ? 
                         <Text style={{marginTop: 10, color: 'grey', width: 230}}>
                           <Icon
                             name='room'
