@@ -43,16 +43,14 @@ export default class PostForm extends Component {
         location={}
       } = params.post
 
-      console.log(location)
       this.setState({
         title,
         categoryValue: [categoryValue],
         description,
         date: foundDate,
         img,
+        location
       })
-
-      console.log(this.state)
     }
   }
 
@@ -105,6 +103,7 @@ export default class PostForm extends Component {
   }
 
   render() {
+    console.log(this.state.location.address)
     return (
       <KeyboardAwareScrollView style={style.container}>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>

@@ -37,7 +37,6 @@ class ProfileScreen extends Component {
 
   componentDidMount() {
     let userFoundPostsIds;
-    let foundPosts = [];
     const user = firebaseApp.auth().currentUser;
     const {uid} = user;
     this.setState({userInfo: user.providerData[0]})
@@ -59,10 +58,20 @@ class ProfileScreen extends Component {
     })
   }
 
-  handleDeletePost = (id) => {
-    itemsRef.child(id).remove()
-    const {uid} = firebase.auth().currentUser;
-    usersRef.child(uid).update()
+  handleDeletePost = (id, index) => {
+    itemsRef.child(id).remove();
+    const {uid} = firebaseApp.auth().currentUser;
+    let newFoundPostsIds = []
+    usersRef.child(uid).once('value').then(function(user) {
+      const foundPosts = user.val().foundPosts;
+      newFoundPostsIds = [
+        ...foundPosts.slice(0, index),
+        ...foundPosts.slice(index + 1)
+      ]
+      usersRef.child(uid).update({
+        foundPosts: newFoundPostsIds
+      })
+    });
   }
 
   handleEditPost = (item) => {
