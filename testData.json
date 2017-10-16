@@ -74,6 +74,9 @@
       "categoryValue" : "pet",
       "description" : "HE IS JUST TOO ADORABLE",
       "foundDate" : "2017-10-07",
+      "location" : {
+        "address" : ""
+      },
       "img" : "https://elasticbeanstalk-ca-central-1-981124746773.s3.ca-central-1.amazonaws.com/1507360493217.png",
       "title" : "Found a god damn cute cat at my place"
     }
