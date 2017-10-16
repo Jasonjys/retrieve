@@ -39,30 +39,30 @@ export default class App extends React.Component {
 
     return (
       <View style={{ flex: 1, width: '60%'}}>
-        {this.state.image ? this._maybeRenderImage():
+        {this.state.image ? this._maybeRenderImage() :
         <View>
-        <Button
-          title='+'
-          large
-          backgroundColor='white'
-          buttonStyle={{
-            borderRadius: 5,
-            margin: 10,
-            borderColor: '#e2e2e2',
-            borderWidth: 1.3,
-            width: 120,
-            height: 120}}
-          textStyle={{color: '#938f8f',fontWeight: 'bold'}}
-          fontSize={30}
-          onPress={this.showActionSheet}>
-          </Button>
-          <ActionSheet
-          ref={o => this.ActionSheet = o}
-          options={['Cancel','Photo library', 'Open camera']}
-          cancelButtonIndex={0}
-          destructiveButtonIndex={4}
-          onPress={this.handlePress}
-        />
+          <Button
+            title='+'
+            large
+            backgroundColor='white'
+            buttonStyle={{
+              borderRadius: 5,
+              margin: 10,
+              borderColor: '#e2e2e2',
+              borderWidth: 1.3,
+              width: 120,
+              height: 120}}
+            textStyle={{color: '#938f8f',fontWeight: 'bold'}}
+            fontSize={30}
+            onPress={this.showActionSheet}>
+            </Button>
+            <ActionSheet
+            ref={o => this.ActionSheet = o}
+            options={['Cancel','Photo library', 'Open camera']}
+            cancelButtonIndex={0}
+            destructiveButtonIndex={4}
+            onPress={this.handlePress}
+          />
         </View>}
         {this._maybeRenderUploadingOverlay()}
       </View>

@@ -89,7 +89,6 @@ class ProfileScreen extends Component {
   }
 
   render() {
-    console.log(this.state.userInfo)
     return (
       <View style={style.profileScreenContainer}>
         <ProfileHeader userInfo={this.state.userInfo}/>
