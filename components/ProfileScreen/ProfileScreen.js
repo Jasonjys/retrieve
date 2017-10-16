@@ -46,7 +46,7 @@ class ProfileScreen extends Component {
       itemsRef.on('value', (snapshot) => {
         if (userFoundPostsIds.length) {
           userFoundPostsIds.map((id) => {
-            const post = snapshot.val()[id];
+            const post = {...snapshot.val()[id], id: id};
             if (post) {foundPosts.push(post)}
           })
           this.setState({foundPosts})
@@ -58,8 +58,8 @@ class ProfileScreen extends Component {
     })
   }
 
-  handleDeletePost = (item) => {
-    console.log("delete:", item)
+  handleDeletePost = (id) => {
+    console.log("delete:", id)
   }
 
   handleEditPost = (item) => {

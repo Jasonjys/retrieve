@@ -12,7 +12,7 @@ import moment from 'moment'
 
 export default class PostForm extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'New Post',
+    title: navigation.state.params ? 'Edit Post' : 'New Post',
     tabBarIcon: ({tintColor}) => (
       <Image
         source={require('../../assets/images/item.png')}
@@ -29,6 +29,31 @@ export default class PostForm extends Component {
     img: '',
     categoryValue: '',
     titleErrorMessage: ''
+  }
+
+  componentDidMount() {
+    const params = this.props.navigation.state.params
+    if (params) {
+      const {
+        title,
+        categoryValue,
+        description,
+        foundDate,
+        img,
+        location={}
+      } = params.post
+
+      console.log(location)
+      this.setState({
+        title,
+        categoryValue: [categoryValue],
+        description,
+        date: foundDate,
+        img,
+      })
+
+      console.log(this.state)
+    }
   }
 
   handleUploadPicture = (img) => {
@@ -86,6 +111,7 @@ export default class PostForm extends Component {
         <FormInput
           placeholder='Enter title here...' 
           containerStyle={{borderBottomWidth: 2}}
+          value={this.state.title}
           onChangeText={(title)=> this.setState({title})}
         />
         <FormValidationMessage>{this.state.titleErrorMessage}</FormValidationMessage>
@@ -93,6 +119,7 @@ export default class PostForm extends Component {
         <FormInput
           multiline={true}
           numberOfLines = {4}
+          value={this.state.description}
           inputStyle={{height: 80, width: '100%'}}
           containerStyle={{borderBottomWidth: 2}}
           multiline={true}
@@ -129,12 +156,15 @@ export default class PostForm extends Component {
         </View>
         <FormLabel>Location</FormLabel>
         <View style={{margin: 10}}>
-          <AutoComplete setLocation={this.setLocation}/>
+          <AutoComplete
+            defaultValue={this.state.location.address}
+            setLocation={this.setLocation}
+          />
         </View>
         <CategoryPicker
           categoryValue={this.state.categoryValue}
-          handleOnChange={(v)=>{
-            this.setState({categoryValue: v})}}/>
+          handleOnChange={(v) => this.setState({categoryValue: v})}
+        />
         <CameraComponent onUploadImage={this.handleUploadPicture}/>
           <Button
             title='Submit'

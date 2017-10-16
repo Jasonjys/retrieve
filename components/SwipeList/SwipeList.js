@@ -21,7 +21,7 @@ class SwipeList extends Component {
                   <Icon name='create'color="white" size={33}/>
                 </View>
               </TouchableHighlight>,
-            <TouchableHighlight style={style.deleteButtonContainerStyle} onPress={() => this.props.onDelete(item)}>
+            <TouchableHighlight style={style.deleteButtonContainerStyle} onPress={() => this.props.onDelete(item.id)}>
               <View style={style.buttonContainerViewStyle}>
                 <Icon color="white" name='delete' size={33}/>
               </View>
