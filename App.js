@@ -22,6 +22,7 @@ const Tabs = TabNavigator({
   }
 }, {
   initialRouteName: 'FoundPosts',
+  lazyLoad: true,
   animationEnabled: true,
   tabBarOptions: {
     activeTintColor: '#e91e63'
