@@ -3,9 +3,6 @@ import {View} from 'react-native'
 import {Picker, List as AntList} from 'antd-mobile';
 
 class CategoryPicker extends Component {
-  state = {
-    value: this.props.categoryValue
-  }
   generateData = () => {
     const data = [
       {

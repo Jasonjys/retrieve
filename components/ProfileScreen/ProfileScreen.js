@@ -44,9 +44,10 @@ class ProfileScreen extends Component {
     usersRef.on('value', (snapshot) => {
       userFoundPostsIds = snapshot.val()[uid].foundPosts || []
       itemsRef.on('value', (snapshot) => {
+        let foundPosts = [];
         if (userFoundPostsIds.length) {
           userFoundPostsIds.map((id) => {
-            const post = snapshot.val()[id];
+            const post = {...snapshot.val()[id], id: id};
             if (post) {foundPosts.push(post)}
           })
           this.setState({foundPosts})
@@ -58,9 +59,10 @@ class ProfileScreen extends Component {
     })
   }
 
-  handleDeletePost = (item) => {
-    console.log("delete:", item)
-    //itemsRef.child(ID).remove()
+  handleDeletePost = (id) => {
+    itemsRef.child(id).remove()
+    const {uid} = firebase.auth().currentUser;
+    usersRef.child(uid).update()
   }
 
   handleEditPost = (item) => {

@@ -18,6 +18,7 @@ export default class AutoComplete extends Component {
           enablePoweredByContainer={false}
           renderDescription={(row) => row.description || row.vicinity} // custom description render
           getDefaultValue={() => {
+            console.log(this.props);
             return ''; // text input default value
           }}
           onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
