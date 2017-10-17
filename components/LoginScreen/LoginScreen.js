@@ -97,6 +97,7 @@ class LoginScreen extends Component {
       }
     }
     if (type !== 'success') {
+      this.setState({loading: false});
       alert('Uh oh, something went wrong');
       return;
     }
