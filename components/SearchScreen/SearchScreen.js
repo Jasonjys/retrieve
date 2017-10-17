@@ -6,11 +6,11 @@ class SearchScreen extends Component {
   constructor(props) {
     super(props);
     const params = this.props.navigation.state.params;
-    const {search_string, search_location, search_date, searchUpdatedCallback} = params;
+    const {keyword, location, date, searchUpdatedCallback} = params;
     this.state = {
-      search_string,
-      search_location,
-      search_date
+      keyword,
+      location,
+      date
     }
     this.searchUpdatedCallback = searchUpdatedCallback;
   }
@@ -32,17 +32,17 @@ class SearchScreen extends Component {
         <Text>This is the search screen</Text>
         <TextInput
           placeholder={"Search String"}
-          onChangeText={(search_string) => this.setState({search_string})}
+          onChangeText={(keyword) => this.setState({keyword})}
           value={this.state.search_string}
         />
         <TextInput
           placeholder={"Search Location"}
-          onChangeText={(search_location) => this.setState({search_location})}
+          onChangeText={(location) => this.setState({location})}
           value={this.state.search_location}
         />
         <TextInput
           placeholder={"Search Date"}
-          onChangeText={(search_date) => this.setState({search_date})}
+          onChangeText={(date) => this.setState({date})}
           value={this.state.search_date}
         />
         <Button

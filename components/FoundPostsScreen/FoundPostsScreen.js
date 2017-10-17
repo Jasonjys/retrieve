@@ -3,7 +3,8 @@ import {View, Text, Image} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 import {ActivityIndicator} from 'antd-mobile';
 import List from '../List/List';
-import {itemsRef} from '../../firebaseConfig';
+import {foundPostRef} from '../../firebaseConfig';
+import httpRequest from '../../library/httpRequest';
 
 class FoundPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -13,7 +14,9 @@ class FoundPostsScreen extends Component {
       color='#e91e63'
       size={35}
       containerStyle={{paddingRight: 12}}
-      onPress={() => navigation.navigate('CreateFoundPost')}
+      onPress={() => navigation.navigate('CreatePost', {
+        lostOrFound: 2
+      })}
     />,
     tabBarIcon: ({tintColor}) => (
       <Image
@@ -26,41 +29,58 @@ class FoundPostsScreen extends Component {
   state = {
     loading: true,
     list: [],
-    search_string: '',
-    search_location: '',
-    search_date: ''
+    keyword: '',
+    location: '',
+    date: '',
+    category: ''
   }
 
   componentDidMount() {
-    itemsRef.on('value', (snapshot) => {
-      this.setState({loading: false});
-      if (snapshot.val()) {
-        this.setState({list: Object.values(snapshot.val())});
-      }
+    this.refreshPostlist();
+  }
+
+  refreshPostlist = () => {
+    this.setState({
+      loading: true,
+      list: []
+    });
+    const {date, location, keyword, category} = this.state
+    httpRequest(2, {date, location, keyword, category}, (post) => {
+      console.log(post);
+      this.setState({
+        loading: false,
+        list: post
+      });
     })
   }
 
   searchUpdatedCallback = (newState) => {
-    const {search_string, search_location, search_date} = newState;
+    const {
+      keyword,
+      location,
+      date
+    } = newState;
     this.setState({
-      search_string,
-      search_location,
-      search_date
-    })
+      keyword,
+      location,
+      date
+    }, () => {
+      this.refreshPostlist();
+    });
   }
 
   _onSearchPress = () => {
     const {navigate} = this.props.navigation;
     const {
       navigation,
-      search_string,
-      search_date,
-      search_location,
+      keyword,
+      date,
+      location,
     } = this.state;
     navigate('Search', {
-      search_string,
-      search_date,
-      search_location,
+      keyword,
+      date,
+      location,
       searchUpdatedCallback: this.searchUpdatedCallback
     })
   };
