@@ -35,34 +35,51 @@ class ProfileScreen extends Component {
     counterItem2: 0
   }
 
-  componentDidMount() {
-    let userFoundPostsIds;
+  componentWillMount() {
+    let userFoundPostsIds = [];
     const user = firebaseApp.auth().currentUser;
-    const {uid} = user;
     this.setState({userInfo: user.providerData[0]})
-    usersRef.on('value', (snapshot) => {
-      userFoundPostsIds = snapshot.val()[uid].foundPosts || []
-      itemsRef.on('value', (snapshot) => {
-        let foundPosts = [];
-        if (userFoundPostsIds.length) {
-          userFoundPostsIds.map((id) => {
-            const post = {...snapshot.val()[id], id: id};
-            if (post) {foundPosts.push(post)}
-          })
-          this.setState({foundPosts})
+    usersRef.on('value', (users) => {
+      if (users) {
+        const userRef = users.val()[user.uid];
+        if (userRef) {
+          if (userRef.foundPosts) {
+            userFoundPostsIds = userRef.foundPosts
+            itemsRef.on('value', (items) => {
+              let foundPosts = [];
+              if (userFoundPostsIds.length) {
+                userFoundPostsIds.map((id) => {
+                  if (items) {
+                    const itemsRef = items.val()
+                    if (itemsRef && itemsRef[id]) {
+                      const post = {...itemsRef[id], id: id};
+                      foundPosts.push(post)
+                    }
+                  }
+                })
+                this.setState({foundPosts})
+              }
+            })
+          }
         }
-      })
+      }
     })
+
     this.props.navigation.setParams({
       handleSignout: this.handleSignout
     })
+  }
+
+  componentWillUnmount() {
+    usersRef.off();
+    itemsRef.off();
   }
 
   handleDeletePost = (id, index) => {
     itemsRef.child(id).remove();
     const {uid} = firebaseApp.auth().currentUser;
     let newFoundPostsIds = []
-    usersRef.child(uid).once('value').then(function(user) {
+    usersRef.child(uid).once('value').then((user) => {
       const foundPosts = user.val().foundPosts;
       newFoundPostsIds = [
         ...foundPosts.slice(0, index),
@@ -82,7 +99,7 @@ class ProfileScreen extends Component {
     firebaseApp.auth().signOut().then(() => {
       const resetAction = NavigationActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({routeName: 'Login'})]
+        actions: [NavigationActions.init({routeName: 'Login'})]
       });
       this.props.navigation.dispatch(resetAction);
     })
@@ -93,6 +110,7 @@ class ProfileScreen extends Component {
       <View style={style.profileScreenContainer}>
         <ProfileHeader userInfo={this.state.userInfo}/>
         <ProfileConTent
+          navigation={this.props.navigation}
           foundPosts={this.state.foundPosts}
           onDelete={this.handleDeletePost}
           onEdit={this.handleEditPost}

@@ -2,47 +2,48 @@ import React, {Component} from 'react';
 import {View, Button, Text, Image, TouchableHighlight} from 'react-native';
 import { Icon } from 'react-native-elements'
 import Swipeable from 'react-native-swipeable';
-import {firebaseApp} from '../../firebaseConfig';
 import style from './Style'
+import SwipeListItem from './SwipeListItem'
 
 class SwipeList extends Component {
+  state = {
+    currentlyOpenItem: null
+  };
+
+  closeOpenItem = () => {
+    const {currentlyOpenItem} = this.state;
+
+    if (currentlyOpenItem) {
+      currentlyOpenItem.recenter();
+    }
+  };
 
   setNativeProps = (nativeProps) => {
     this._root.setNativeProps(nativeProps);
   }
 
   render() {
+    const {currentlyOpenItem} = this.state;
     return (
       <View>
         {this.props.list.map((item, key) => (
-          <Swipeable key={key} rightButtons={[
-            <TouchableHighlight style={style.editButtonContainerStyle} onPress={() => this.props.onEdit(item)}>
-                <View style={style.buttonContainerViewStyle}>
-                  <Icon name='create'color="white" size={33}/>
-                </View>
-              </TouchableHighlight>,
-            <TouchableHighlight style={style.deleteButtonContainerStyle} onPress={() => this.props.onDelete(item.id, key)}>
-              <View style={style.buttonContainerViewStyle}>
-                <Icon color="white" name='delete' size={33}/>
-              </View>
-            </TouchableHighlight>
-          ]}>
-            <View style={style.listItemStyle}>
-              <Image
-                source={{uri: item.img}}
-                style={style.imageStyle}
-              />
-              <View style={style.textContainerStyle}>
-                  <Text 
-                    numberOfLines={2}
-                    style={style.textStyle}
-                  >
-                    {item.title}
-                  </Text>
-              </View>
-            </View>
-            <View style={style.borderStyle}/>
-          </Swipeable>
+          <SwipeListItem
+          key={key}
+          id={key}
+          item={item}
+          onEdit={this.props.onEdit}
+          onDelete={this.props.onDelete}
+          onRecenter={()=>{ currentlyOpenItem.recenter()}}
+          onPress={()=>{
+            this.props.navigate('Details', item)
+          }}
+          onOpen={listItem => {
+            if (currentlyOpenItem && currentlyOpenItem !== listItem) {
+              currentlyOpenItem.recenter();
+            }
+            this.setState({currentlyOpenItem: listItem});
+          }}
+          onClose={() => this.setState({currentlyOpenItem: null})}/>
         ))}
       </View>
     );

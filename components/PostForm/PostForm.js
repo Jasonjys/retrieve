@@ -26,11 +26,7 @@ export default class PostForm extends Component {
     description: '',
     date: moment().format('YYYY-MM-DD'),
     location: {
-      address: '',
-      geometry: {
-        lat: '',
-        lng: ''
-      }
+      address: ''
     },
     img: '',
     categoryValue: '',
@@ -74,7 +70,7 @@ export default class PostForm extends Component {
 
   handleSubmit = () => {
     const {title, description, date, img, location, categoryValue} = this.state
-    
+
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
@@ -91,7 +87,7 @@ export default class PostForm extends Component {
       const userId = firebaseApp.auth().currentUser.uid;
       const user = usersRef.child(`${userId}`);
 
-      user.once('value').then((snapshot) => {
+      user.once('value', (snapshot) => {
         const foundPosts = snapshot.val().foundPosts;
         if (!foundPosts) {
           user.update({
@@ -102,14 +98,14 @@ export default class PostForm extends Component {
             foundPosts: [...foundPosts, newPostKey]
           })
         }
-      });
-      this.setState({titleErrorMessage: ''})
-      this.props.navigation.navigate('FoundPosts')
+      }).then(() => {
+        this.setState({titleErrorMessage: ''})
+        this.props.navigation.goBack();
+      })
     }
   }
 
   render() {
-    console.log(this.state.location.address)
     return (
       <KeyboardAwareScrollView style={style.container}>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
@@ -129,7 +125,7 @@ export default class PostForm extends Component {
           containerStyle={{borderBottomWidth: 2}}
           multiline={true}
           placeholder='Found:...'
-          autoCapitalize='words'
+          autoCapitalize='sentences'
           onChangeText={(description)=> this.setState({description})}
         />
         <FormLabel>Found Date</FormLabel>

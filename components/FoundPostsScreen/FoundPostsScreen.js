@@ -32,13 +32,22 @@ class FoundPostsScreen extends Component {
     search_date: ''
   }
 
-  componentDidMount() {
+  componentWillMount() {
     itemsRef.on('value', (snapshot) => {
       this.setState({loading: false});
-      if (snapshot.val()) {
-        this.setState({list: Object.values(snapshot.val())});
+      if (snapshot) {
+        const items = snapshot.val()
+        if (items) {
+          this.setState({list: Object.values(items)});
+        } else {
+          this.setState({list: []});
+        }
       }
     })
+  }
+
+  componentWillUnmount() {
+    itemsRef.off();
   }
 
   searchUpdatedCallback = (newState) => {
