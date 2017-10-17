@@ -41,8 +41,8 @@ class EditProfile extends Component {
     const image = this.state.url ? <Image style={style.IconStyle} source={{uri: this.state.url}}/>
     : <Image style={style.IconStyle} source={require('../../assets/images/user.png')}/>
     return (
-      <ScrollView style={{flex:1, backgroundColor: 'white'}}>
-        <View style={{justifyContent: 'center',alignItems: 'center'}}>
+      <ScrollView style={style.scrollViewStyle}>
+        <View style={style.centerImageStyle}>
          <FormLabel>Profile Photo</FormLabel>
           {image}
           <CameraComponent changeProfileIcon={true} onUploadImage={(url)=>this.setState({url})}/>
@@ -54,12 +54,7 @@ class EditProfile extends Component {
           <Button
             title='Save'
             fontWeight='bold'
-            buttonStyle={{
-              backgroundColor: '#ff9eaf',
-              margin: 10,
-              shadowColor: '#000000',
-              borderRadius:10}}
-            style={{width: '100%', height: '50%'}}
+            buttonStyle={style.saveButtonStyle}
             onPress={this.handleSave}
           />
       </ScrollView>
