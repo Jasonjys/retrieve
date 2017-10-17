@@ -40,10 +40,10 @@ class DetailPage extends Component {
         <View style={{width: '100%'}}>
           <FormLabel labelStyle={style.title}>{title}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Found on: {foundDate}</FormLabel>
+          <FormLabel labelStyle={style.infoLabelStyle}>Posted on: {postDate}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Category: {categoryValue ? this.generateCategory(categoryValue) : 'No Category Provided'}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Found at: {location.address ? location.address :'No Address Provided' }</FormLabel>
           <FormLabel labelStyle={style.desStyle}>{description ? description : 'No Description'}</FormLabel>
-          <FormLabel labelStyle={style.infoLabelStyle}>Posted on: {postDate}</FormLabel>
         </View>
       </ScrollView>
     );
