@@ -6,7 +6,7 @@ import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-
 import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
 import CameraComponent from './CameraComponent'
-import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig'
+import {firebaseApp, usersRef, lostPostRef, foundPostRef} from '../../firebaseConfig'
 import CategoryPicker from './CategoryPicker'
 import moment from 'moment'
 
@@ -28,7 +28,8 @@ export default class PostForm extends Component {
     location: {},
     img: '',
     categoryValue: '',
-    titleErrorMessage: ''
+    titleErrorMessage: '',
+    lostOrFound: this.props.navigation.state.params.lostOrFound
   }
 
   handleUploadPicture = (img) => {
@@ -44,11 +45,20 @@ export default class PostForm extends Component {
   }
 
   handleSubmit = () => {
-    const {title, description, date, img, location, categoryValue} = this.state
+    const {
+      title,
+      description,
+      date,
+      img,
+      location,
+      categoryValue,
+      lostOrFound
+    } = this.state
     
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
+      var itemsRef = lostOrFound == 1 ? lostPostRef : foundPostRef;
       const newPostKey = itemsRef.push({
         title,
         foundDate: date,
@@ -75,7 +85,7 @@ export default class PostForm extends Component {
         }
       });
       this.setState({titleErrorMessage: ''})
-      this.props.navigation.navigate('FoundPosts')
+      this.props.navigation.goBack();
     }
   }
 

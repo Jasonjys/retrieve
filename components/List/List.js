@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, Image, ScrollView} from 'react-native';
-import {List, ListItem, Icon} from 'react-native-elements'
-import {fakeList} from './mockList'
+import {List, ListItem, Icon} from 'react-native-elements';
 import style from './Style';
 
 class ListComponent extends Component {

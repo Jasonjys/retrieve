@@ -7,11 +7,13 @@ const config = {
     projectId: "retrieve-55769",
     storageBucket: "",
     messagingSenderId: "569280491909"
-  };
+};
   
 export const firebaseApp = firebase.initializeApp(config);
 const getRef = () => {
     return firebaseApp.database().ref();
 }
-export const itemsRef = getRef().child('items');
+
+export const lostPostRef = getRef().child('lostPost');
+export const foundPostRef = getRef().child('foundPost');
 export const usersRef = getRef().child('users');
