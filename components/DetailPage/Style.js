@@ -13,8 +13,8 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   image: {
-    height: 300,
-    width: 300,
+    height: 250,
+    width: 250,
     marginTop: 10
   },
   desStyle: {

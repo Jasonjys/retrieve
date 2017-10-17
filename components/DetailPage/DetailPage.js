@@ -42,8 +42,8 @@ class DetailPage extends Component {
           <FormLabel>Found on: {foundDate}</FormLabel>
           {categoryValue?  <FormLabel>Category: {this.generateCategory(categoryValue)}</FormLabel>
             : <FormLabel>No Category Provided</FormLabel>}
-          {!location ? <FormLabel>Found at: {location.address}</FormLabel>
-            :<FormLabel>No Address Provided</FormLabel> }
+          {location.address ? <FormLabel>Found at: {location.address}</FormLabel>
+            : <FormLabel>No Address Provided</FormLabel> }
           {description ? <FormLabel labelStyle={style.desStyle}>{description}</FormLabel>
             : <FormLabel>No Description Provided</FormLabel>}
         </View>
