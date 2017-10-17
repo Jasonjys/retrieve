@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import {View, Text, Image} from 'react-native';
 import {ActivityIndicator} from 'antd-mobile';
+import { Icon } from 'react-native-elements'
 import style from './Style'
 
 class ProfileHeader extends Component {
+  handleEditPress = () =>{
+    this.props.navigation.navigate('EditProfile', this.props.userInfo)
+  }
   render() {
     if (this.props.userInfo) {
       const {displayName, email, photoURL, phoneNumber} = this.props.userInfo;
@@ -17,7 +21,15 @@ class ProfileHeader extends Component {
           <View style={style.headerContainerStyle}>
             {image}
             <View style={style.textBackgroundStyle}>
-              <Text style={style.headerNameStyle}>{displayName}</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={style.headerNameStyle}>{displayName}</Text>
+                <Icon
+                  name='mode-edit'
+                  color='white'
+                  size={16}
+                  style={style.editButtonStyle}
+                  onPress={this.handleEditPress}/>
+              </View>
               <Text style={style.emailAndTelStyle}>{email}</Text>
               <Text style={style.emailAndTelStyle}>{phoneNumber}</Text>
             </View>

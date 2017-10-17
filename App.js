@@ -8,7 +8,8 @@ import PostFormScreen from './components/PostForm/PostForm';
 import SearchScreen from './components/SearchScreen/SearchScreen';
 import MapScreen from './components/Map/Map';
 import DetailsScreen from './components/DetailPage/DetailPage';
-import TemSearchSreen from './components/Map/TemSearch'
+import TemSearchScreen from './components/Map/TemSearch';
+import EditProfileScreen from './components/EditProfile/EditProfile';
 
 const Tabs = TabNavigator({
   Profile: {
@@ -37,5 +38,6 @@ export default StackNavigator({
   Map: {screen: MapScreen},
   Search: {screen: SearchScreen},
   Details: {screen: DetailsScreen},
-  TemSearch: {screen: TemSearchSreen}
+  TemSearch: {screen: TemSearchScreen},
+  EditProfile: {screen: EditProfileScreen}
 });

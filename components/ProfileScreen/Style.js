@@ -25,6 +25,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  editButtonStyle: {
+    marginLeft: 5,
+    marginTop: 3
+  },
   headerBackgroundStyle: {
     width: '100%',
     alignItems: 'center',

@@ -45,6 +45,7 @@ class ListComponent extends Component {
           {
             this.props.list.map((item, key) => (
               <ListItem
+                underlayColor='#e5e5e5'
                 key={key}
                 title={item.title}
                 titleNumberOfLines={2}

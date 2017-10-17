@@ -47,7 +47,7 @@ class SwipeListItem extends Component {
           </TouchableHighlight>
         ]}
       >
-        <TouchableHighlight onPress={()=>{this.props.onPress()}}>
+        <TouchableHighlight onPress={()=>{this.props.onPress()}} underlayColor='#e5e5e5'>
           <View style={style.listItemStyle}>
             {this.props.item.img ? 
               <Image
