@@ -128,16 +128,24 @@ class LoginScreen extends Component {
         <FormValidationMessage>{errorMessage}</FormValidationMessage>
         <View style={style.buttonContainer}>
           <Button
-            raised
-            backgroundColor={'blue'}
+            backgroundColor='#ffc1cc'
             title='Login'
+            buttonStyle={{marginBottom: 10}}
+            fontWeight='bold'
+            large
+            borderRadius={10}
             onPress={this.handleLogin}
           />
           <Button
             title="Login with Facebook"
+            backgroundColor='#aad1ed'
+            fontWeight='bold'
+            large
+            borderRadius={10}
             onPress={this.handleFacebookLogin} 
           />
           <ButtonText
+            color='#92b5ce'
             onPress={() => this.props.navigation.navigate('Signup')}
             title="Not yet a user? Sign up here!"
           />
