@@ -108,7 +108,7 @@ class ProfileScreen extends Component {
   render() {
     return (
       <View style={style.profileScreenContainer}>
-        <ProfileHeader userInfo={this.state.userInfo}/>
+        <ProfileHeader userInfo={this.state.userInfo} navigation={this.props.navigation}/>
         <ProfileConTent
           navigation={this.props.navigation}
           foundPosts={this.state.foundPosts}
