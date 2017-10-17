@@ -7,7 +7,7 @@ export default StyleSheet.create({
     backgroundColor: 'white'
   },
   title: {
-    fontSize: 25,
+    fontSize: 27,
     color: 'black',
     fontWeight: '800',
     textAlign: 'center'
@@ -16,5 +16,9 @@ export default StyleSheet.create({
     height: 300,
     width: 300,
     marginTop: 10
+  },
+  desStyle: {
+    fontSize: 20,
+    color: '#5e5f60'
   }
 });

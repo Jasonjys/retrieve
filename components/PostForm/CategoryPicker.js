@@ -3,9 +3,6 @@ import {View} from 'react-native'
 import {Picker, List as AntList} from 'antd-mobile';
 
 class CategoryPicker extends Component {
-  state = {
-    value: this.props.categoryValue
-  }
   generateData = () => {
     const data = [
       {
@@ -41,16 +38,13 @@ class CategoryPicker extends Component {
       <Picker
         data={this.generateData()}
         cols={1}
-        onChange={v => this
-        .props
-        .handleOnChange(v)}
+        onChange={v => this.props.handleOnChange(v)}
         value={this.props.categoryValue}
         extra='Tap to choose'
         okText='Confirm'
         dismissText='Cancel'
-        style={{
-        backgroundColor: 'white'
-      }}>
+        style={{backgroundColor: 'white'}}
+      >
         <AntList.Item arrow="horizontal">Category</AntList.Item>
       </Picker>
     )

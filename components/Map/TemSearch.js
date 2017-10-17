@@ -72,7 +72,7 @@ class TemSearch extends Component {
         </View>
         <FormLabel>Location</FormLabel>
         <View style={{margin: 10}}>
-          <AutoComplete setLocation={this.onEnterLocation}/>
+          <AutoComplete defaultValue='' setLocation={this.onEnterLocation}/>
         </View>
         <Button title='Search' onPress={() => this.props.navigation.navigate('Map',this.state)}/>
       </KeyboardAwareScrollView>

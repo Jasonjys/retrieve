@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import {View, Button, Text, Image, StyleSheet} from 'react-native';
+import React, {Component} from 'react';
+import {View, Image} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
-import {firebaseApp} from '../../firebaseConfig';
+import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
-import ProfileBar from './ProfileBar';
-import ProfilePosts from './ProfilePosts';
+import ProfileConTent from './ProfileContent';
+import style from './Style'
 
 class ProfileScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -30,23 +30,64 @@ class ProfileScreen extends Component {
 
   state = {
     userInfo: null,
+    foundPosts: [],
     counterItem1: 0,
     counterItem2: 0
   }
 
   componentDidMount() {
+    let userFoundPostsIds = [];
     const user = firebaseApp.auth().currentUser;
     this.setState({userInfo: user.providerData[0]})
+    usersRef.child(user.uid).once('value', (user) => {
+      const userRef = user.val();
+      if (userRef.foundPosts) {
+        userFoundPostsIds = userRef.foundPosts
+        itemsRef.on('value', (item) => {
+          let foundPosts = [];
+          if (userFoundPostsIds.length) {
+            userFoundPostsIds.map((id) => {
+              if (item.val()[id]) {
+                const post = {...item.val()[id], id: id};
+                foundPosts.push(post)
+              }
+            })
+            this.setState({foundPosts})
+          }
+        })
+      }
+    })
+
     this.props.navigation.setParams({
       handleSignout: this.handleSignout
     })
+  }
+
+  handleDeletePost = (id, index) => {
+    itemsRef.child(id).remove();
+    const {uid} = firebaseApp.auth().currentUser;
+    let newFoundPostsIds = []
+    usersRef.child(uid).once('value').then((user) => {
+      const foundPosts = user.val().foundPosts;
+      newFoundPostsIds = [
+        ...foundPosts.slice(0, index),
+        ...foundPosts.slice(index + 1)
+      ]
+      usersRef.child(uid).update({
+        foundPosts: newFoundPostsIds
+      })
+    });
+  }
+
+  handleEditPost = (item) => {
+    this.props.navigation.navigate('PostForm', {post: item});
   }
 
   handleSignout = () => {
     firebaseApp.auth().signOut().then(() => {
       const resetAction = NavigationActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({routeName: 'Login'})]
+        actions: [NavigationActions.init({routeName: 'Login'})]
       });
       this.props.navigation.dispatch(resetAction);
     })
@@ -54,19 +95,17 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={style.profileScreenContainer}>
         <ProfileHeader userInfo={this.state.userInfo}/>
-        <ProfileBar />
-        {/* <ProfilePosts /> */}
+        <ProfileConTent
+          navigation={this.props.navigation}
+          foundPosts={this.state.foundPosts}
+          onDelete={this.handleDeletePost}
+          onEdit={this.handleEditPost}
+        />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  }
-});
 
 export default ProfileScreen;
