@@ -27,7 +27,7 @@ export default StyleSheet.create({
   },
   editButtonStyle: {
     marginLeft: 5,
-    marginTop: 3
+    marginTop: 2
   },
   headerBackgroundStyle: {
     width: '100%',
