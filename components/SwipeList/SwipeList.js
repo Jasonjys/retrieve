@@ -38,13 +38,12 @@ class SwipeList extends Component {
             this.props.navigate('Details', item)
           }}
           onOpen={listItem => {
-              if (currentlyOpenItem && currentlyOpenItem !== listItem) {
-                currentlyOpenItem.recenter();
-              }
-
-              this.setState({currentlyOpenItem: listItem});
-            }}
-            onClose={() => this.setState({currentlyOpenItem: null})}/>
+            if (currentlyOpenItem && currentlyOpenItem !== listItem) {
+              currentlyOpenItem.recenter();
+            }
+            this.setState({currentlyOpenItem: listItem});
+          }}
+          onClose={() => this.setState({currentlyOpenItem: null})}/>
         ))}
       </View>
     );

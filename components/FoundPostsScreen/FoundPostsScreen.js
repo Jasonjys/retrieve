@@ -32,13 +32,17 @@ class FoundPostsScreen extends Component {
     search_date: ''
   }
 
-  componentDidMount() {
+  componentWillMount() {
     itemsRef.on('value', (items) => {
       this.setState({loading: false});
-      if (items.val()) {
+      if (items) {
         this.setState({list: Object.values(items.val())});
       }
     })
+  }
+
+  componentWillUnmount() {
+    itemsRef.off();
   }
 
   searchUpdatedCallback = (newState) => {

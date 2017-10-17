@@ -35,32 +35,41 @@ class ProfileScreen extends Component {
     counterItem2: 0
   }
 
-  componentDidMount() {
+  componentWillMount() {
     let userFoundPostsIds = [];
     const user = firebaseApp.auth().currentUser;
     this.setState({userInfo: user.providerData[0]})
-    usersRef.child(user.uid).once('value', (user) => {
-      const userRef = user.val();
-      if (userRef.foundPosts) {
-        userFoundPostsIds = userRef.foundPosts
-        itemsRef.on('value', (item) => {
-          let foundPosts = [];
-          if (userFoundPostsIds.length) {
-            userFoundPostsIds.map((id) => {
-              if (item.val()[id]) {
-                const post = {...item.val()[id], id: id};
-                foundPosts.push(post)
+    usersRef.on('value', (users) => {
+      if (users) {
+        const userRef = users.val()[user.uid];
+        if (userRef) {
+          if (userRef.foundPosts) {
+            userFoundPostsIds = userRef.foundPosts
+            itemsRef.on('value', (item) => {
+              let foundPosts = [];
+              if (userFoundPostsIds.length) {
+                userFoundPostsIds.map((id) => {
+                  if (item.val()[id]) {
+                    const post = {...item.val()[id], id: id};
+                    foundPosts.push(post)
+                  }
+                })
+                this.setState({foundPosts})
               }
             })
-            this.setState({foundPosts})
           }
-        })
+        }
       }
     })
 
     this.props.navigation.setParams({
       handleSignout: this.handleSignout
     })
+  }
+
+  componentWillUnmount() {
+    usersRef.off();
+    itemsRef.off();
   }
 
   handleDeletePost = (id, index) => {

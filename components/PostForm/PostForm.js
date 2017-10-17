@@ -70,7 +70,7 @@ export default class PostForm extends Component {
 
   handleSubmit = () => {
     const {title, description, date, img, location, categoryValue} = this.state
-    
+
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
@@ -92,26 +92,20 @@ export default class PostForm extends Component {
         if (!foundPosts) {
           user.update({
             foundPosts: [newPostKey]
-          }, (userRef) => {
-            console.log(userRef)
-            this.setState({titleErrorMessage: ''})
-            this.props.navigation.navigate('Tabs')
           })
         } else {
           user.update({
             foundPosts: [...foundPosts, newPostKey]
-          }, (userRef) => {
-              console.log(userRef)
-              this.setState({titleErrorMessage: ''})
-              this.props.navigation.navigate('Tabs')
           })
         }
+      }).then(() => {
+        this.setState({titleErrorMessage: ''})
+        this.props.navigation.goBack();
       })
     }
   }
 
   render() {
-    console.log(this.state.location.address)
     return (
       <KeyboardAwareScrollView style={style.container}>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
