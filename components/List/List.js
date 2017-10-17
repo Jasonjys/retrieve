@@ -57,14 +57,14 @@ class ListComponent extends Component {
                     : <Image source={require('../../assets/images/noImage.jpg')} style={{height: 100, width: 100}}/>}
                     <View style={{flexDirection: 'column', paddingLeft: 15}}>
                       <Text style={{marginTop: 10, color: 'grey'}}> 
-                      <Icon
-                          name='label'
-                          style={{height: 10, width: 23, marginTop: -3}}
-                          size={18}
-                          color='grey'
+                        <Icon
+                            name='label'
+                            style={{height: 10, width: 23, marginTop: -4}}
+                            size={18}
+                            color='grey'
                         />
                         {this.generateCategory(item.categoryValue)}
-                        </Text>
+                      </Text>
                       <Text style={{marginTop: 10, color: 'grey'}}>
                         <Icon
                           name='query-builder'
@@ -83,7 +83,7 @@ class ListComponent extends Component {
                             color='grey'
                           />
                           {item.location.address}
-                        </Text> : null
+                        </Text>: null
                       }
                     </View>
                   </View>

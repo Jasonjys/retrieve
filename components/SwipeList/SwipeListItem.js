@@ -5,49 +5,47 @@ import Swipeable from 'react-native-swipeable';
 import style from './Style'
 
 class SwipeListItem extends Component {
+  swipeable = null
 
-//   setNativeProps = (nativeProps) => {
-//     this._root.setNativeProps(nativeProps);
-//   }
-swipeable = null
-
-recenter() {
-  if (this.swipeable) {
-    this.swipeable.recenter();
+  recenter() {
+    if (this.swipeable) {
+      this.swipeable.recenter();
+    }
   }
-}
-
 
   render() {
     const {onOpen, onClose} = this.props;
     return (
-      <Swipeable 
-        rightButtons={[
-          <TouchableHighlight 
-            underlayColor='#95c2e2'
-            style={style.editButtonContainerStyle} onPress={() => {
-            this.props.onEdit(this.props.item)
-            this.props.onRecenter()
-          }}>
-            <View style={style.buttonContainerViewStyle}>
-                <Icon name='create'color="white" size={33}/>
-            </View>
-          </TouchableHighlight>,
-          <TouchableHighlight
-              underlayColor='#ff9eaf'
-              style={style.deleteButtonContainerStyle}
-              onPress={() => {
-              this.props.onDelete(this.props.item.id, this.props.id)
-              this.props.onRecenter()
-              }}>
-              <View style={style.buttonContainerViewStyle}>
-              <Icon color="white" name='delete' size={33}/>
-              </View>
-          </TouchableHighlight>
-        ]}
+      <Swipeable
         onRef={ref => this.swipeable = ref}
         onRightButtonsOpenRelease={() => onOpen(this)}
         onRightButtonsCloseRelease={() => onClose(this)}
+        rightButtons={[
+          <TouchableHighlight 
+            underlayColor='#95c2e2'
+            style={style.editButtonContainerStyle}
+            onPress={() => {
+              this.props.onEdit(this.props.item)
+              this.props.onRecenter()
+            }}
+          >
+            <View style={style.buttonContainerViewStyle}>
+              <Icon name='create'color="white" size={33}/>
+            </View>
+          </TouchableHighlight>,
+          <TouchableHighlight
+            underlayColor='#ff9eaf'
+            style={style.deleteButtonContainerStyle}
+            onPress={() => {
+              this.props.onDelete(this.props.item.id, this.props.id)
+              this.props.onRecenter()
+            }}
+          >
+            <View style={style.buttonContainerViewStyle}>
+              <Icon color="white" name='delete' size={33}/>
+            </View>
+          </TouchableHighlight>
+        ]}
       >
         <TouchableHighlight onPress={()=>{this.props.onPress()}}>
           <View style={style.listItemStyle}>
@@ -63,9 +61,9 @@ recenter() {
               />
             }
             <View style={style.textContainerStyle}>
-                <Text numberOfLines={2} style={style.textStyle}>
-                  {this.props.item.title}
-                </Text>
+              <Text numberOfLines={2} style={style.textStyle}>
+                {this.props.item.title}
+              </Text>
             </View>
           </View>
         </TouchableHighlight>
