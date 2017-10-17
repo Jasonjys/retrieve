@@ -37,7 +37,7 @@ class DetailPage extends Component {
     return (
       <ScrollView contentContainerStyle={style.container}>
         <Image source={{url: img}} style={style.image}/>
-        <View style={{alignItems: 'center'}}>
+        <View style={style.contentContainer}>
           <FormLabel labelStyle={style.title}>{title}</FormLabel>
           <FormLabel>Found on: {foundDate}</FormLabel>
           {categoryValue?  <FormLabel>Category: {this.generateCategory(categoryValue)}</FormLabel>

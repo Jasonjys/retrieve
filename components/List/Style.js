@@ -12,6 +12,6 @@ export default StyleSheet.create({
   },
   itemTitle: {
     fontWeight: '700',
-    fontSize: 17
+    fontSize: 16
   }
 });

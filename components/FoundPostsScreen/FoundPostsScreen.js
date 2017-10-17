@@ -13,7 +13,7 @@ class FoundPostsScreen extends Component {
       name='add-circle'
       color='#e91e63'
       size={35}
-      containerStyle={style.navigationContainerStyle}
+      containerStyle={{marginRight: 12}}
       onPress={() => navigation.navigate('PostForm')}
     />,
     tabBarIcon: ({tintColor}) => (

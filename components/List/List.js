@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {Text, View, Image, ScrollView} from 'react-native';
 import {List, ListItem, Icon} from 'react-native-elements'
-import {fakeList} from './mockList'
 import style from './Style';
+import moment from 'moment'
 
 class ListComponent extends Component {
   handleLongPress = (key) => {
-      if(this.props.handleLongPress){
-        this.props.handleLongPress(key)
-      }
+    if(this.props.handleLongPress){
+      this.props.handleLongPress(key)
+    }
   }
   generateCategory = (category) => {
     switch (category){
@@ -56,36 +56,41 @@ class ListComponent extends Component {
                   <View style={style.itemContainer}>
                     {item.img ? <Image source={{uri: item.img}} style={{height: 100, width: 100}}/> 
                     : <Image source={require('../../assets/images/noImage.jpg')} style={{height: 100, width: 100}}/>}
-                    <View style={{flexDirection: 'column', paddingLeft: 15}}>
-                      <Text style={{marginTop: 10, color: 'grey'}}> 
+                    <View style={{flexDirection: 'column', paddingLeft: 15, width: '75%', height: '60%'}}>
+                      <Text style={{color: 'grey'}}> 
                         <Icon
-                            name='label'
-                            style={{height: 10, width: 23, marginTop: -4}}
-                            size={18}
-                            color='grey'
+                          name='label'
+                          style={{height: 10, width: 23, marginTop: -4}}
+                          size={18}
+                          color='grey'
                         />
                         {this.generateCategory(item.categoryValue)}
                       </Text>
                       <Text style={{marginTop: 10, color: 'grey'}}>
                         <Icon
                           name='query-builder'
-                          style={{height: 10, width: 23, marginTop: -3}}
+                          style={{height: 10, width: 23, marginTop: -4}}
                           size={18}
                           color='grey'
                         />
                         {item.foundDate}
                       </Text>
                       {item.location.address ? 
-                        <Text style={{marginTop: 10, color: 'grey', width: 230}}>
+                        <Text style={{marginTop: 10, color: 'grey'}}>
                           <Icon
                             name='room'
-                            style={{height: 10, width:23, marginTop: -3}}
+                            style={{height: 10, width:23, marginTop: -4}}
                             size={18}
                             color='grey'
                           />
                           {item.location.address}
-                        </Text>: null
+                        </Text> : null
                       }
+                      <View style={{paddingTop: 5, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                        <Text style={{color: 'grey'}}>
+                          {moment(item.postDate).fromNow()}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 }

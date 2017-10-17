@@ -2,9 +2,6 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-  navigationContainerStyle: {
-    paddingRight: 12
-  },
   containerStyle: {
     flex: 1,
     height: '100%'
