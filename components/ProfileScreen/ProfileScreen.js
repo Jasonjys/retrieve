@@ -5,9 +5,12 @@ import {Icon} from 'react-native-elements';
 import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
 import ProfileConTent from './ProfileContent';
+import { Modal} from 'antd-mobile';
 import style from './Style'
 
+
 class ProfileScreen extends Component {
+  
   static navigationOptions = ({ navigation }) => {
     const {params = {}} = navigation.state
     return {
@@ -76,19 +79,25 @@ class ProfileScreen extends Component {
   }
 
   handleDeletePost = (id, index) => {
-    itemsRef.child(id).remove();
-    const {uid} = firebaseApp.auth().currentUser;
-    let newFoundPostsIds = []
-    usersRef.child(uid).once('value').then((user) => {
-      const foundPosts = user.val().foundPosts;
-      newFoundPostsIds = [
-        ...foundPosts.slice(0, index),
-        ...foundPosts.slice(index + 1)
-      ]
-      usersRef.child(uid).update({
-        foundPosts: newFoundPostsIds
-      })
-    });
+    const alert = Modal.alert;
+    alert('Delete Post', 'Are you sure you want to delete this post?', [
+      { text: 'Cancel'},
+      { text: 'Yes', onPress: () => {
+        itemsRef.child(id).remove();
+        const {uid} = firebaseApp.auth().currentUser;
+        let newFoundPostsIds = []
+        usersRef.child(uid).once('value').then((user) => {
+          const foundPosts = user.val().foundPosts;
+          newFoundPostsIds = [
+            ...foundPosts.slice(0, index),
+            ...foundPosts.slice(index + 1)
+          ]
+          usersRef.child(uid).update({
+            foundPosts: newFoundPostsIds
+          })
+        });
+      } },
+    ])
   }
 
   handleEditPost = (item) => {
@@ -96,13 +105,20 @@ class ProfileScreen extends Component {
   }
 
   handleSignout = () => {
-    firebaseApp.auth().signOut().then(() => {
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [NavigationActions.init({routeName: 'Login'})]
-      });
-      this.props.navigation.dispatch(resetAction);
-    })
+    const alert = Modal.alert;
+    alert('Signing out', 'Are you sure you want to sign out?', [
+      { text: 'Cancel'},
+      { text: 'Yes', onPress: () => {
+        firebaseApp.auth().signOut().then(() => {
+          const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.init({routeName: 'Login'})]
+          });
+          this.props.navigation.dispatch(resetAction);
+        })
+      } },
+    ])
+
   }
 
   render() {

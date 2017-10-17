@@ -13,12 +13,17 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   image: {
-    height: 250,
-    width: 250,
+    height: '30%',
+    width: 230,
     marginTop: 10
   },
   desStyle: {
     fontSize: 20,
-    color: '#5e5f60'
+    color: '#5e5f60',
+    marginTop: 30
+  },
+  infoLabelStyle: {
+    fontSize: 13,
+    marginBottom: -10
   }
 });
