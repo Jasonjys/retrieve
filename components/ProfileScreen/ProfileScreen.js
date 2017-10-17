@@ -45,13 +45,16 @@ class ProfileScreen extends Component {
         if (userRef) {
           if (userRef.foundPosts) {
             userFoundPostsIds = userRef.foundPosts
-            itemsRef.on('value', (item) => {
+            itemsRef.on('value', (items) => {
               let foundPosts = [];
               if (userFoundPostsIds.length) {
                 userFoundPostsIds.map((id) => {
-                  if (item.val()[id]) {
-                    const post = {...item.val()[id], id: id};
-                    foundPosts.push(post)
+                  if (items) {
+                    const itemsRef = items.val()
+                    if (itemsRef && itemsRef[id]) {
+                      const post = {...itemsRef[id], id: id};
+                      foundPosts.push(post)
+                    }
                   }
                 })
                 this.setState({foundPosts})
