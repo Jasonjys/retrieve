@@ -54,13 +54,13 @@ class ListComponent extends Component {
                 onLongPress={() => this.handleLongPress(key)}
                 subtitle={
                   <View style={style.itemContainer}>
-                    {item.img ? <Image source={{uri: item.img}} style={{height: 100, width: 100}}/> 
-                    : <Image source={require('../../assets/images/noImage.jpg')} style={{height: 100, width: 100}}/>}
-                    <View style={{flexDirection: 'column', paddingLeft: 15, width: '75%', height: '60%'}}>
+                    {item.img ? <Image source={{uri: item.img}} style={style.imageStyle}/> 
+                    : <Image source={require('../../assets/images/noImage.jpg')} style={style.imageStyle}/>}
+                    <View style={style.itemContentContainer}>
                       <Text style={{color: 'grey'}}> 
                         <Icon
                           name='label'
-                          style={{height: 10, width: 23, marginTop: -4}}
+                          style={style.iconStyle}
                           size={18}
                           color='grey'
                         />
@@ -69,7 +69,7 @@ class ListComponent extends Component {
                       <Text style={{marginTop: 10, color: 'grey'}}>
                         <Icon
                           name='query-builder'
-                          style={{height: 10, width: 23, marginTop: -4}}
+                          style={style.iconStyle}
                           size={18}
                           color='grey'
                         />
@@ -79,14 +79,14 @@ class ListComponent extends Component {
                         <Text style={{marginTop: 10, color: 'grey'}}>
                           <Icon
                             name='room'
-                            style={{height: 10, width:23, marginTop: -4}}
+                            style={style.iconStyle}
                             size={18}
                             color='grey'
                           />
                           {item.location.address}
                         </Text> : null
                       }
-                      <View style={{paddingTop: 5, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                      <View style={style.timeTextContainer}>
                         <Text style={{color: 'grey'}}>
                           {moment(item.postDate).fromNow()}
                         </Text>
