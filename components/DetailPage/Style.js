@@ -26,6 +26,11 @@ export default StyleSheet.create({
   },
   desStyle: {
     fontSize: 15,
-    color: '#5e5f60'
+    color: '#5e5f60',
+    marginTop: 30
+  },
+  infoLabelStyle: {
+    fontSize: 13,
+    marginBottom: -10
   }
 });
