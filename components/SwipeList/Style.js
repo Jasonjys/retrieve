@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   editButtonContainerStyle: {
-    backgroundColor: '#c4e6ff'
+    backgroundColor: '#aad1ed'
   },
   buttonContainerViewStyle: {
     width: 50,
