@@ -19,7 +19,7 @@ class ProfileScreen extends Component {
       headerRight: <Icon
         name='exit-to-app'
         size={35}
-        containerStyle={{paddingRight: 12}}
+        containerStyle={{marginRight: 12}}
         onPress={() => params.handleSignout()}
       />,
       tabBarIcon: ({ tintColor }) => (
