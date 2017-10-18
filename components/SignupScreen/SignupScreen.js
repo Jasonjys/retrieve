@@ -93,9 +93,11 @@ class SignupScreen extends Component {
           {passwordError ? <FormValidationMessage>{passwordError}</FormValidationMessage> : null}
           <View style={style.buttonContainer}>
             <Button
-              raised
-              backgroundColor={'blue'}
-              title='Sign up'
+              title="Sign up"
+              backgroundColor='#aad1ed'
+              fontWeight='bold'
+              large
+              borderRadius={10}
               onPress={this.handleSignup}
             />
           </View>

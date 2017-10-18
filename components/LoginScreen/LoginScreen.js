@@ -13,7 +13,7 @@ const FB_APP_ID = '1376485632449872';
 
 class LoginScreen extends Component {
   static navigationOptions = {
-    title: 'Login to Retrieve',
+    title: 'Login',
   };
 
   state = {
@@ -97,6 +97,7 @@ class LoginScreen extends Component {
       }
     }
     if (type !== 'success') {
+      this.setState({loading: false});
       alert('Uh oh, something went wrong');
       return;
     }
@@ -114,6 +115,17 @@ class LoginScreen extends Component {
     }
     return (
       <KeyboardAwareScrollView style={style.loginContainer}>
+        <Text
+          style={{
+            fontSize: 70,
+            marginVertical: '8%',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            color: '#7b96c6',
+            fontFamily: 'Avenir Next'}}
+        >
+          Retrieve
+        </Text>
         <FormLabel>Email</FormLabel>
         <FormInput
           value={this.state.email}
@@ -128,16 +140,24 @@ class LoginScreen extends Component {
         <FormValidationMessage>{errorMessage}</FormValidationMessage>
         <View style={style.buttonContainer}>
           <Button
-            raised
-            backgroundColor={'blue'}
+            backgroundColor='#ffc1cc'
             title='Login'
+            buttonStyle={{marginBottom: 10}}
+            fontWeight='bold'
+            large
+            borderRadius={10}
             onPress={this.handleLogin}
           />
           <Button
             title="Login with Facebook"
+            backgroundColor='#aad1ed'
+            fontWeight='bold'
+            large
+            borderRadius={10}
             onPress={this.handleFacebookLogin} 
           />
           <ButtonText
+            color='#92b5ce'
             onPress={() => this.props.navigation.navigate('Signup')}
             title="Not yet a user? Sign up here!"
           />
