@@ -15,7 +15,7 @@ import ActionSheet from 'react-native-actionsheet'
 
 export default class App extends React.Component {
   state = {
-    image: null,
+    image: this.props.imageUri,
     uploading: false,
     selected: ''
   }

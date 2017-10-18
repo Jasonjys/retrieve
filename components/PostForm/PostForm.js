@@ -48,6 +48,7 @@ export default class PostForm extends Component {
         img,
         location={}
       } = params.post
+      //console.log(params.post.img);
 
       this.setState({
         title,
@@ -71,10 +72,20 @@ export default class PostForm extends Component {
     }
     this.setState({location: locationObject})
   }
+  
+  handleSave = () => {
+    const {title, description, date, img, location, categoryValue} = this.state
 
+    if(!title) {
+      this.setState({titleErrorMessage: 'Title is required!'})
+    } else {
+      alert("Saved")
+    } 
+  }
+  
   handleSubmit = () => {
     const {title, description, date, img, location, categoryValue} = this.state
-    
+
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
@@ -109,7 +120,6 @@ export default class PostForm extends Component {
   }
 
   render() {
-    console.log(this.state.location.address)
     return (
       <KeyboardAwareScrollView style={style.container}>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
@@ -170,7 +180,9 @@ export default class PostForm extends Component {
           categoryValue={this.state.categoryValue}
           handleOnChange={(v) => this.setState({categoryValue: v})}
         />
-        <CameraComponent onUploadImage={this.handleUploadPicture}/>
+        
+        <CameraComponent imageUri={this.state.img} onUploadImage={this.handleUploadPicture}/>
+
         {this.props.navigation.state.params ? 
           <Button
             title='Save'
@@ -185,7 +197,7 @@ export default class PostForm extends Component {
               },
               shadowRadius: 5,
               shadowOpacity: 0.3}}
-            onPress={() => console.log("save")}
+            onPress={this.handleSave}
             style={{width: '100%', height: '50%'}}
           /> : <Button
             title='Submit'
