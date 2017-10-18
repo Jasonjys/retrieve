@@ -5,8 +5,8 @@ import style from './Style'
 import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
-import CameraComponent from './CameraComponent'
 import {firebaseApp, usersRef, lostPostRef, foundPostRef} from '../../firebaseConfig'
+import CameraComponent from '../CameraComponent/CameraComponent'
 import CategoryPicker from './CategoryPicker'
 import moment from 'moment'
 
@@ -70,16 +70,8 @@ export default class PostForm extends Component {
   }
 
   handleSubmit = () => {
-    const {
-      title,
-      description,
-      date,
-      img,
-      location,
-      categoryValue,
-      lostOrFound
-    } = this.state
-    
+    const {title, description, date, img, location, categoryValue, lostOrFound} = this.state
+
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
@@ -102,26 +94,20 @@ export default class PostForm extends Component {
         if (!foundPosts) {
           user.update({
             foundPosts: [newPostKey]
-          }, (userRef) => {
-            console.log(userRef)
-            this.setState({titleErrorMessage: ''})
-            this.props.navigation.navigate('Tabs')
           })
         } else {
           user.update({
             foundPosts: [...foundPosts, newPostKey]
-          }, (userRef) => {
-              console.log(userRef)
-              this.setState({titleErrorMessage: ''})
-              this.props.navigation.navigate('Tabs')
           })
         }
+      }).then(() => {
+        this.setState({titleErrorMessage: ''})
+        this.props.navigation.goBack();
       })
     }
   }
 
   render() {
-    console.log(this.state.location.address)
     return (
       <KeyboardAwareScrollView style={style.container}>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>

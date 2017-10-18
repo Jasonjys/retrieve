@@ -96,7 +96,7 @@ class Map extends Component {
           }}
         >
           {this.state.list.length ? this.state.list.map((marker, key) => (
-            marker.location ? 
+            marker.location.address? 
             <MapView.Marker
               key={key}
               coordinate={{

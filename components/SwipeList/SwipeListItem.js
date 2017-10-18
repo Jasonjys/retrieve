@@ -5,66 +5,70 @@ import Swipeable from 'react-native-swipeable';
 import style from './Style'
 
 class SwipeListItem extends Component {
+  swipeable = null
 
-//   setNativeProps = (nativeProps) => {
-//     this._root.setNativeProps(nativeProps);
-//   }
-swipeable = null
-
-recenter() {
+  recenter() {
     if (this.swipeable) {
       this.swipeable.recenter();
     }
   }
 
-
   render() {
     const {onOpen, onClose} = this.props;
     return (
-        <Swipeable rightButtons={[
-        <TouchableHighlight 
+      <Swipeable
+        onRef={ref => this.swipeable = ref}
+        onRightButtonsOpenRelease={() => onOpen(this)}
+        onRightButtonsCloseRelease={() => onClose(this)}
+        rightButtons={[
+          <TouchableHighlight 
             underlayColor='#95c2e2'
-            style={style.editButtonContainerStyle} onPress={() => {
-            this.props.onEdit(this.props.item)
-            this.props.onRecenter()
-            }}>
+            style={style.editButtonContainerStyle}
+            onPress={() => {
+              this.props.onEdit(this.props.item)
+              this.props.onRecenter()
+            }}
+          >
             <View style={style.buttonContainerViewStyle}>
-                <Icon name='create'color="white" size={33}/>
+              <Icon name='create'color="white" size={33}/>
             </View>
-            </TouchableHighlight>,
-        <TouchableHighlight
+          </TouchableHighlight>,
+          <TouchableHighlight
             underlayColor='#ff9eaf'
             style={style.deleteButtonContainerStyle}
             onPress={() => {
-            this.props.onDelete(this.props.item.id, this.props.id)
-            this.props.onRecenter()
-            }}>
+              this.props.onDelete(this.props.item.id, this.props.id)
+              this.props.onRecenter()
+            }}
+          >
             <View style={style.buttonContainerViewStyle}>
-            <Icon color="white" name='delete' size={33}/>
+              <Icon color="white" name='delete' size={33}/>
             </View>
-        </TouchableHighlight>
+          </TouchableHighlight>
         ]}
-        onRef={ref => this.swipeable = ref}
-        onRightButtonsOpenRelease={() => onOpen(this)}
-        onRightButtonsCloseRelease={() => onClose(this)}>
-        <TouchableHighlight onPress={()=>{this.props.onPress()}}>
-            <View style={style.listItemStyle}>
-            <Image
-            source={{uri: this.props.item.img}}
-            style={style.imageStyle}
-            />
+      >
+        <TouchableHighlight onPress={()=>{this.props.onPress()}} underlayColor='#e5e5e5'>
+          <View style={style.listItemStyle}>
+            {this.props.item.img ? 
+              <Image
+                source={{uri: this.props.item.img}}
+                style={style.imageStyle}
+              /> 
+              :
+              <Image 
+                source={require('../../assets/images/noImage.jpg')}
+                style={style.imageStyle}
+              />
+            }
             <View style={style.textContainerStyle}>
-                <Text 
-                numberOfLines={2}
-                style={style.textStyle}
-                >
+              <Text numberOfLines={2} style={style.textStyle}>
                 {this.props.item.title}
-                </Text>
+              </Text>
             </View>
-            </View>
+          </View>
         </TouchableHighlight>
         <View style={style.borderStyle}/>
-        </Swipeable>
+      </Swipeable>
     );
   }
 }

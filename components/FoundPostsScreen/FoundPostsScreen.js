@@ -14,10 +14,8 @@ class FoundPostsScreen extends Component {
       name='add-circle'
       color='#e91e63'
       size={35}
-      containerStyle={style.navigationContainerStyle}
-      onPress={() => navigation.navigate('PostForm', {
-        lostOrFound: 2
-      })}
+      containerStyle={{marginRight: 12}}
+      onPress={() => navigation.navigate('PostForm')}
     />,
     tabBarIcon: ({tintColor}) => (
       <Image
@@ -52,6 +50,10 @@ class FoundPostsScreen extends Component {
         list: post
       });
     })
+  }
+
+  componentWillUnmount() {
+    foundPostRef.off();
   }
 
   searchUpdatedCallback = (newState) => {

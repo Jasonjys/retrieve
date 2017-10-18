@@ -3,15 +3,37 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   listContainer: {
     marginTop: 0,
-    borderTopColor: 'transparent'
+    borderTopColor: 'transparent',
+    width: '100%'
   },
   itemContainer: {
     flexDirection: 'row',
+    width: '100%',
     paddingLeft: 10,
     paddingTop: 5
   },
   itemTitle: {
     fontWeight: '700',
-    fontSize: 17
+    fontSize: 16
+  },
+  itemContentContainer: {
+    flexDirection: 'column',
+    paddingLeft: 15,
+    width: '85%',
+    height: '100%'
+  },
+  imageStyle: {
+    height: '100%',
+    width: '30%'
+  },
+  iconStyle: {
+    height: 10,
+    width:23,
+    marginTop: -4
+  },
+  timeTextContainer: {
+    paddingTop: 5,
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
   }
 });

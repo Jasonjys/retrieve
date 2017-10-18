@@ -28,23 +28,21 @@ class SwipeList extends Component {
       <View>
         {this.props.list.map((item, key) => (
           <SwipeListItem
-          key={key}
-          id={key}
-          item={item}
-          onEdit={this.props.onEdit}
-          onDelete={this.props.onDelete}
-          onRecenter={()=>{ currentlyOpenItem.recenter()}}
-          onPress={()=>{
-            this.props.navigate('Details', item)
-          }}
-          onOpen={listItem => {
+            key={key}
+            id={key}
+            item={item}
+            onEdit={this.props.onEdit}
+            onDelete={this.props.onDelete}
+            onRecenter={() => currentlyOpenItem.recenter()}
+            onPress={() => this.props.navigate('Details', item)}
+            onOpen={listItem => {
               if (currentlyOpenItem && currentlyOpenItem !== listItem) {
                 currentlyOpenItem.recenter();
               }
-
               this.setState({currentlyOpenItem: listItem});
             }}
-            onClose={() => this.setState({currentlyOpenItem: null})}/>
+            onClose={() => this.setState({currentlyOpenItem: null})}
+          />
         ))}
       </View>
     );

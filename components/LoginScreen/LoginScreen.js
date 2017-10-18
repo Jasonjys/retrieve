@@ -64,6 +64,7 @@ class LoginScreen extends Component {
   }
 
   handleFacebookLogin = async () => {
+    this.setState({loading: true});
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(FB_APP_ID, {
       permissions: ['email', 'public_profile'],
     });
@@ -96,6 +97,7 @@ class LoginScreen extends Component {
       }
     }
     if (type !== 'success') {
+      this.setState({loading: false});
       alert('Uh oh, something went wrong');
       return;
     }
