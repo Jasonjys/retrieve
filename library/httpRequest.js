@@ -1,4 +1,4 @@
-export default function(lostOrFound, parameters, callback) {
+export default function(path, parameters, callback) {
     function encodeURI(uri, path) {
         if (uri.match(/\/$/)) {
             return uri + path;
@@ -8,7 +8,6 @@ export default function(lostOrFound, parameters, callback) {
     }
 
     const serverURL = 'http://ec2-35-182-227-27.ca-central-1.compute.amazonaws.com'
-    const path = lostOrFound == 1 ? 'lost' : 'found'
 
     fetch(encodeURI(serverURL, path), {
         method: 'POST',
