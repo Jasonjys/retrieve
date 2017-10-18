@@ -44,7 +44,7 @@ class FoundPostsScreen extends Component {
       list: []
     });
     const {date, location, keyword, category} = this.state
-    httpRequest(2, {date, location, keyword, category}, (post) => {
+    httpRequest("found", {date, location, keyword, category}, (post) => {
       this.setState({
         loading: false,
         list: post

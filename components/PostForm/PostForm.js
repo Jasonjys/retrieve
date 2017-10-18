@@ -31,7 +31,7 @@ export default class PostForm extends Component {
     img: '',
     categoryValue: '',
     titleErrorMessage: '',
-    lostOrFound: null
+    type: null
   }
 
   componentWillMount() {
@@ -54,7 +54,7 @@ export default class PostForm extends Component {
         date: foundDate,
         img,
         location,
-        lostOrFound
+        type
       })
     }
   }
@@ -72,12 +72,12 @@ export default class PostForm extends Component {
   }
 
   handleSubmit = () => {
-    const {title, description, date, img, location, categoryValue, lostOrFound} = this.state
+    const {title, description, date, img, location, categoryValue, type} = this.state
 
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
-      var itemsRef = lostOrFound == 1 ? lostPostRef : foundPostRef;
+      var itemsRef = type == "lost" ? lostPostRef : foundPostRef;
       const newPostKey = itemsRef.push({
         title,
         foundDate: date,
