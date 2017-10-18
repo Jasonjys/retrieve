@@ -48,7 +48,6 @@ export default class PostForm extends Component {
         img,
         location={}
       } = params.post
-      //console.log(params.post.img);
 
       this.setState({
         title,
@@ -79,7 +78,17 @@ export default class PostForm extends Component {
     if(!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
-      alert("Saved")
+      itemsRef.child(this.props.navigation.state.params.post.id).update({
+        title,
+        foundDate: date,
+        description,
+        img,
+        location,
+        categoryValue: categoryValue[0],
+        postDate: moment().format('YYYY-MM-DD HH:mm:ss')
+      }).key
+      
+      this.props.navigation.goBack()
     } 
   }
   
