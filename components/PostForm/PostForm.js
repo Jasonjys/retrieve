@@ -31,11 +31,12 @@ export default class PostForm extends Component {
     img: '',
     categoryValue: '',
     titleErrorMessage: '',
-    lostOrFound: this.props.navigation.state.params.lostOrFound
+    lostOrFound: null
   }
 
   componentWillMount() {
-    const params = this.props.navigation.state.params
+    const params = this.props.navigation.state.params;
+    const { lostOrFound } = params;
     if (params) {
       const {
         title,
@@ -52,7 +53,8 @@ export default class PostForm extends Component {
         description,
         date: foundDate,
         img,
-        location
+        location,
+        lostOrFound
       })
     }
   }
