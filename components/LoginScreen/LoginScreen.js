@@ -116,14 +116,16 @@ class LoginScreen extends Component {
     return (
       <KeyboardAwareScrollView style={style.loginContainer}>
         <Text
-        style={{
-          fontSize: 70,
-          marginVertical: '8%',
-          textAlign: 'center',
-          fontWeight: 'bold',
-          color: '#7b96c6',
-          fontFamily: 'Avenir Next'}}>
-        Retrieve</Text>
+          style={{
+            fontSize: 70,
+            marginVertical: '8%',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            color: '#7b96c6',
+            fontFamily: 'Avenir Next'}}
+        >
+          Retrieve
+        </Text>
         <FormLabel>Email</FormLabel>
         <FormInput
           value={this.state.email}
