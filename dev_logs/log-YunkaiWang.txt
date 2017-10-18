@@ -10,4 +10,5 @@ Week Oct 2 - Oct 8
 - ranking posts based on the given attributes, include location, keyword, date and category. If any of those attributes are not given, the server should return the most recent post
 
 Week Oct 9 - Oct 15
-
+- refine keyword priority
+- connect the App with the server, now the app will send a search request to the server with the given keyword
