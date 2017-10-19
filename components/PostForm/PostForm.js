@@ -26,7 +26,11 @@ export default class PostForm extends Component {
     description: '',
     date: moment().format('YYYY-MM-DD'),
     location: {
-      address: ''
+      address: '',
+      geometry: {
+        lat: '',
+        lng: ''
+      }
     },
     img: '',
     categoryValue: '',
@@ -67,7 +71,27 @@ export default class PostForm extends Component {
     }
     this.setState({location: locationObject})
   }
+  
+  handleSave = () => {
+    const {title, description, date, img, location, categoryValue} = this.state
 
+    if(!title) {
+      this.setState({titleErrorMessage: 'Title is required!'})
+    } else {
+      itemsRef.child(this.props.navigation.state.params.post.id).update({
+        title,
+        foundDate: date,
+        description,
+        img,
+        location,
+        categoryValue: categoryValue[0],
+        postDate: moment().format('YYYY-MM-DD HH:mm:ss')
+      }).key
+      
+      this.props.navigation.goBack()
+    } 
+  }
+  
   handleSubmit = () => {
     const {title, description, date, img, location, categoryValue} = this.state
 
@@ -87,7 +111,7 @@ export default class PostForm extends Component {
       const userId = firebaseApp.auth().currentUser.uid;
       const user = usersRef.child(`${userId}`);
 
-      user.once('value', (snapshot) => {
+      user.once('value').then((snapshot) => {
         const foundPosts = snapshot.val().foundPosts;
         if (!foundPosts) {
           user.update({
@@ -98,10 +122,9 @@ export default class PostForm extends Component {
             foundPosts: [...foundPosts, newPostKey]
           })
         }
-      }).then(() => {
-        this.setState({titleErrorMessage: ''})
-        this.props.navigation.goBack();
-      })
+      });
+      this.setState({titleErrorMessage: ''})
+      this.props.navigation.navigate('FoundPosts')
     }
   }
 
@@ -125,7 +148,7 @@ export default class PostForm extends Component {
           containerStyle={{borderBottomWidth: 2}}
           multiline={true}
           placeholder='Found:...'
-          autoCapitalize='sentences'
+          autoCapitalize='words'
           onChangeText={(description)=> this.setState({description})}
         />
         <FormLabel>Found Date</FormLabel>
@@ -166,7 +189,9 @@ export default class PostForm extends Component {
           categoryValue={this.state.categoryValue}
           handleOnChange={(v) => this.setState({categoryValue: v})}
         />
-        <CameraComponent onUploadImage={this.handleUploadPicture}/>
+        
+        <CameraComponent imageUri={this.state.img} onUploadImage={this.handleUploadPicture}/>
+
         {this.props.navigation.state.params ? 
           <Button
             title='Save'
@@ -181,7 +206,7 @@ export default class PostForm extends Component {
               },
               shadowRadius: 5,
               shadowOpacity: 0.3}}
-            onPress={() => console.log("save")}
+            onPress={this.handleSave}
             style={{width: '100%', height: '50%'}}
           /> : <Button
             title='Submit'
