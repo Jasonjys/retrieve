@@ -85,6 +85,7 @@ class ProfileScreen extends Component {
 
   handleDeletePost = (id, index) => {
     const alert = Modal.alert;
+
     alert('Delete Post', 'Are you sure you want to delete this post?', [
       { text: 'Cancel'},
       { text: 'Yes', onPress: () => {
