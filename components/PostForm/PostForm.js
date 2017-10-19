@@ -31,12 +31,12 @@ export default class PostForm extends Component {
     img: '',
     categoryValue: '',
     titleErrorMessage: '',
-    type: null
+    type: "post"
   }
 
   componentWillMount() {
     const params = this.props.navigation.state.params;
-    const { lostOrFound } = params;
+    const { type } = this.state;
     if (params) {
       const {
         title,

@@ -5,7 +5,8 @@ import {ActivityIndicator} from 'antd-mobile';
 import List from '../List/List';
 import {foundPostRef} from '../../firebaseConfig';
 import httpRequest from '../../library/httpRequest';
-import style from './Style'
+import style from './Style';
+import PTRView from 'react-native-pull-to-refresh';
 
 class FoundPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -43,7 +44,7 @@ class FoundPostsScreen extends Component {
       loading: true,
       list: []
     });
-    const {date, location, keyword, category} = this.state
+    const {date, location, keyword, category} = this.state;
     httpRequest("found", {date, location, keyword, category}, (post) => {
       this.setState({
         loading: false,
@@ -69,6 +70,20 @@ class FoundPostsScreen extends Component {
     }, () => {
       this.refreshPostlist();
     });
+  }
+
+  _pullToRefresh = () => {
+    return new Promise((resolve) => {
+      const {date, location, keyword, category} = this.state;
+      httpRequest("found", {date, location, keyword, category}, (post) => {
+        this.setState({
+          loading: false,
+          list: post
+        }, () => {
+          resolve();
+        });
+      })
+    })
   }
 
   _onSearchPress = () => {
@@ -108,9 +123,12 @@ class FoundPostsScreen extends Component {
             borderRadius={50}
           />
         </View>
-        <View style={style.listContainerStyle}>
-          {loadingOrList}
-        </View>
+        <PTRView onRefresh={this._pullToRefresh}
+                 offset={50}>
+          <View style={style.listContainerStyle}>
+            {loadingOrList}
+          </View>
+        </PTRView>
       </View>
     );
   }
