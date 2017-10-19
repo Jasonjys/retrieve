@@ -43,7 +43,7 @@ class TemSearch extends Component {
         <FormInput
           placeholder='Enter any string here...' 
           containerStyle={{borderBottomWidth: 2}}
-          onChangeText={searchString => this.setState({searchString})}
+          onChangeText={keyword => this.setState({keyword})}
         />
         <View style={{margin: 20}}>
           <DatePicker

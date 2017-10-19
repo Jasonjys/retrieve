@@ -3,8 +3,10 @@ import {View, Text, Image} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 import {ActivityIndicator} from 'antd-mobile';
 import List from '../List/List';
-import {itemsRef} from '../../firebaseConfig';
-import style from './Style'
+import {foundPostRef} from '../../firebaseConfig';
+import httpRequest from '../../library/httpRequest';
+import style from './Style';
+import PTRView from 'react-native-pull-to-refresh';
 
 class FoundPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -27,35 +29,60 @@ class FoundPostsScreen extends Component {
   state = {
     loading: true,
     list: [],
-    search_string: '',
-    search_location: '',
-    search_date: ''
+    keyword: '',
+    location: '',
+    date: '',
+    category: ''
   }
 
-  componentWillMount() {
-    itemsRef.on('value', (snapshot) => {
-      this.setState({loading: false});
-      if (snapshot) {
-        const items = snapshot.val()
-        if (items) {
-          this.setState({list: Object.values(items)});
-        } else {
-          this.setState({list: []});
-        }
-      }
+  componentDidMount() {
+    this.refreshPostlist();
+  }
+
+  refreshPostlist = () => {
+    this.setState({
+      loading: true,
+      list: []
+    });
+    const {date, location, keyword, category} = this.state;
+    httpRequest("found", {date, location, keyword, category}, (post) => {
+      this.setState({
+        loading: false,
+        list: post
+      });
     })
   }
 
   componentWillUnmount() {
-    itemsRef.off();
+    foundPostRef.off();
   }
 
   searchUpdatedCallback = (newState) => {
-    const {search_string, search_location, search_date} = newState;
+    const {
+      keyword,
+      location,
+      date
+    } = newState;
     this.setState({
-      search_string,
-      search_location,
-      search_date
+      keyword,
+      location,
+      date
+    }, () => {
+      this.refreshPostlist();
+    });
+  }
+
+  _pullToRefresh = () => {
+    return new Promise((resolve) => {
+      const {date, location, keyword, category} = this.state;
+      httpRequest("found", {date, location, keyword, category}, (post) => {
+        this.setState({
+          loading: false,
+          list: post
+        }, () => {
+          resolve();
+        });
+      })
     })
   }
 
@@ -63,14 +90,14 @@ class FoundPostsScreen extends Component {
     const {navigate} = this.props.navigation;
     const {
       navigation,
-      search_string,
-      search_date,
-      search_location,
+      keyword,
+      date,
+      location,
     } = this.state;
     navigate('Search', {
-      search_string,
-      search_date,
-      search_location,
+      keyword,
+      date,
+      location,
       searchUpdatedCallback: this.searchUpdatedCallback
     })
   };
@@ -96,9 +123,12 @@ class FoundPostsScreen extends Component {
             borderRadius={50}
           />
         </View>
-        <View style={style.listContainerStyle}>
-          {loadingOrList}
-        </View>
+        <PTRView onRefresh={this._pullToRefresh}
+                 offset={50}>
+          <View style={style.listContainerStyle}>
+            {loadingOrList}
+          </View>
+        </PTRView>
       </View>
     );
   }

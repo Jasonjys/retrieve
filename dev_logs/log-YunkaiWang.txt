@@ -2,3 +2,13 @@ Week Sep 17-23
 - set up running EC2 instance on AWS that can return a hello world message
 - working on adding search page to both found post page and lost post page, add extra navigator to both pages, but the bug about the title disappeared from the page is still not fixed
 
+Week Sep 24 - Oct 1
+- set up image upload server on ec2 that handles image upload and save to s3 bucket on AWS
+- working with priority queue and post ranking that will be used to handle search event of this app
+
+Week Oct 2 - Oct 8
+- ranking posts based on the given attributes, include location, keyword, date and category. If any of those attributes are not given, the server should return the most recent post
+
+Week Oct 9 - Oct 15
+- refine keyword priority
+- connect the App with the server, now the app will send a search request to the server with the given keyword

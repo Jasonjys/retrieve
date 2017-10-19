@@ -6,7 +6,8 @@ import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
 import ProfileConTent from './ProfileContent';
 import { Modal} from 'antd-mobile';
-import style from './Style'
+import style from './Style';
+import httpRequest from '../../library/httpRequest';
 
 
 class ProfileScreen extends Component {
@@ -42,7 +43,11 @@ class ProfileScreen extends Component {
     let userFoundPostsIds = [];
     const user = firebaseApp.auth().currentUser;
     this.setState({userInfo: user.providerData[0]})
-    usersRef.on('value', (users) => {
+    const uid = user.uid;
+    httpRequest("user/found", { uid }, (foundPosts) => {
+      this.setState({foundPosts})
+    })
+    /*usersRef.on('value', (users) => {
       if (users) {
         const userRef = users.val()[user.uid];
         if (userRef) {
@@ -66,7 +71,7 @@ class ProfileScreen extends Component {
           }
         }
       }
-    })
+    })*/
 
     this.props.navigation.setParams({
       handleSignout: this.handleSignout

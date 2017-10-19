@@ -5,7 +5,7 @@ import AutoComplete from '../AutoComplete/AutoComplete'
 import List from '../List/List'
 import BottomItemDetail from './BottomItemDetail'
 import DropdownAlert from 'react-native-dropdownalert'
-import {itemsRef} from '../../firebaseConfig'
+import httpRequest from '../../library/httpRequest';
 import style from './MapStyle'
 
 class Map extends Component {
@@ -27,11 +27,11 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    itemsRef.on('value', (snapshot) => {
-      this.setState({loading: false});
-      if (snapshot.val()) {
-        this.setState({list: Object.values(snapshot.val())});
-      }
+    const {date, location, keyword, category} = this.props.navigation.state.params;
+    httpRequest("found", {date, location, keyword, category}, (post) => {
+      this.setState({
+        list: post
+      });
     })
   }
 
