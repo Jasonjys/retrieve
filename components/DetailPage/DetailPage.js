@@ -36,7 +36,7 @@ class DetailPage extends Component {
     let {title, img, description, foundDate, location, categoryValue, postDate} = this.props.navigation.state.params
     return (
       <ScrollView contentContainerStyle={style.container}>
-        <Image source={{url: img}} style={style.image}/>
+        {img ? <Image source={{url: img}} style={style.image}/> : null}
         <View style={{width: '100%'}}>
           <FormLabel labelStyle={style.title}>{title}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Found on: {foundDate}</FormLabel>
