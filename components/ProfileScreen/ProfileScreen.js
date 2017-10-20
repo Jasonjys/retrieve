@@ -44,8 +44,14 @@ class ProfileScreen extends Component {
     const user = firebaseApp.auth().currentUser;
     this.setState({userInfo: user.providerData[0]})
     const uid = user.uid;
-    httpRequest("user/found", { uid }, (foundPosts) => {
-      this.setState({foundPosts})
+    httpRequest("user/found", { uid })
+    .then((response) => {
+      this.setState({
+        list: response
+      })
+    })
+    .catch((error) => {
+      console.log(error);
     })
     /*usersRef.on('value', (users) => {
       if (users) {

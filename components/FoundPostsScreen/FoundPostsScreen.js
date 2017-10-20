@@ -45,11 +45,15 @@ class FoundPostsScreen extends Component {
       list: []
     });
     const {date, location, keyword, category} = this.state;
-    httpRequest("found", {date, location, keyword, category}, (post) => {
+    httpRequest("found", {date, location, keyword, category})
+    .then((response) => {
       this.setState({
         loading: false,
-        list: post
-      });
+        list: response
+      })
+    })
+    .catch((error) => {
+      console.log(error)
     })
   }
 
