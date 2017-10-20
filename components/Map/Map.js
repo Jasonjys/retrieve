@@ -95,13 +95,13 @@ class Map extends Component {
             }
           }}
         >
-          {this.state.list.length ? this.state.list.map((marker, key) => (
-            marker.location.address? 
+          {this.state.list.length ? this.state.list.map((item, key) => (
+            item.location.address ? 
             <MapView.Marker
               key={key}
               coordinate={{
-                latitude: marker.location.geometry.lat,
-                longitude: marker.location.geometry.lng
+                latitude: item.location.geometry.latitude,
+                longitude: item.location.geometry.longitude
               }}
               onPress={(e)=>{
                 e.stopPropagation()
@@ -119,9 +119,9 @@ class Map extends Component {
             image={require('../../assets/images/currentLocation.png')}
           />
         </MapView>
-        {this.state.showList ?
-            <List list={this.state.list} navigate={this.props.navigation.navigate} handleLongPress={this.handleLongPress}/> 
-            : this.generateUnexpendList(this.state.markerPress)
+        {this.state.showList
+          ? <List list={this.state.list} navigate={this.props.navigation.navigate} handleLongPress={this.handleLongPress}/> 
+          : this.generateUnexpendList(this.state.markerPress)
         }
         <DropdownAlert
           ref={ref => this.dropdown = ref }

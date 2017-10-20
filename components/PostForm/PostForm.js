@@ -5,7 +5,7 @@ import style from './Style'
 import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
-import {firebaseApp, usersRef, lostPostRef, foundPostRef} from '../../firebaseConfig'
+import {firebaseApp, usersRef, lostPostsRef, foundPostsRef} from '../../firebaseConfig'
 import CameraComponent from '../CameraComponent/CameraComponent'
 import CategoryPicker from './CategoryPicker'
 import moment from 'moment'
@@ -77,11 +77,12 @@ export default class PostForm extends Component {
   
   handleSave = () => {
     const {title, description, date, img, location, categoryValue} = this.state
+    const {id} = this.props.navigation.state.params.post;
 
     if(!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
-      itemsRef.child(this.props.navigation.state.params.post.id).update({
+      foundPostsRef.child(id).update({
         title,
         foundDate: date,
         description,
@@ -89,8 +90,8 @@ export default class PostForm extends Component {
         location,
         categoryValue: categoryValue[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss')
-      }).key
-      
+      })
+
       this.props.navigation.goBack()
     } 
   }
@@ -101,8 +102,8 @@ export default class PostForm extends Component {
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
-      var itemsRef = type == "lost" ? lostPostRef : foundPostRef;
-      const newPostKey = itemsRef.push({
+      var itemsRef = type == "lost" ? lostPostRef : foundPostsRef;
+      const newPostKey = foundPostsRef.push({
         title,
         foundDate: date,
         description,
@@ -113,7 +114,7 @@ export default class PostForm extends Component {
       }).key
 
       const userId = firebaseApp.auth().currentUser.uid;
-      const user = usersRef.child(`${userId}`);
+      const user = usersRef.child(userId);
 
       user.once('value').then((snapshot) => {
         const foundPosts = snapshot.val().foundPosts;

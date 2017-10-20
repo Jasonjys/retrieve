@@ -21,6 +21,6 @@ const config = {
 export const firebaseApp = firebase.initializeApp(config);
 const getRef = () => firebaseApp.database().ref();
 
-export const lostPostRef = getRef().child('lostPost');
-export const foundPostRef = getRef().child('foundPost');
+export const lostPostsRef = getRef().child('lostPosts');
+export const foundPostsRef = getRef().child('foundPosts');
 export const usersRef = getRef().child('users');
