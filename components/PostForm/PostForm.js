@@ -24,7 +24,7 @@ export default class PostForm extends Component {
   state = {
     title: '',
     description: '',
-    date: moment().format('YYYY-MM-DD'),
+    date: '',
     location: {
       address: '',
       geometry: {
@@ -102,6 +102,9 @@ export default class PostForm extends Component {
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
+      const userId = firebaseApp.auth().currentUser.uid;
+      const user = usersRef.child(userId);
+
       var itemsRef = type == "lost" ? lostPostRef : foundPostsRef;
       const newPostKey = foundPostsRef.push({
         title,
@@ -110,11 +113,9 @@ export default class PostForm extends Component {
         img,
         location,
         categoryValue: categoryValue[0],
-        postDate: moment().format('YYYY-MM-DD HH:mm:ss')
+        postDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        user: userId
       }).key
-
-      const userId = firebaseApp.auth().currentUser.uid;
-      const user = usersRef.child(userId);
 
       user.once('value').then((snapshot) => {
         const foundPosts = snapshot.val().foundPosts;
