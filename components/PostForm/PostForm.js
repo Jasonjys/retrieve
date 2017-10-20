@@ -5,7 +5,7 @@ import style from './Style'
 import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
-import {firebaseApp, usersRef, lostPostRef, foundPostRef} from '../../firebaseConfig'
+import {firebaseApp, usersRef, lostPostsRef, foundPostsRef} from '../../firebaseConfig'
 import CameraComponent from '../CameraComponent/CameraComponent'
 import CategoryPicker from './CategoryPicker'
 import moment from 'moment'
@@ -82,7 +82,7 @@ export default class PostForm extends Component {
     if(!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
-      foundPostRef.child(id).update({
+      foundPostsRef.child(id).update({
         title,
         foundDate: date,
         description,
@@ -102,8 +102,8 @@ export default class PostForm extends Component {
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
-      var itemsRef = type == "lost" ? lostPostRef : foundPostRef;
-      const newPostKey = foundPostRef.push({
+      var itemsRef = type == "lost" ? lostPostRef : foundPostsRef;
+      const newPostKey = foundPostsRef.push({
         title,
         foundDate: date,
         description,

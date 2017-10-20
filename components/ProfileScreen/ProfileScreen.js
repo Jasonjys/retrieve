@@ -64,7 +64,7 @@ class ProfileScreen extends Component {
 
   componentWillUnmount() {
     usersRef.off();
-    foundPostRef.off();
+    foundPostsRef.off();
   }
 
   handleDeletePost = (id, index) => {
