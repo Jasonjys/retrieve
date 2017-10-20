@@ -4,12 +4,10 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   containerStyle: {
     flex: 1,
-    height: '100%'
-  },
-  searchButtonContainerStyle: {
+    height: '100%',
     backgroundColor: 'white'
   },
-  containerViewStyle: {
+  buttonContainer: {
     width: '100%',
     marginLeft: 0
   },
@@ -17,14 +15,10 @@ export default StyleSheet.create({
     height: 30,
     backgroundColor: '#dbdde0'
   },
-  fetchStyle: {
+  loading: {
     height: '95%',
     width: '100%',
     alignItems: 'center', 
     justifyContent: 'center'
-  },
-  listContainerStyle: {
-    height: '95%',
-    width: '100%'
   }
 })

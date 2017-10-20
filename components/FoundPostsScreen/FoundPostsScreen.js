@@ -36,7 +36,13 @@ class FoundPostsScreen extends Component {
   }
 
   componentDidMount() {
-    this.refreshPostlist();
+    // foundPostRef.once('value').then((foundPostsRef) => {
+    //   this.setState({loading: false})
+    //   if (foundPostsRef) {
+    //     this.setState({list: Object.values(foundPostsRef.val())})
+    //   }
+    // })
+    this.refreshPostlist()
   }
 
   refreshPostlist = () => {
@@ -51,10 +57,6 @@ class FoundPostsScreen extends Component {
         list: post
       });
     })
-  }
-
-  componentWillUnmount() {
-    foundPostRef.off();
   }
 
   searchUpdatedCallback = (newState) => {
@@ -105,30 +107,29 @@ class FoundPostsScreen extends Component {
   render() {
     const {navigate} = this.props.navigation;
     const loadingOrList = this.state.loading 
-      ? <View style={style.fetchStyle}>
+      ? <View style={style.loading}>
           <ActivityIndicator animating text='Fetching Items'/>
         </View>
-      : <List navigate={navigate} list={this.state.list} />
+      : <PTRView
+          onRefresh={this._pullToRefresh}
+          offset={65}
+        >
+          <List navigate={navigate} list={this.state.list} />
+        </PTRView>
+
     return (
       <View style={style.containerStyle}>
-        <View style={style.searchButtonContainerStyle}>
-          <Button
-            iconLeft
-            icon={{name: 'search', size: 26}}
-            title='Search'
-            fontWeight={'500'}
-            containerViewStyle={style.containerViewStyle}
-            buttonStyle={style.buttonStyle}
-            onPress={() => this.props.navigation.navigate('TemSearch')}
-            borderRadius={50}
-          />
-        </View>
-        <PTRView onRefresh={this._pullToRefresh}
-                 offset={50}>
-          <View style={style.listContainerStyle}>
-            {loadingOrList}
-          </View>
-        </PTRView>
+        <Button
+          iconLeft
+          icon={{name: 'search', size: 26}}
+          title='Search'
+          fontWeight={'500'}
+          containerViewStyle={style.buttonContainer}
+          buttonStyle={style.buttonStyle}
+          onPress={() => this.props.navigation.navigate('TemSearch')}
+          borderRadius={50}
+        />
+        {loadingOrList}
       </View>
     );
   }

@@ -2,16 +2,15 @@ import React, {Component} from 'react';
 import {View, Image} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
-import {firebaseApp, usersRef, itemsRef} from '../../firebaseConfig';
+import {firebaseApp, usersRef, foundPostRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
 import ProfileConTent from './ProfileContent';
-import { Modal} from 'antd-mobile';
+import {Modal} from 'antd-mobile';
 import style from './Style';
 import httpRequest from '../../library/httpRequest';
 
 
 class ProfileScreen extends Component {
-  
   static navigationOptions = ({ navigation }) => {
     const {params = {}} = navigation.state
     return {
@@ -44,34 +43,19 @@ class ProfileScreen extends Component {
     const user = firebaseApp.auth().currentUser;
     this.setState({userInfo: user.providerData[0]})
     const uid = user.uid;
-    httpRequest("user/found", { uid }, (foundPosts) => {
-      this.setState({foundPosts})
-    })
-    /*usersRef.on('value', (users) => {
-      if (users) {
-        const userRef = users.val()[user.uid];
-        if (userRef) {
-          if (userRef.foundPosts) {
-            userFoundPostsIds = userRef.foundPosts
-            itemsRef.on('value', (items) => {
-              let foundPosts = [];
-              if (userFoundPostsIds.length) {
-                userFoundPostsIds.map((id) => {
-                  if (items) {
-                    const itemsRef = items.val()
-                    if (itemsRef && itemsRef[id]) {
-                      const post = {...itemsRef[id], id: id};
-                      foundPosts.push(post)
-                    }
-                  }
-                })
-                this.setState({foundPosts})
-              }
+
+    usersRef.child(uid).child('foundPosts').on('value', (foundPostsIds) => {
+        foundPostRef.on('value', (foundPostsRef) => {
+          let foundPosts = [];
+          if (foundPostsIds.val()) {
+            foundPostsIds.val().map((id) => {            
+              const foundPost = {...foundPostsRef.val()[id], id: id}
+              foundPosts.push(foundPost)
             })
+            this.setState({foundPosts})
           }
-        }
-      }
-    })*/
+        })
+    })
 
     this.props.navigation.setParams({
       handleSignout: this.handleSignout
@@ -80,7 +64,7 @@ class ProfileScreen extends Component {
 
   componentWillUnmount() {
     usersRef.off();
-    itemsRef.off();
+    foundPostRef.off();
   }
 
   handleDeletePost = (id, index) => {

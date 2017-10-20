@@ -4941,6 +4941,10 @@ react-native-menu@~0.21.0:
   dependencies:
     react-timer-mixin "^0.13.3"
 
+react-native-pull-to-refresh@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-pull-to-refresh/-/react-native-pull-to-refresh-2.1.2.tgz#ef3a66e724887f4d66a561d2abb5c4c7e57c0436"
+
 react-native-safe-module@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"
