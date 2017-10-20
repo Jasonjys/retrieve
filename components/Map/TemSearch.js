@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Switch} from 'react-native';
+import {View} from 'react-native';
 import {FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-datepicker';
