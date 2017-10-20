@@ -3,7 +3,7 @@ import {View, Text, Image} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 import {ActivityIndicator} from 'antd-mobile';
 import List from '../List/List';
-import {foundPostRef} from '../../firebaseConfig';
+import {foundPostsRef} from '../../firebaseConfig';
 import httpRequest from '../../library/httpRequest';
 import style from './Style';
 import PTRView from 'react-native-pull-to-refresh';
@@ -36,13 +36,13 @@ class FoundPostsScreen extends Component {
   }
 
   componentDidMount() {
-    // foundPostRef.once('value').then((foundPostsRef) => {
-    //   this.setState({loading: false})
-    //   if (foundPostsRef) {
-    //     this.setState({list: Object.values(foundPostsRef.val())})
-    //   }
-    // })
-    this.refreshPostlist()
+    foundPostsRef.once('value').then((foundPostsRef) => {
+      this.setState({loading: false})
+      if (foundPostsRef) {
+        this.setState({list: Object.values(foundPostsRef.val())})
+      }
+    })
+    //this.refreshPostlist()
   }
 
   refreshPostlist = () => {
@@ -52,6 +52,7 @@ class FoundPostsScreen extends Component {
     });
     const {date, location, keyword, category} = this.state;
     httpRequest("found", {date, location, keyword, category}, (post) => {
+      console.log(post)
       this.setState({
         loading: false,
         list: post

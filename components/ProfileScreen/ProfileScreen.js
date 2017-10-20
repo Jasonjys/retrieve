@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Image} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
-import {firebaseApp, usersRef, foundPostRef} from '../../firebaseConfig';
+import {firebaseApp, usersRef, foundPostsRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
 import ProfileConTent from './ProfileContent';
 import {Modal} from 'antd-mobile';
@@ -45,16 +45,16 @@ class ProfileScreen extends Component {
     const uid = user.uid;
 
     usersRef.child(uid).child('foundPosts').on('value', (foundPostsIds) => {
-        foundPostRef.on('value', (foundPostsRef) => {
-          let foundPosts = [];
-          if (foundPostsIds.val()) {
-            foundPostsIds.val().map((id) => {            
-              const foundPost = {...foundPostsRef.val()[id], id: id}
-              foundPosts.push(foundPost)
-            })
-            this.setState({foundPosts})
-          }
-        })
+      foundPostsRef.on('value', (foundPostsRef) => {
+        let foundPosts = [];
+        if (foundPostsIds.val()) {
+          foundPostsIds.val().map((id) => {            
+            const foundPost = {...foundPostsRef.val()[id], id: id}
+            foundPosts.push(foundPost)
+          })
+          this.setState({foundPosts})
+        }
+      })
     })
 
     this.props.navigation.setParams({
