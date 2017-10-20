@@ -73,7 +73,7 @@ class ProfileScreen extends Component {
     alert('Delete Post', 'Are you sure you want to delete this post?', [
       { text: 'Cancel'},
       { text: 'Yes', onPress: () => {
-        itemsRef.child(id).remove();
+        foundPostsRef.child(id).remove();
         const {uid} = firebaseApp.auth().currentUser;
         let newFoundPostsIds = []
         usersRef.child(uid).once('value').then((user) => {
