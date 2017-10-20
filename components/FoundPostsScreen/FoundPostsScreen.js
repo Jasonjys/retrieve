@@ -36,13 +36,7 @@ class FoundPostsScreen extends Component {
   }
 
   componentDidMount() {
-    foundPostsRef.once('value').then((foundPostsRef) => {
-      this.setState({loading: false})
-      if (foundPostsRef) {
-        this.setState({list: Object.values(foundPostsRef.val())})
-      }
-    })
-    //this.refreshPostlist()
+    this.refreshPostlist()
   }
 
   refreshPostlist = () => {
@@ -52,7 +46,6 @@ class FoundPostsScreen extends Component {
     });
     const {date, location, keyword, category} = this.state;
     httpRequest("found", {date, location, keyword, category}, (post) => {
-      console.log(post)
       this.setState({
         loading: false,
         list: post
