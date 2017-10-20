@@ -40,7 +40,7 @@ class ListComponent extends Component {
   }
   render() {
     return (
-      <ScrollView style={{marginTop: 10}}>
+      <ScrollView>
         <List containerStyle={style.listContainer}>
           {
             this.props.list.map((item, key) => (

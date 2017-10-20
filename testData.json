@@ -11,8 +11,8 @@
       "location": {
         "address": "1755 Riverside Drive, Ottawa, Canada",
         "geometry": {
-          "lat": 45.4019377,
-          "lng": -75.6652049
+          "latitude": 45.4019377,
+          "longitude": -75.6652049
         }
       }
   },
@@ -27,8 +27,8 @@
       "location": {
         "address": "Carleton University, Ottawa, ON, Canada",
         "geometry": {
-          "lat": 45.3875812,
-          "lng": -75.69602019999999
+          "latitude": 45.3875812,
+          "longitude": -75.69602019999999
         }
       }
   },
@@ -43,8 +43,8 @@
       "location": {
         "address": "TD place, Bank street, Ottawa, ON, Canada",
         "geometry": {
-          "lat": 45.3982089,
-          "lng": -75.6834678
+          "latitude": 45.3982089,
+          "longitude": -75.6834678
         }
       }
   },
@@ -59,8 +59,8 @@
       "location" : {
         "address" : "Billings bridge, Ottawa, ON, Canada",
         "geometry" : {
-          "lat" : 45.3859731,
-          "lng" : -75.6779533
+          "latitude" : 45.3859731,
+          "longitude" : -75.6779533
         }
       }
     },
@@ -75,8 +75,8 @@
       "location" : {
         "address" : "China Town, Ottawa, ON, Canada",
         "geometry" : {
-          "lat" : 45.4098833,
-          "lng" : -75.70631190000002
+          "latitude" : 45.4098833,
+          "longitude" : -75.70631190000002
         }
       }
     },
