@@ -23,8 +23,6 @@ export default class PostForm extends Component {
 
   state = {
     title: '',
-    description: '',
-    date: '',
     location: {
       address: '',
       geometry: {
@@ -32,15 +30,12 @@ export default class PostForm extends Component {
         lng: ''
       }
     },
-    img: '',
     categoryValue: '',
     titleErrorMessage: '',
-    type: "post"
   }
 
   componentWillMount() {
     const params = this.props.navigation.state.params;
-    const { type } = this.state;
     if (params) {
       const {
         title,
@@ -48,6 +43,7 @@ export default class PostForm extends Component {
         description,
         foundDate,
         img,
+        type,
         location={}
       } = params.post
 
@@ -105,7 +101,7 @@ export default class PostForm extends Component {
       const userId = firebaseApp.auth().currentUser.uid;
       const user = usersRef.child(userId);
 
-      var itemsRef = type == "lost" ? lostPostRef : foundPostsRef;
+      var itemsRef = type === "lost" ? lostPostRef : foundPostsRef;
       const newPostKey = foundPostsRef.push({
         title,
         foundDate: date,
@@ -118,10 +114,17 @@ export default class PostForm extends Component {
       }).key
 
       user.once('value').then((snapshot) => {
-        const foundPosts = snapshot.val().foundPosts ? snapshot.val().foundPosts : [];
-        user.update({
-          foundPosts: [...foundPosts, newPostKey]
-        })
+        if (type === "found") {
+          const foundPosts = snapshot.val().foundPosts ? snapshot.val().foundPosts : [];
+          user.update({
+            foundPosts: [...foundPosts, newPostKey]
+          })
+        } else {
+          const lostPosts = snapshot.val().lostPosts ? snapshot.val().lostPosts : [];
+          user.update({
+            lostPosts: [...lostPosts, newPostKey]
+          })
+        }
       });
       this.setState({titleErrorMessage: ''})
       this.props.navigation.goBack();

@@ -16,7 +16,9 @@ class FoundPostsScreen extends Component {
       color='#e91e63'
       size={35}
       containerStyle={{marginRight: 12}}
-      onPress={() => navigation.navigate('PostForm')}
+      onPress={() => navigation.navigate('PostForm', {
+        type: "found"
+      })}
     />,
     tabBarIcon: ({tintColor}) => (
       <Image
