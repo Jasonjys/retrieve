@@ -7,7 +7,7 @@ import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
 import {firebaseApp, usersRef, lostPostsRef, foundPostsRef} from '../../firebaseConfig'
 import CameraComponent from '../CameraComponent/CameraComponent'
-import CategoryPicker from './CategoryPicker'
+import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import moment from 'moment'
 
 export default class PostForm extends Component {
@@ -118,13 +118,13 @@ export default class PostForm extends Component {
       }).key
 
       user.once('value').then((snapshot) => {
-        const foundPosts = snapshot.val().foundPosts ? foundPosts : [];
+        const foundPosts = snapshot.val().foundPosts ? snapshot.val().foundPosts : [];
         user.update({
           foundPosts: [...foundPosts, newPostKey]
         })
       });
       this.setState({titleErrorMessage: ''})
-      this.props.navigation.navigate('FoundPosts')
+      this.props.navigation.goBack();
     }
   }
 

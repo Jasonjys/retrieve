@@ -4,6 +4,7 @@ import {FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-datepicker';
 import AutoComplete from '../AutoComplete/AutoComplete';
+import CategoryPicker from '../CategoryPicker/CategoryPicker';
 
 class TemSearch extends Component {
   state = {
@@ -67,6 +68,10 @@ class TemSearch extends Component {
         <View style={{margin: 10}}>
           <AutoComplete defaultValue='' setLocation={this.onEnterLocation}/>
         </View>
+        <CategoryPicker
+          categoryValue={this.state.categoryValue}
+          handleOnChange={(v) => this.setState({categoryValue: v})}
+        />
         <Button title='Search' onPress={() => this.props.navigation.navigate('Map', this.state)}/>
       </KeyboardAwareScrollView>
     );
