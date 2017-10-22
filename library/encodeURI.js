@@ -1,14 +1,16 @@
 export default function(uri, path, parameter) {
     if (uri.match(/\/$/)) {
-        return uri + path;
+        uri = uri + path;
     } else{
-        return uri + "/" + path
+        uri = uri + "/" + path
     }
 
     for (let key in parameter) {
-        var value = encodeURIComponent(parameter[key]);
-        var seperator = uril.indexOf('?') == -1 ? "?" : "&";
-        uri = uri + seperator + key + "=" + value;
+        if (parameter[key]) {
+            var value = encodeURIComponent(JSON.stringify(parameter[key]));
+            var seperator = uri.indexOf('?') == -1 ? "?" : "&";
+            uri = uri + seperator + key + "=" + value;
+        }
     }
     return uri
 }

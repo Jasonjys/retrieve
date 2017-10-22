@@ -7,19 +7,10 @@ import AutoComplete from '../AutoComplete/AutoComplete';
 
 class TemSearch extends Component {
   state = {
-    keyword: '',
-    date: '',
-    region: {
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.100,
-      longitudeDelta: 0.0521
-    },
     currentLocationMarker: {
       latitude: 37.78825,
       longitude: -122.4324
-    },
-    location: ''
+    }
   }
 
   onEnterLocation = (location) => {

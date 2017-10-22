@@ -118,16 +118,10 @@ export default class PostForm extends Component {
       }).key
 
       user.once('value').then((snapshot) => {
-        const foundPosts = snapshot.val().foundPosts;
-        if (!foundPosts) {
-          user.update({
-            foundPosts: [newPostKey]
-          })
-        } else {
-          user.update({
-            foundPosts: [...foundPosts, newPostKey]
-          })
-        }
+        const foundPosts = snapshot.val().foundPosts ? foundPosts : [];
+        user.update({
+          foundPosts: [...foundPosts, newPostKey]
+        })
       });
       this.setState({titleErrorMessage: ''})
       this.props.navigation.navigate('FoundPosts')
