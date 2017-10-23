@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   ActivityIndicator,
   Clipboard,
@@ -10,10 +10,11 @@ import {
   View
 } from 'react-native';
 import Exponent, { Constants, ImagePicker, registerRootComponent } from 'expo'
-import { Button, Icon } from 'react-native-elements'
-import ActionSheet from 'react-native-actionsheet'
+import { Button, Icon } from 'react-native-elements';
+import ActionSheet from 'react-native-actionsheet';
+import httpRequest from '../../library/httpRequest';
 
-export default class App extends React.Component {
+export default class App extends Component {
   state = {
     image: this.props.imageUri,
     uploading: false,
@@ -184,8 +185,7 @@ export default class App extends React.Component {
       this.setState({ uploading: true });
 
       if (!pickerResult.cancelled) {
-        uploadResponse = await uploadImageAsync(pickerResult.uri)
-        uploadResult = await uploadResponse.json();
+        uploadResult = await uploadImageAsync(pickerResult.uri)
         this.setState({ image: uploadResult.location });
         this.props.onUploadImage(image)
       }
@@ -202,25 +202,21 @@ export default class App extends React.Component {
 }
 
 async function uploadImageAsync(uri) {
-  let apiUrl = 'https://file-upload-example-backend-qgbeirpxua.now.sh/upload';
+  let path = "upload";
+  let method = "POST";
+
+  let body = new FormData();
   let uriParts = uri.split('.');
   let fileType = uri[uri.length - 1];
-
-  let formData = new FormData();
-  formData.append('photo', {
+  body.append('photo', {
     uri,
     name: `photo.${fileType}`,
     type: `image/${fileType}`,
   });
-
-  let options = {
-    method: 'POST',
-    body: formData,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'multipart/form-data',
-    },
+  let headers = {
+    Accept: 'application/json',
+    'Content-Type': 'multipart/form-data',
   };
 
-  return fetch(apiUrl, options);
+  return httpRequest(path, {}, method, body, headers);
 }

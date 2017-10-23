@@ -11,15 +11,9 @@ import style from './MapStyle'
 class Map extends Component {
   state = {
     list: [],
-    region: {
-      latitude: this.props.navigation.state.params.region.latitude,
-      longitude: this.props.navigation.state.params.region.longitude,
-      latitudeDelta: this.props.navigation.state.params.region.latitudeDelta,
-      longitudeDelta: this.props.navigation.state.params.region.longitudeDelta
-    },
     currentLocationMarker: {
-      latitude: this.props.navigation.state.params.region.latitude,
-      longitude: this.props.navigation.state.params.region.longitude
+      latitude: this.props.navigation.state.params.currentLocationMarker.latitude,
+      longitude: this.props.navigation.state.params.currentLocationMarker.longitude
     },
     showList: false,
     markerPress: -1,
@@ -27,11 +21,15 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    const {date, location, keyword, category} = this.props.navigation.state.params;
-    httpRequest("found", {date, location, keyword, category}, (post) => {
+    const {date, region, keyword, category} = this.props.navigation.state.params;
+    httpRequest("found", {date, region, keyword, category})
+    .then((post) => {
       this.setState({
         list: post
       });
+    })
+    .catch((error) => {
+      console.log(error);
     })
   }
 
@@ -96,7 +94,7 @@ class Map extends Component {
           }}
         >
           {this.state.list.length ? this.state.list.map((item, key) => (
-            item.location.address ? 
+            item.location && item.location.address ?
             <MapView.Marker
               key={key}
               coordinate={{
