@@ -48,9 +48,11 @@ class ProfileScreen extends Component {
       foundPostsRef.on('value', (foundPostsRef) => {
         let foundPosts = [];
         if (foundPostsIds.val()) {
-          foundPostsIds.val().map((id) => {            
-            const foundPost = {...foundPostsRef.val()[id], id: id}
-            foundPosts.push(foundPost)
+          foundPostsIds.val().map((id) => {
+            if (foundPostsRef.val()[id]) {
+              const foundPost = {...foundPostsRef.val()[id], id: id}
+              foundPosts.unshift(foundPost)
+            }
           })
           this.setState({foundPosts})
         }
@@ -81,7 +83,7 @@ class ProfileScreen extends Component {
           newFoundPostsIds = [
             ...foundPosts.slice(0, index),
             ...foundPosts.slice(index + 1)
-          ]
+          ].reverse()
           usersRef.child(uid).update({
             foundPosts: newFoundPostsIds
           })
@@ -97,8 +99,8 @@ class ProfileScreen extends Component {
   handleSignout = () => {
     const alert = Modal.alert;
     alert('Signing out', 'Are you sure you want to sign out?', [
-      { text: 'Cancel'},
-      { text: 'Yes', onPress: () => {
+      {text: 'Cancel'},
+      {text: 'Yes', onPress: () => {
         firebaseApp.auth().signOut().then(() => {
           const resetAction = NavigationActions.reset({
             index: 0,
@@ -108,7 +110,6 @@ class ProfileScreen extends Component {
         })
       } },
     ])
-
   }
 
   render() {

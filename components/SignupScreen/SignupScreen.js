@@ -15,15 +15,14 @@ class SignupScreen extends Component {
   state = {
     email: '',
     password: '',
-    firstName: '',
-    lastName: '',
+    name: '',
     emailError: '',
     passwordError: '',
     requiredError: ''
   }
 
   handleSignup = () => {
-    const {email, password, firstName, lastName} = this.state;
+    const {email, password, name} = this.state;
     const {navigation} = this.props;
 
     this.setState({
@@ -32,7 +31,7 @@ class SignupScreen extends Component {
       requiredError: ''
     });
 
-    if(!firstName || !lastName) {
+    if(!name) {
       const requiredError = 'This field is required';
       this.setState({requiredError});
     }
@@ -41,11 +40,11 @@ class SignupScreen extends Component {
     .then(({uid}) => {
       const user = firebaseApp.auth().currentUser;
       user.updateProfile({
-        displayName: `${firstName} ${lastName}`,
+        displayName: name,
       }).then(() => {
         usersRef.child(uid).set({
           email,
-          displayName: `${firstName} ${lastName}`
+          displayName: name
         })
       }).catch((error) => {
         console.log(error);
@@ -63,21 +62,15 @@ class SignupScreen extends Component {
   }
 
   render() {
-    const {emailError, passwordError, requiredError, firstName, lastName} = this.state;
+    const {emailError, passwordError, requiredError, name} = this.state;
     return (
         <KeyboardAwareScrollView style={style.signupContainer}>
-          <FormLabel>First Name</FormLabel>
+          <FormLabel>Name</FormLabel>
           <FormInput
-            value={this.state.firstName}
-            onChangeText={firstName => this.setState({firstName})}
+            value={this.state.name}
+            onChangeText={name => this.setState({name})}
           />
-          <FormValidationMessage>{requiredError}</FormValidationMessage>
-          <FormLabel>Last Name</FormLabel>
-          <FormInput
-            value={this.state.lastName}
-            onChangeText={lastName => this.setState({lastName})}
-          />
-          <FormValidationMessage>{requiredError}</FormValidationMessage>
+          {requiredError ? <FormValidationMessage>{requiredError}</FormValidationMessage> : null}
           <FormLabel>Email</FormLabel>
           <FormInput
             value={this.state.email}
