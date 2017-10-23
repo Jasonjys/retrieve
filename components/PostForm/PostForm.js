@@ -48,7 +48,6 @@ export default class PostForm extends Component {
         categoryValue,
         description,
         foundDate,
-        img,
         location={}
       } = params.post
 
@@ -56,8 +55,8 @@ export default class PostForm extends Component {
         title,
         categoryValue: [categoryValue],
         description,
-        date: foundDate,
-        img,
+        foundDate,
+        img: params.post.img || null,
         location
       })
     }
@@ -76,7 +75,7 @@ export default class PostForm extends Component {
   }
   
   handleSave = () => {
-    const {title, description, date, img, location, categoryValue} = this.state
+    const {title, description, foundDate, img, location, categoryValue} = this.state
     const {id} = this.props.navigation.state.params.post;
 
     if(!title) {
@@ -84,7 +83,7 @@ export default class PostForm extends Component {
     } else {
       foundPostsRef.child(id).update({
         title,
-        foundDate: date,
+        foundDate,
         description,
         img,
         location,

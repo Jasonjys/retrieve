@@ -39,7 +39,7 @@ class DetailPage extends Component {
         {img ? <Image source={{url: img}} style={style.image}/> : null}
         <View style={{width: '100%'}}>
           <FormLabel labelStyle={style.title}>{title}</FormLabel>
-          <FormLabel labelStyle={style.infoLabelStyle}>Found on: {foundDate}</FormLabel>
+          <FormLabel labelStyle={style.infoLabelStyle}>Found on: {foundDate ? foundDate : 'not provided'}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Posted on: {postDate}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Category: {categoryValue ? this.generateCategory(categoryValue) : 'No Category Provided'}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Found at: {location && location.address ? location.address :'No Address Provided' }</FormLabel>
