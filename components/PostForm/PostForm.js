@@ -36,14 +36,16 @@ export default class PostForm extends Component {
 
   componentWillMount() {
     const params = this.props.navigation.state.params;
-    if (params) {
+    const { type } = params;
+    this.setState({ type });
+
+    if (params.post) {
       const {
         title,
         categoryValue,
         description,
         foundDate,
         img,
-        type,
         location={}
       } = params.post
 
@@ -53,8 +55,7 @@ export default class PostForm extends Component {
         description,
         date: foundDate,
         img,
-        location,
-        type
+        location
       })
     }
   }
