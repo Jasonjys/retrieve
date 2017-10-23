@@ -1,27 +1,34 @@
-export default function(path, parameters, callback) {
-    function encodeURI(uri, path) {
-        if (uri.match(/\/$/)) {
-            return uri + path;
-        } else{
-            return uri + "/" + path
-        }
+import encodeURI from './encodeURI';
+
+export default function(path, parameter, method, body, headers) {
+    const serverURL = 'http://ec2-35-182-227-27.ca-central-1.compute.amazonaws.com'
+    method = method || "GET";
+    body = body || {};
+    headers = headers || {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    };
+
+    const options = method === "GET" ? {
+        method: method,
+        headers: headers
+    } : {
+        method: method,
+        body: body,
+        headers: headers
     }
 
-    const serverURL = 'http://ec2-35-182-227-27.ca-central-1.compute.amazonaws.com'
-
-    fetch(encodeURI(serverURL, path), {
-        method: 'POST',
-        hearders: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(parameters)
-    })
-    .then((response) => response.json())
-    .then((responseData) => {
-        callback(responseData)
-    })
-    .catch((error) => {
-        console.log(error);
+    return new Promise((resolve, reject) => {
+        fetch(encodeURI(serverURL, path, parameter), options)
+        .then((response) => {
+            if (response.status === 200) {
+                resolve(response.json());
+            } else {
+                reject(response);
+            }
+        })
+        .catch((error) => {
+            reject(error);
+        })
     })
 }

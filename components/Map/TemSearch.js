@@ -4,22 +4,14 @@ import {FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-datepicker';
 import AutoComplete from '../AutoComplete/AutoComplete';
+import CategoryPicker from '../CategoryPicker/CategoryPicker';
 
 class TemSearch extends Component {
   state = {
-    keyword: '',
-    date: '',
-    region: {
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.100,
-      longitudeDelta: 0.0521
-    },
     currentLocationMarker: {
       latitude: 37.78825,
       longitude: -122.4324
-    },
-    location: ''
+    }
   }
 
   onEnterLocation = (location) => {
@@ -76,6 +68,10 @@ class TemSearch extends Component {
         <View style={{margin: 10}}>
           <AutoComplete defaultValue='' setLocation={this.onEnterLocation}/>
         </View>
+        <CategoryPicker
+          categoryValue={this.state.categoryValue}
+          handleOnChange={(v) => this.setState({categoryValue: v})}
+        />
         <Button title='Search' onPress={() => this.props.navigation.navigate('Map', this.state)}/>
       </KeyboardAwareScrollView>
     );

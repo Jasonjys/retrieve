@@ -16,7 +16,9 @@ class FoundPostsScreen extends Component {
       color='#e91e63'
       size={35}
       containerStyle={{marginRight: 12}}
-      onPress={() => navigation.navigate('PostForm')}
+      onPress={() => navigation.navigate('PostForm', {
+        type: "found"
+      })}
     />,
     tabBarIcon: ({tintColor}) => (
       <Image
@@ -45,11 +47,15 @@ class FoundPostsScreen extends Component {
       list: []
     });
     const {date, location, keyword, category} = this.state;
-    httpRequest("found", {date, location, keyword, category}, (post) => {
+    httpRequest("found", {date, location, keyword, category})
+    .then((response) => {
       this.setState({
         loading: false,
-        list: post
-      });
+        list: response
+      })
+    })
+    .catch((error) => {
+      console.log(error)
     })
   }
 
@@ -69,15 +75,18 @@ class FoundPostsScreen extends Component {
   }
 
   _pullToRefresh = () => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const {date, location, keyword, category} = this.state;
-      httpRequest("found", {date, location, keyword, category}, (post) => {
+      httpRequest("found", {date, location, keyword, category})
+      .then((response) => {
         this.setState({
-          loading: false,
-          list: post
+          list: response
         }, () => {
           resolve();
-        });
+        })
+      })
+      .catch((error) => {
+        reject(error);
       })
     })
   }

@@ -7,7 +7,7 @@ import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
 import {firebaseApp, usersRef, lostPostsRef, foundPostsRef} from '../../firebaseConfig'
 import CameraComponent from '../CameraComponent/CameraComponent'
-import CategoryPicker from './CategoryPicker'
+import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import moment from 'moment'
 
 export default class PostForm extends Component {
@@ -23,8 +23,6 @@ export default class PostForm extends Component {
 
   state = {
     title: '',
-    description: '',
-    date: moment().format('YYYY-MM-DD'),
     location: {
       address: '',
       geometry: {
@@ -32,16 +30,16 @@ export default class PostForm extends Component {
         lng: ''
       }
     },
-    img: '',
     categoryValue: '',
     titleErrorMessage: '',
-    type: "post"
   }
 
   componentWillMount() {
     const params = this.props.navigation.state.params;
-    const { type } = this.state;
-    if (params) {
+    const { type } = params;
+    this.setState({ type });
+
+    if (params.post) {
       const {
         title,
         categoryValue,
@@ -57,8 +55,7 @@ export default class PostForm extends Component {
         description,
         date: foundDate,
         img,
-        location,
-        type
+        location
       })
     }
   }
@@ -102,7 +99,10 @@ export default class PostForm extends Component {
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
     } else {
-      var itemsRef = type == "lost" ? lostPostRef : foundPostsRef;
+      const userId = firebaseApp.auth().currentUser.uid;
+      const user = usersRef.child(userId);
+
+      var itemsRef = type === "lost" ? lostPostRef : foundPostsRef;
       const newPostKey = foundPostsRef.push({
         title,
         foundDate: date,
@@ -110,26 +110,25 @@ export default class PostForm extends Component {
         img,
         location,
         categoryValue: categoryValue[0],
-        postDate: moment().format('YYYY-MM-DD HH:mm:ss')
+        postDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        user: userId
       }).key
 
-      const userId = firebaseApp.auth().currentUser.uid;
-      const user = usersRef.child(userId);
-
       user.once('value').then((snapshot) => {
-        const foundPosts = snapshot.val().foundPosts;
-        if (!foundPosts) {
-          user.update({
-            foundPosts: [newPostKey]
-          })
-        } else {
+        if (type === "found") {
+          const foundPosts = snapshot.val().foundPosts ? snapshot.val().foundPosts : [];
           user.update({
             foundPosts: [...foundPosts, newPostKey]
+          })
+        } else {
+          const lostPosts = snapshot.val().lostPosts ? snapshot.val().lostPosts : [];
+          user.update({
+            lostPosts: [...lostPosts, newPostKey]
           })
         }
       });
       this.setState({titleErrorMessage: ''})
-      this.props.navigation.navigate('FoundPosts')
+      this.props.navigation.goBack();
     }
   }
 
