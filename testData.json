@@ -89,7 +89,11 @@
       "postDate": "2017-10-07 13:00:30",
       "categoryValue" : "pet",
       "location" : {
-        "address" : ""
+        "address" : "",
+        "geometry" : {
+          "latitude" : "",
+          "longitude" : ""
+        }
       }
     },
     "-Kwc_ZA61MnZ6VkIV870" : {

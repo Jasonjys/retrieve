@@ -66,15 +66,17 @@ class ListComponent extends Component {
                         />
                         {this.generateCategory(item.categoryValue)}
                       </Text>
-                      <Text style={{marginTop: 10, color: 'grey'}}>
-                        <Icon
-                          name='query-builder'
-                          style={style.iconStyle}
-                          size={18}
-                          color='grey'
-                        />
-                        {item.foundDate}
-                      </Text>
+                      {item.foundDate ?
+                        <Text style={{marginTop: 10, color: 'grey'}}>
+                          <Icon
+                            name='query-builder'
+                            style={style.iconStyle}
+                            size={18}
+                            color='grey'
+                          />
+                          {item.foundDate}
+                        </Text> : null
+                      }
                       {item.location && item.location.address ?
                         <Text style={{marginTop: 10, color: 'grey'}}>
                           <Icon

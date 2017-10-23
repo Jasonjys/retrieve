@@ -12,7 +12,7 @@ import moment from 'moment'
 
 export default class PostForm extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params ? 'Edit Post' : 'New Post',
+    title: navigation.state.params.post ? 'Edit Post' : 'New Post',
     tabBarIcon: ({tintColor}) => (
       <Image
         source={require('../../assets/images/item.png')}
@@ -23,21 +23,24 @@ export default class PostForm extends Component {
 
   state = {
     title: '',
+    img: null,
     location: {
       address: '',
       geometry: {
-        lat: '',
-        lng: ''
+        latitude: '',
+        longitude: ''
       }
     },
+    foundDate: '',
+    description: '',
     categoryValue: '',
     titleErrorMessage: '',
   }
 
   componentWillMount() {
     const params = this.props.navigation.state.params;
-    const { type } = params;
-    this.setState({ type });
+    const {type} = params;
+    this.setState({type});
 
     if (params.post) {
       const {
@@ -94,7 +97,7 @@ export default class PostForm extends Component {
   }
   
   handleSubmit = () => {
-    const {title, description, date, img, location, categoryValue, type} = this.state
+    const {title, description, foundDate, img, location, categoryValue, type} = this.state
 
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
@@ -105,7 +108,7 @@ export default class PostForm extends Component {
       var itemsRef = type === "lost" ? lostPostRef : foundPostsRef;
       const newPostKey = foundPostsRef.push({
         title,
-        foundDate: date,
+        foundDate,
         description,
         img,
         location,
@@ -159,7 +162,7 @@ export default class PostForm extends Component {
         <View style={{margin: 20}}>
           <DatePicker
             style={{width: 200}}
-            date={this.state.date}
+            date={this.state.foundDate}
             mode="date"
             placeholder="select date"
             format="YYYY-MM-DD"
@@ -179,7 +182,7 @@ export default class PostForm extends Component {
                 borderBottomWidth: 2
               }
             }}
-            onDateChange={(date) => this.setState({date})}
+            onDateChange={(foundDate) => this.setState({foundDate})}
           />
         </View>
         <FormLabel>Location</FormLabel>
@@ -196,7 +199,7 @@ export default class PostForm extends Component {
         
         <CameraComponent imageUri={this.state.img} onUploadImage={this.handleUploadPicture}/>
 
-        {this.props.navigation.state.params ? 
+        {this.props.navigation.state.params.post ? 
           <Button
             title='Save'
             buttonStyle={{
