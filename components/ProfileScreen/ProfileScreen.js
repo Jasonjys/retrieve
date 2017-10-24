@@ -83,7 +83,7 @@ class ProfileScreen extends Component {
           newFoundPostsIds = [
             ...foundPosts.slice(0, index),
             ...foundPosts.slice(index + 1)
-          ].reverse()
+          ]
           usersRef.child(uid).update({
             foundPosts: newFoundPostsIds
           })
