@@ -16,7 +16,7 @@ class TemSearch extends Component {
 
   onEnterLocation = (location) => {
     this.setState({
-      region: {
+      location: {
         latitude: location.latlng.latitude,
         longitude: location.latlng.longitude,
         latitudeDelta: location.latlng.latitudeDelta,
