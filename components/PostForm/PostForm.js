@@ -102,8 +102,8 @@ export default class PostForm extends Component {
       const userId = firebaseApp.auth().currentUser.uid;
       const user = usersRef.child(userId);
 
-      var itemsRef = type === "lost" ? lostPostRef : foundPostsRef;
-      const newPostKey = foundPostsRef.push({
+      var itemsRef = type === "lost" ? lostPostsRef : foundPostsRef;
+      const newPostKey = itemsRef.push({
         title,
         foundDate,
         description,
@@ -152,7 +152,6 @@ export default class PostForm extends Component {
           containerStyle={{borderBottomWidth: 2}}
           multiline={true}
           placeholder='Found:...'
-          autoCapitalize='words'
           onChangeText={(description)=> this.setState({description})}
         />
         <FormLabel>Found Date</FormLabel>
