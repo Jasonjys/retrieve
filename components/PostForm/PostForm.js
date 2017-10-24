@@ -89,12 +89,10 @@ export default class PostForm extends Component {
         location,
         categoryValue: categoryValue[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss')
-      })
-
-      this.props.navigation.goBack()
+      }).then(() => this.props.navigation.goBack())
     } 
   }
-  
+
   handleSubmit = () => {
     const {title, description, foundDate, img, location, categoryValue, type} = this.state
 
