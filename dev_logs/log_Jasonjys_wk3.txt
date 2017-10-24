@@ -1,0 +1,9 @@
+This week I worked on:
+1. Routing makes a lot more sense now to me. Navigation starts working.
+2. Still working on facebook login.
+3. I need to get the user facebook image to show in the profile page.
+4. Unable to get facebook email from the user.
+
+Challenges:
+1. I need to make Facebook login and redirecting to work. But it is very confusing.
+2. Styling is annoying and time consuming.
