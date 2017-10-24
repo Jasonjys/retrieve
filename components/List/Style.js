@@ -9,6 +9,7 @@ export default StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
     width: '100%',
+    height: 110,
     paddingLeft: 10,
     paddingTop: 5
   },
@@ -21,7 +22,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     paddingLeft: 15,
     width: '85%',
-    height: 90
+    height: '100%'
   },
   imageStyle: {
     height: '100%',
