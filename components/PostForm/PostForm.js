@@ -75,7 +75,7 @@ export default class PostForm extends Component {
   }
   
   handleSave = () => {
-    const {title, description, foundDate, img, location, categoryValue} = this.state
+    const {title, description, foundDate, img, location, categoryValue, type} = this.state
     const {id} = this.props.navigation.state.params.post;
 
     if(!title) {
@@ -104,8 +104,8 @@ export default class PostForm extends Component {
       const userId = firebaseApp.auth().currentUser.uid;
       const user = usersRef.child(userId);
 
-      var itemsRef = type === "lost" ? lostPostRef : foundPostsRef;
-      const newPostKey = foundPostsRef.push({
+      var itemsRef = type === "lost" ? lostPostsRef : foundPostsRef;
+      const newPostKey = itemsRef.push({
         title,
         foundDate,
         description,
