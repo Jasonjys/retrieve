@@ -15,11 +15,11 @@ class Map extends Component {
       latitude: this.props.navigation.state.params.currentLocationMarker.latitude,
       longitude: this.props.navigation.state.params.currentLocationMarker.longitude
     },
-    region: {
-      latitude: this.props.navigation.state.params.region.latitude,
-      longitude: this.props.navigation.state.params.region.longitude,
-      latitudeDelta: this.props.navigation.state.params.region.latitudeDelta,
-      longitudeDelta: this.props.navigation.state.params.region.longitudeDelta
+    location: {
+      latitude: this.props.navigation.state.params.location.latitude,
+      longitude: this.props.navigation.state.params.location.longitude,
+      latitudeDelta: this.props.navigation.state.params.location.latitudeDelta,
+      longitudeDelta: this.props.navigation.state.params.location.longitudeDelta
     },
     showList: false,
     markerPress: -1,
@@ -39,8 +39,8 @@ class Map extends Component {
     })
   }
 
-  onRegionChange = (region) => {
-    this.setState({region})
+  onLocationChange = (location) => {
+    this.setState({location})
   }
 
   handleLongPress = (key) => {
@@ -48,8 +48,8 @@ class Map extends Component {
     if(this.state.list[key].location.address){
       let {latitude, longitude} = this.state.list[key].location.geometry
       this.setState({
-        region: {
-          ...this.state.region, 
+        location: {
+          ...this.state.location,
           latitude: latitude,
           longitude: longitude
         },
@@ -93,9 +93,9 @@ class Map extends Component {
       <View style={style.containerStyle}>
         <MapView
           style={{height: this.state.showList ? '55%' : '88%'}}
-          region={this.state.region}
-          onRegionChange={this.onRegionChange}
-          onRegionChangeComplete={this.onRegionChange}
+          region={this.state.location}
+          onLocationChange={this.onLocationChange}
+          onLocationChangeComplete={this.onLocationChange}
           onPress={()=>{
             if(this.state.showList){
               this.setState({showList: !this.state.showList})
