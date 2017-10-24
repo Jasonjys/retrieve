@@ -15,6 +15,12 @@ class Map extends Component {
       latitude: this.props.navigation.state.params.currentLocationMarker.latitude,
       longitude: this.props.navigation.state.params.currentLocationMarker.longitude
     },
+    region: {
+      latitude: this.props.navigation.state.params.region.latitude,
+      longitude: this.props.navigation.state.params.region.longitude,
+      latitudeDelta: this.props.navigation.state.params.region.latitudeDelta,
+      longitudeDelta: this.props.navigation.state.params.region.longitudeDelta
+    },
     showList: false,
     markerPress: -1,
     listOpenTime: 0
@@ -38,18 +44,23 @@ class Map extends Component {
   }
 
   handleLongPress = (key) => {
-    let {lat, lng} = this.state.list[key].location.geometry
-    this.setState({
-      region: {
-        ...this.state.region, 
-        latitude: lat,
-        longitude: lng
-      },
-      currentLocationMarker: {
-        latitude: lat,
-        longitude: lng
-      }
-    })
+    console.log(this.state.list[key].location.address)
+    if(this.state.list[key].location.address){
+      let {latitude, longitude} = this.state.list[key].location.geometry
+      this.setState({
+        region: {
+          ...this.state.region, 
+          latitude: latitude,
+          longitude: longitude
+        },
+        currentLocationMarker: {
+          latitude: latitude,
+          longitude: longitude
+        }
+      })
+    } else {
+      this.dropdown.alertWithType('error', '', 'This item does not provide location');
+    }
   }
   generateUnexpendList = (key) => {
     return(
