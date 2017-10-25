@@ -198,32 +198,13 @@ export default class PostForm extends Component {
         {this.props.navigation.state.params.post ? 
           <Button
             title='Save'
-            buttonStyle={{
-              backgroundColor: '#b26aed',
-              margin: 10,
-              shadowColor: '#000000',
-              borderRadius:10,
-              shadowOffset: {
-                width: 0,
-                height: 3
-              },
-              shadowRadius: 5,
-              shadowOpacity: 0.3}}
+            buttonStyle={style.buttonStyle}
             onPress={this.handleSave}
             style={{width: '100%', height: '50%'}}
-          /> : <Button
+          /> :
+          <Button
             title='Submit'
-            buttonStyle={{
-              backgroundColor: '#b26aed',
-              margin: 10,
-              shadowColor: '#000000',
-              borderRadius:10,
-              shadowOffset: {
-                width: 0,
-                height: 3
-              },
-              shadowRadius: 5,
-              shadowOpacity: 0.3}}
+            buttonStyle={style.buttonStyle}
             onPress={this.handleSubmit}
             style={{width: '100%', height: '50%'}}
           />

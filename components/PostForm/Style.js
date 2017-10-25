@@ -8,7 +8,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     height: '100%'
   },
-  submitButton: {
+  buttonStyle: {
     backgroundColor: '#b26aed',
     margin: 10,
     shadowColor: '#000000',
