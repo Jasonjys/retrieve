@@ -25,7 +25,7 @@ export default StyleSheet.create({
     height: '100%'
   },
   imageStyle: {
-    height: '100%',
+    height: 100,
     width: '30%'
   },
   iconStyle: {

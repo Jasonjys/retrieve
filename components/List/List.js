@@ -66,7 +66,7 @@ class ListComponent extends Component {
                         />
                         {this.generateCategory(item.categoryValue)}
                       </Text>
-                      {item.foundDate ?
+                      {item.date ?
                         <Text style={{marginTop: 10, color: 'grey'}}>
                           <Icon
                             name='query-builder'
@@ -74,7 +74,7 @@ class ListComponent extends Component {
                             size={18}
                             color='grey'
                           />
-                          {item.foundDate}
+                          {item.date}
                         </Text> : null
                       }
                       {item.location && item.location.address ?
