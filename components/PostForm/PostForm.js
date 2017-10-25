@@ -188,13 +188,11 @@ class PostForm extends Component {
             title='Save'
             buttonStyle={style.buttonStyle}
             onPress={this.handleSave}
-            style={{width: '100%', height: '50%'}}
           /> :
           <Button
             title='Submit'
             buttonStyle={style.buttonStyle}
             onPress={this.handleSubmit}
-            style={{width: '100%', height: '50%'}}
           />
         }
       </KeyboardAwareScrollView>
