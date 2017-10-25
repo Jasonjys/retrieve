@@ -88,7 +88,6 @@ export default class PostForm extends Component {
         img,
         location,
         categoryValue: categoryValue[0],
-        postDate: moment().format('YYYY-MM-DD HH:mm:ss')
       }).then(() => this.props.navigation.goBack())
     } 
   }
