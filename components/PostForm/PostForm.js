@@ -134,6 +134,21 @@ class PostForm extends Component {
   render() {
     return (
       <KeyboardAwareScrollView style={style.container}>
+        <FormLabel>Found Date</FormLabel>
+        <View style={{marginTop: 10, marginLeft: 20, marginRight: 20}}>
+          <DatePicker
+            style={{width: 200}}
+            date={this.state.foundDate}
+            mode="date"
+            placeholder="select date"
+            format="YYYY-MM-DD"
+            maxDate={new Date()}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={dateStyle}
+            onDateChange={(foundDate) => this.setState({foundDate})}
+          />
+        </View>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
         <FormInput
           placeholder='Enter title here...' 
@@ -154,21 +169,6 @@ class PostForm extends Component {
           autoCapitalize='words'
           onChangeText={(description)=> this.setState({description})}
         />
-        <FormLabel>Found Date</FormLabel>
-        <View style={{margin: 20}}>
-          <DatePicker
-            style={{width: 200}}
-            date={this.state.foundDate}
-            mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            maxDate={new Date()}
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={dateStyle}
-            onDateChange={(foundDate) => this.setState({foundDate})}
-          />
-        </View>
         <FormLabel>Location</FormLabel>
         <View style={{margin: 10}}>
           <AutoComplete
@@ -180,9 +180,7 @@ class PostForm extends Component {
           categoryValue={this.state.categoryValue}
           handleOnChange={(v) => this.setState({categoryValue: v})}
         />
-        
         <CameraComponent imageUri={this.state.img} onUploadImage={this.handleUploadPicture}/>
-
         {this.props.navigation.state.params.post ? 
           <Button
             title='Save'
