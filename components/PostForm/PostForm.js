@@ -1,7 +1,7 @@
 import React, {Component}from 'react'
 import {View, Image} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
-import style from './Style'
+import style, {dateStyle} from './Style'
 import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
@@ -10,7 +10,7 @@ import CameraComponent from '../CameraComponent/CameraComponent'
 import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import moment from 'moment'
 
-export default class PostForm extends Component {
+class PostForm extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.post ? 'Edit Post' : 'New Post',
     tabBarIcon: ({tintColor}) => (
@@ -165,19 +165,7 @@ export default class PostForm extends Component {
             maxDate={new Date()}
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 50,
-                borderWidth: 0,
-                borderBottomWidth: 2
-              }
-            }}
+            customStyles={dateStyle}
             onDateChange={(foundDate) => this.setState({foundDate})}
           />
         </View>
@@ -213,3 +201,5 @@ export default class PostForm extends Component {
     );
   }
 }
+
+export default PostForm;

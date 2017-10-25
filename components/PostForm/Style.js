@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 
 export default StyleSheet.create({
@@ -19,5 +19,19 @@ export default StyleSheet.create({
     },
     shadowRadius: 5,
     shadowOpacity: 0.3
-  }
+  },
 })
+
+export const dateStyle = {
+  dateIcon: {
+    position: 'absolute',
+    left: 0,
+    top: 4,
+    marginLeft: 0
+  },
+  dateInput: {
+    marginLeft: 50,
+    borderWidth: 0,
+    borderBottomWidth: 2
+  }
+}
