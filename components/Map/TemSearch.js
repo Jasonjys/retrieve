@@ -8,7 +8,9 @@ import CategoryPicker from '../CategoryPicker/CategoryPicker';
 
 class TemSearch extends Component {
   state = {
-    type: this.props.navigation.state.params.type,
+    keyword: '',
+    date: '',
+    categoryValue: '',
     currentLocationMarker: {
       latitude: 37.78825,
       longitude: -122.4324
@@ -28,6 +30,10 @@ class TemSearch extends Component {
           longitude: location.latlng.longitude
         }
     })
+  }
+
+  handleSearch = () => {
+
   }
 
   render() {

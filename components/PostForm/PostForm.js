@@ -31,7 +31,7 @@ class PostForm extends Component {
         longitude: ''
       }
     },
-    foundDate: '',
+    date: '',
     description: '',
     categoryValue: '',
     titleErrorMessage: '',
@@ -47,7 +47,7 @@ class PostForm extends Component {
         title,
         categoryValue,
         description,
-        foundDate,
+        date,
         location={}
       } = params.post
 
@@ -55,7 +55,7 @@ class PostForm extends Component {
         title,
         categoryValue: [categoryValue],
         description,
-        foundDate,
+        date,
         img: params.post.img || null,
         location
       })
@@ -75,7 +75,7 @@ class PostForm extends Component {
   }
   
   handleSave = () => {
-    const {title, description, foundDate, img, location, categoryValue} = this.state
+    const {title, description, date, img, location, categoryValue} = this.state
     const {id} = this.props.navigation.state.params.post;
 
     if(!title) {
@@ -83,7 +83,7 @@ class PostForm extends Component {
     } else {
       foundPostsRef.child(id).update({
         title,
-        foundDate,
+        date,
         description,
         img,
         location,
@@ -93,7 +93,7 @@ class PostForm extends Component {
   }
 
   handleSubmit = () => {
-    const {title, description, foundDate, img, location, categoryValue, type} = this.state
+    const {title, description, date, img, location, categoryValue, type} = this.state
 
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
@@ -102,11 +102,12 @@ class PostForm extends Component {
       const user = usersRef.child(userId);
 
       var itemsRef = type === "lost" ? lostPostsRef : foundPostsRef;
+
       const newPostKey = itemsRef.push({
         title,
-        foundDate,
         description,
         img,
+        date,
         location,
         categoryValue: categoryValue[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -132,13 +133,15 @@ class PostForm extends Component {
   }
 
   render() {
+    const {params} = this.props.navigation.state
+    const {type} = params
     return (
       <KeyboardAwareScrollView style={style.container}>
-        <FormLabel>Found Date</FormLabel>
+        <FormLabel>{type === 'found' || params.post ? 'Found Date' : 'Lost Date'}</FormLabel>
         <View style={{marginTop: 10, marginLeft: 20, marginRight: 20}}>
           <DatePicker
             style={{width: 200}}
-            date={this.state.foundDate}
+            date={this.state.date}
             mode="date"
             placeholder="select date"
             format="YYYY-MM-DD"
@@ -146,12 +149,12 @@ class PostForm extends Component {
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             customStyles={dateStyle}
-            onDateChange={(foundDate) => this.setState({foundDate})}
+            onDateChange={(date) => this.setState({date})}
           />
         </View>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
         <FormInput
-          placeholder='Enter title here...' 
+          placeholder='Enter title here...'
           containerStyle={{borderBottomWidth: 2}}
           value={this.state.title}
           onChangeText={(title)=> this.setState({title})}
@@ -159,18 +162,19 @@ class PostForm extends Component {
         <FormValidationMessage>{this.state.titleErrorMessage}</FormValidationMessage>
         <FormLabel>Description</FormLabel>
         <FormInput
+          placeholder={type === 'found' || params.post ? 'Found...' : 'Lost...'}
           multiline={true}
           numberOfLines = {4}
           value={this.state.description}
           inputStyle={{height: 80, width: '100%'}}
           containerStyle={{borderBottomWidth: 2}}
           multiline={true}
-          placeholder='Found:...'
           onChangeText={(description)=> this.setState({description})}
         />
         <FormLabel>Location</FormLabel>
         <View style={{margin: 10}}>
           <AutoComplete
+            placeholder={type === 'found' || params.post ? 'Enter found location' : 'Enter lost location'}
             defaultValue={this.state.location.address}
             setLocation={this.setLocation}
           />
@@ -180,7 +184,7 @@ class PostForm extends Component {
           handleOnChange={(v) => this.setState({categoryValue: v})}
         />
         <CameraComponent imageUri={this.state.img} onUploadImage={this.handleUploadPicture}/>
-        {this.props.navigation.state.params.post ? 
+        {params.post ? 
           <Button
             title='Save'
             buttonStyle={style.buttonStyle}
