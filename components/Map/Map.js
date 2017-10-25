@@ -27,8 +27,8 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    const {date, keyword, category, location} = this.props.navigation.state.params;
-    httpRequest("found", {date, location, keyword, category})
+    const {date, keyword, category, location, type} = this.props.navigation.state.params;
+    httpRequest(type, {date, location, keyword, category})
     .then((post) => {
       this.setState({
         list: post
