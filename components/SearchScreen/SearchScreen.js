@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-datepicker';
@@ -15,10 +15,7 @@ class Search extends Component {
     keyword: '',
     date: '',
     categoryValue: '',
-    currentLocationMarker: {
-      latitude: '',
-      longitude: ''
-    }
+    currentLocationMarker: ''
   }
 
   onEnterLocation = (location) => {
@@ -34,6 +31,15 @@ class Search extends Component {
           longitude: location.latlng.longitude
         }
     })
+  }
+
+  _onSearchPressed = () => {
+    const {location, currentLocationMarker} = this.state;
+    if (!location || !currentLocationMarker) {
+      Alert.alert("Please enter a location for searching")
+    } else {
+      this.props.navigation.navigate('Map', this.state)
+    }
   }
 
   render() {
@@ -84,7 +90,7 @@ class Search extends Component {
             handleOnChange={(v) => this.setState({categoryValue: v})}
           />
         </View>
-        <Button title='Search' onPress={() => this.props.navigation.navigate('Map', this.state)}/>
+        <Button title='Search' onPress={() => this._onSearchPressed()}/>
       </KeyboardAwareScrollView>
     );
   }
