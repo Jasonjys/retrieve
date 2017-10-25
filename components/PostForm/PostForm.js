@@ -35,6 +35,7 @@ class PostForm extends Component {
     description: '',
     categoryValue: '',
     titleErrorMessage: '',
+    categoryErrorMessage: ''
   }
 
   componentWillMount() {
@@ -78,8 +79,10 @@ class PostForm extends Component {
     const {title, description, date, img, location, categoryValue} = this.state
     const {id} = this.props.navigation.state.params.post;
 
-    if(!title) {
+    if(!title || !categoryValue) {
       this.setState({titleErrorMessage: 'Title is required!'})
+      this.setState({categoryErrorMessage: 'Category is required!'})
+      return;
     } else {
       foundPostsRef.child(id).update({
         title,
@@ -89,14 +92,16 @@ class PostForm extends Component {
         location,
         categoryValue: categoryValue[0],
       }).then(() => this.props.navigation.goBack())
-    } 
+    }
   }
 
   handleSubmit = () => {
     const {title, description, date, img, location, categoryValue, type} = this.state
 
-    if (!title) {
+    if (!title || !categoryValue) {
       this.setState({titleErrorMessage: 'Title is required!'})
+      this.setState({categoryErrorMessage: 'Category is required!'})
+      return;
     } else {
       const userId = firebaseApp.auth().currentUser.uid;
       const user = usersRef.child(userId);
@@ -134,6 +139,7 @@ class PostForm extends Component {
 
   render() {
     const {params} = this.props.navigation.state
+    const {titleErrorMessage, categoryErrorMessage} = this.state
     const {type} = params
     return (
       <KeyboardAwareScrollView style={style.container}>
@@ -159,7 +165,7 @@ class PostForm extends Component {
           value={this.state.title}
           onChangeText={(title)=> this.setState({title})}
         />
-        <FormValidationMessage>{this.state.titleErrorMessage}</FormValidationMessage>
+        {titleErrorMessage ? <FormValidationMessage>{titleErrorMessage}</FormValidationMessage> : null}
         <FormLabel>Description</FormLabel>
         <FormInput
           placeholder={type === 'found' || params.post ? 'Found...' : 'Lost...'}
@@ -183,8 +189,9 @@ class PostForm extends Component {
           categoryValue={this.state.categoryValue}
           handleOnChange={(v) => this.setState({categoryValue: v})}
         />
+        {categoryErrorMessage ? <FormValidationMessage>{categoryErrorMessage}</FormValidationMessage> : null}
         <CameraComponent imageUri={this.state.img} onUploadImage={this.handleUploadPicture}/>
-        {params.post ? 
+        {params.post ?
           <Button
             title='Save'
             buttonStyle={style.buttonStyle}
