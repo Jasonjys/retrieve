@@ -7,7 +7,9 @@ export default function(uri, path, parameter) {
 
     for (let key in parameter) {
         if (parameter[key]) {
-            var value = encodeURIComponent(JSON.stringify(parameter[key]));
+            var value = typeof(parameter[key]) === 'object' ?
+                encodeURIComponent(JSON.stringify(parameter[key])) :
+                encodeURIComponent(parameter[key]);
             var seperator = uri.indexOf('?') == -1 ? "?" : "&";
             uri = uri + seperator + key + "=" + value;
         }

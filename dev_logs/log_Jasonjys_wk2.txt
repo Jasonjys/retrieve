@@ -1,1 +1,7 @@
-design and implement pages
+This week I worked on:
+1. Design and implement different screens
+2. We discussed what the ui should look like in different pages.
+
+Challenges:
+1. Having some problem with the Facebook login
+2. Routing is not as essay as we thought

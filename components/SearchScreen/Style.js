@@ -2,7 +2,14 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   searchContainer: {
-    paddingTop: '5%',
-    width: '100%'
+    flex: 1,
+    height: '100%',
+    backgroundColor: 'white'
+  },
+  keywordInput: {
+    borderBottomWidth: 2
+  },
+  datePickerContainer: {
+    width: 200
   }
 });
