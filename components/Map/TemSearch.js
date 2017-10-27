@@ -36,6 +36,7 @@ class TemSearch extends Component {
         <FormInput
           placeholder='Enter any string here...' 
           containerStyle={{borderBottomWidth: 2}}
+          clearButtonMode= "while-editing"
           onChangeText={keyword => this.setState({keyword})}
         />
         <FormLabel>Date</FormLabel>

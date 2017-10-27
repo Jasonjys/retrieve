@@ -1,0 +1,8 @@
+This week I worked on:
+1.Add edit and remove list item functionality in the profile page.
+2.Add profile edit page so that the user can change name or the profile icon
+
+
+The challenges that I faced：
+Since the component that change the profile icon should work the same as the component that upload image in the post form page, I am 
+finding a way to make the CameraComponent reusable so that I can use it for changing the profile icon
