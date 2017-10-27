@@ -76,7 +76,7 @@ class PostForm extends Component {
   }
   
   handleSave = () => {
-    const {title, description, foundDate, img, location, categoryValue, type} = this.state
+    const {title, description, date, img, location, categoryValue, type} = this.state
     const {id} = this.props.navigation.state.params.post;
 
     if(!title || !categoryValue) {
