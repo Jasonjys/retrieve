@@ -1,57 +1,98 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, Button} from 'react-native';
-import style from './Style'
+import {Alert, View} from 'react-native';
+import {FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-elements';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import DatePicker from 'react-native-datepicker';
+import AutoComplete from '../AutoComplete/AutoComplete';
+import CategoryPicker from '../CategoryPicker/CategoryPicker';
+import style from './Style';
+import {NavigationActions} from 'react-navigation';
 
-class SearchScreen extends Component {
-  constructor(props) {
-    super(props);
-    const params = this.props.navigation.state.params;
-    const {keyword, location, date, searchUpdatedCallback} = params;
-    this.state = {
-      keyword,
-      location,
-      date
-    }
-    this.searchUpdatedCallback = searchUpdatedCallback;
+class Search extends Component {
+  state = {
+    type: this.props.navigation.state.params.type,
+    location: '',
+    keyword: '',
+    date: '',
+    categoryValue: '',
+    currentLocationMarker: ''
   }
 
-  static navigationOptions = {
-    title: 'Search',
-    tabBarVisible: false
-  };
+  onEnterLocation = (location) => {
+    this.setState({
+      location: {
+        latitude: location.latlng.latitude,
+        longitude: location.latlng.longitude,
+        latitudeDelta: location.latlng.latitudeDelta,
+        longitudeDelta: location.latlng.longitudeDelta
+       },
+       currentLocationMarker: {
+          latitude: location.latlng.latitude,
+          longitude: location.latlng.longitude
+        }
+    })
+  }
 
-  _onSearchPress = () => {
-    const {navigation} = this.props;
-    this.searchUpdatedCallback(this.state);
-    navigation.goBack();
+  _onSearchPressed = () => {
+    const {location, currentLocationMarker} = this.state;
+    if (!location || !currentLocationMarker) {
+      Alert.alert("Please enter a location for searching")
+    } else {
+      this.props.navigation.navigate('Map', this.state)
+    }
   }
 
   render() {
     return (
-      <View style={style.searchContainer}>
-        <Text>This is the search screen</Text>
-        <TextInput
-          placeholder={"Search String"}
-          onChangeText={(keyword) => this.setState({keyword})}
-          value={this.state.search_string}
+      <KeyboardAwareScrollView style={style.searchContainer}>
+        <FormLabel>Keyword</FormLabel>
+        <FormInput
+          placeholder='Enter any string here...'
+          containerStyle={style.keywordInput}
+          onChangeText={keyword => this.setState({keyword})}
         />
-        <TextInput
-          placeholder={"Search Location"}
-          onChangeText={(location) => this.setState({location})}
-          value={this.state.search_location}
-        />
-        <TextInput
-          placeholder={"Search Date"}
-          onChangeText={(date) => this.setState({date})}
-          value={this.state.search_date}
-        />
-        <Button
-          title='Search'
-          onPress={this._onSearchPress}
-        />
-      </View>
-    )
+        <FormLabel>Date</FormLabel>
+        <View style={{margin: 20}}>
+          <DatePicker
+            style={style.datePickerContainer}
+            date={this.state.date}
+            mode="date"
+            placeholder="select date"
+            format="YYYY-MM-DD"
+            maxDate={new Date()}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={{
+              dateIcon: {
+                position: 'absolute',
+                left: 0,
+                top: 4,
+                marginLeft: 0
+              },
+              dateInput: {
+                borderWidth: 0,
+                borderBottomWidth: 2
+              }
+            }}
+            onDateChange={date => this.setState({date})}
+          />
+        </View>
+        <FormLabel>Location</FormLabel>
+        <View style={{margin: 10}}>
+          <AutoComplete
+            defaultValue={this.state.location}
+            setLocation={this.onEnterLocation}
+          />
+        </View>
+        <View style={{margin: 10}}>
+          <CategoryPicker
+            categoryValue={this.state.categoryValue}
+            handleOnChange={(v) => this.setState({categoryValue: v})}
+          />
+        </View>
+        <Button title='Search' onPress={() => this._onSearchPressed()}/>
+      </KeyboardAwareScrollView>
+    );
   }
-};
-
-export default SearchScreen;
+}
+export default Search
