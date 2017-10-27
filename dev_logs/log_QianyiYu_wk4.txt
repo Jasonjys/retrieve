@@ -1,0 +1,8 @@
+This week I worked on:
+1.Fix the map layout, create bottom touchable hightlight to display the chosen item detail or the entire list
+2.Remove tag component since we don't need it anymore
+3.Add long press functionality on the list item so that user can long press the list item so that the location jump to the chosen item's marker location
+4.Add category picker on create post form so that user can choose the category of the item
+
+The challenges that I faced:
+I tried to add the image zoom functionality but all the component that I search on Google are not good enough, the animation is buggy and slow.

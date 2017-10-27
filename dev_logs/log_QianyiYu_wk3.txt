@@ -1,0 +1,8 @@
+This week I worked on:
+1.Add error message on the create post form
+2.Add more imformation on the list, such as date and address.
+3.Fix bug in map
+4.Add Bottom sheet component for displaying one of the list items detail when user long pressing it.
+
+The challengs that I faced:
+The callout in the map component that Airbnb working on is buggy, so we need to come up a way to not using the callout of the marker to show the imformation of that item detail

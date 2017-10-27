@@ -1,1 +1,6 @@
-worked on create post page and item detail imformation page
+This week I worked on:
+1. Create post page, add input fields for title, description, tags and component to upload image by using camera or choosing from the camera library.
+2. Citem detail imformation page, displaying title, description, tags and image, created mock datas for testing.
+
+The challenges that I faced:
+At first I have no idea how to upload image using expo. And then I searched a useful component on Github and spend a long time to figure it out how it actually work, finally we found a good photo upload component to use.

@@ -29,13 +29,13 @@ class ProfileContent extends Component {
 
       <View style={style.tab}>
         <TouchableOpacity onPress={this.foundTabPress}>
-          <View style={[style.tabItem, style.saperator]}>
+          <View style={[style.tabItem, {backgroundColor: '#ffc1cc'}]}>
             <Text style={style.tabFont}>Found</Text>
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={this.lostTabPress}> 
-          <View style={[style.tabItem]}>
+          <View style={[style.tabItem, {backgroundColor: '#aad1ed'}]}>
             <Text style={style.tabFont}>Lost</Text>
           </View>
         </TouchableOpacity>
