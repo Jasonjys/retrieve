@@ -92,6 +92,7 @@ class ProfileScreen extends Component {
   componentWillUnmount() {
     usersRef.off();
     foundPostsRef.off();
+    lostPostsRef.off();
   }
 
   handlePressTab = (showFoundItem) => {
