@@ -38,6 +38,6 @@
     "react-native-pull-to-refresh": "^2.1.2",
     "react-native-swipeable": "^0.6.0",
     "react-native-tab-view": "^0.0.69",
-    "react-navigation": "^1.0.0-beta.13"
+    "react-navigation": "^1.0.0-beta.15"
   }
 }
