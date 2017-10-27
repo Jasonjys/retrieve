@@ -7,7 +7,11 @@ export default StyleSheet.create({
     backgroundColor: 'white'
   },
   keywordInput: {
-    borderBottomWidth: 2
+    borderBottomWidth: 2,
+    borderBottomColor: '#b6b7ba',
+    width: '90%',
+    height: 35,
+    marginLeft: '5%'
   },
   datePickerContainer: {
     width: 200

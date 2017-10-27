@@ -1,1 +1,9 @@
-Worked on List component and Map marker, callout component
+This week I worked on:
+1.Add a Autocomplete component for location searching, enable the user can use their current location.
+2.Create Map page, the region will change to the location entered by the user.
+3.Create List component, displaying all the mock data in the list with title and description.
+
+The challengs that I faced:
+I spent a lot of time to make the region in the map sychronize with the location that user entered. Because this map component that Airbnb is working on is very strict with the layout and there are lots of bugs in this component since no one is workign on this component for a very long time,
+it become very hard to use this map component. Basically, when the region sychronizing, the style of the page is not right. If I want the page to be like what we designed, the region sycrhonizing will not work since the this component is very strict with the layout.
+So it is hard to find a way to meet our style requirement for the application and make the region synchronizing at the same time.

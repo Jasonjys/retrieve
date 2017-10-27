@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, View} from 'react-native';
+import {Alert, View, TextInput} from 'react-native';
 import {FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-datepicker';
@@ -50,9 +50,11 @@ class Search extends Component {
     return (
       <KeyboardAwareScrollView style={style.searchContainer}>
         <FormLabel>Keyword</FormLabel>
-        <FormInput
+        <TextInput
+          clearButtonMode="while-editing"
           placeholder='Enter any string here...'
-          containerStyle={style.keywordInput}
+          style={style.keywordInput}
+          clearButtonMode= "while-editing"
           onChangeText={keyword => this.setState({keyword})}
         />
         <FormLabel>Date</FormLabel>

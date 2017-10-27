@@ -57,18 +57,16 @@ export default StyleSheet.create({
     backgroundColor: "lightgrey",
     flexDirection: 'row',
   },
-  saperator: {
-    borderRightWidth: 1
-  },
   tabItem: {
     flex: 1,
     padding: 15,
-    width: 190
-    
+    width: 190 
   },
   tabFont: {
     fontStyle: 'italic',
     fontSize: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold'
   }
 })

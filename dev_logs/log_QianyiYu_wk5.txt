@@ -1,0 +1,9 @@
+This week I worked on:
+1.Fix the category picker bug
+2.Fix the style of the swipe list in the profile page
+3.Seperate all the style from the component into a single file
+
+
+The challenges that I faced:
+I am working to adding edit and remove list item functionality in the user profile page, there is one bug I am fixing, which is when user swipe a list item to left it will show two buttons on the right,
+and if he swipe the other list item, the previous buttons should hide, it seems like a bug in this component, still working on it.

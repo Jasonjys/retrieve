@@ -1,5 +1,5 @@
 import React, {Component}from 'react'
-import {View, Image} from 'react-native'
+import {View, Image, TextInput} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import style, {dateStyle} from './Style'
 import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-elements'
@@ -158,22 +158,22 @@ class PostForm extends Component {
           />
         </View>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
-        <FormInput
+        <TextInput
           placeholder='Enter title here...'
-          containerStyle={{borderBottomWidth: 2}}
           value={this.state.title}
+          style={style.input}
+          clearButtonMode= "while-editing"
           onChangeText={(title)=> this.setState({title})}
         />
         {titleErrorMessage ? <FormValidationMessage>{titleErrorMessage}</FormValidationMessage> : null}
         <FormLabel>Description</FormLabel>
-        <FormInput
-          placeholder={type === 'found' || params.post ? 'Found...' : 'Lost...'}
+        <TextInput
           multiline={true}
           numberOfLines = {4}
           value={this.state.description}
-          inputStyle={{height: 80, width: '100%'}}
-          containerStyle={{borderBottomWidth: 2}}
-          multiline={true}
+          placeholder={type === 'found' || params.post ? 'Found...' : 'Lost...'}
+          style={[style.input, {height: 80}]}
+          clearButtonMode= "while-editing"
           onChangeText={(description)=> this.setState({description})}
         />
         <FormLabel>Location</FormLabel>
