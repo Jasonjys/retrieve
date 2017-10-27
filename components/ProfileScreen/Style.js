@@ -56,11 +56,12 @@ export default StyleSheet.create({
   tab: {
     backgroundColor: "lightgrey",
     flexDirection: 'row',
+    height: '10%',
+    width: '100%'
   },
   tabItem: {
-    flex: 1,
     padding: 15,
-    width: 190 
+    height: '100%'
   },
   tabFont: {
     fontStyle: 'italic',
