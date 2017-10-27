@@ -33,7 +33,7 @@ class DetailPage extends Component {
     }
   }
   render() {
-    let {title, img, description, foundDate, location, categoryValue, postDate} = this.props.navigation.state.params
+    let {title, img, description, foundDate, location, categoryValue, postDate, posterName} = this.props.navigation.state.params
     return (
       <ScrollView contentContainerStyle={style.container}>
         {img ? <Image source={{url: img}} style={style.image}/> : null}
@@ -44,6 +44,7 @@ class DetailPage extends Component {
           <FormLabel labelStyle={style.infoLabelStyle}>Category: {categoryValue ? this.generateCategory(categoryValue) : 'No Category Provided'}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Found at: {location && location.address ? location.address :'No Address Provided' }</FormLabel>
           <FormLabel labelStyle={style.desStyle}>{description ? description : 'No Description'}</FormLabel>
+          <FormLabel labelStyle={style.posterStyle}> Posted by: {posterName} </FormLabel>
         </View>
       </ScrollView>
     );

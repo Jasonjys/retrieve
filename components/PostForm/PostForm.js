@@ -98,6 +98,7 @@ export default class PostForm extends Component {
 
     if (!title) {
       this.setState({titleErrorMessage: 'Title is required!'})
+      //console.log(firebaseApp.auth().currentUser.displayName)
     } else {
       const userId = firebaseApp.auth().currentUser.uid;
       const user = usersRef.child(userId);
@@ -111,6 +112,7 @@ export default class PostForm extends Component {
         location,
         categoryValue: categoryValue[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        posterName: firebaseApp.auth().currentUser.displayName,
         user: userId
       }).key
 

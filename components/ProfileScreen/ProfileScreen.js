@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Image} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
-import {firebaseApp, usersRef, foundPostsRef} from '../../firebaseConfig';
+import {firebaseApp, usersRef, foundPostsRef, lostPostsRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
 import ProfileConTent from './ProfileContent';
 import {Modal} from 'antd-mobile';
@@ -34,6 +34,7 @@ class ProfileScreen extends Component {
   state = {
     userInfo: null,
     foundPosts: [],
+    lostPosts: [],
     counterItem1: 0,
     counterItem2: 0
   }
@@ -55,6 +56,21 @@ class ProfileScreen extends Component {
             }
           })
           this.setState({foundPosts})
+        }
+      })
+    })
+
+    usersRef.child(uid).child('lostPosts').on('value', (lostPostsIds) => {
+      lostPostsRef.on('value', (lostPostsRef) => {
+        let lostPosts = [];
+        if (lostPostsIds.val()) {
+          lostPostsIds.val().map((id) => {
+            if (lostPostsRef.val()[id]) {
+              const foundPost = {...lostPostsRef.val()[id], id: id}
+              lostPosts.unshift(lostPosts)
+            }
+          })
+          this.setState({lostPosts})
         }
       })
     })
@@ -119,6 +135,7 @@ class ProfileScreen extends Component {
         <ProfileConTent
           navigation={this.props.navigation}
           foundPosts={this.state.foundPosts}
+          lostPosts={this.state.lostPosts}
           onDelete={this.handleDeletePost}
           onEdit={this.handleEditPost}
         />

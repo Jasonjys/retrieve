@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { ActivityIndicator } from 'antd-mobile';
 import List from '../List/List';
-import { foundPostsRef } from '../../firebaseConfig';
+import { lostPostsRef } from '../../firebaseConfig';
 import httpRequest from '../../library/httpRequest';
 import style from './Style';
 import PTRView from 'react-native-pull-to-refresh';
