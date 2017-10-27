@@ -33,8 +33,8 @@ class ListComponent extends Component {
       case 'bag':
         return 'Bag'
         break;
-      case 'other':
-        return 'Other'
+      case 'others':
+        return 'Others'
         break;
     }
   }

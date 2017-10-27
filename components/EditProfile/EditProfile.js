@@ -9,8 +9,9 @@ import style from './Style'
 class EditProfile extends Component {
   state = {
     name: this.props.navigation.state.params.displayName,
-    url: this.props.navigation.state.params.photoURL,
-    phoneNumber: this.props.navigation.state.params.phoneNumber
+    email: this.props.navigation.state.params.email,
+    url: this.props.navigation.state.params.photoURL || '',
+    phoneNumber: this.props.navigation.state.params.phoneNumber || ''
   }
 
   handleUploadPicture = (url) => {
@@ -18,26 +19,28 @@ class EditProfile extends Component {
   }
   handleSave = () =>{
     const user = firebaseApp.auth().currentUser
+    const {uid} = user
     user.updateProfile({
       displayName: this.state.name,
       photoURL: this.state.url,
-      phoneNumber: this.state.phoneNumber
+      phoneNumber: this.state.phoneNumber,
+      email: this.state.email
     }).then(() => {
-      const {uid} = firebaseApp.auth().currentUser
       usersRef.child(uid).update({
         displayName: this.state.name,
         photoURL: this.state.url,
-        phoneNumber: this.state.phoneNumber
+        phoneNumber: this.state.phoneNumber,
+        email: this.state.email
       }).then(() => {
         this.props.navigation.goBack()
       })
     }).catch((error) => {
       // An error happened.
+      console.log(error)
     });
   }
 
   render() {
-    console.log(this.props.navigation.state.params)
     const image = this.state.url ? <Image style={style.IconStyle} source={{uri: this.state.url}}/>
     : <Image style={style.IconStyle} source={require('../../assets/images/user.png')}/>
     return (
@@ -51,6 +54,8 @@ class EditProfile extends Component {
           <FormInput value={this.state.name} onChangeText={(name)=> this.setState({name})}/>
         <FormLabel>Phone Number</FormLabel>
           <FormInput value={this.state.phoneNumber}/>
+        <FormLabel>Email</FormLabel>
+          <FormInput value={this.state.email} onChangeText={(email)=> this.setState({email})}/>
           <Button
             title='Save'
             fontWeight='bold'

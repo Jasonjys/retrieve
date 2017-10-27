@@ -7,7 +7,7 @@ import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
 import {firebaseApp, usersRef, lostPostsRef, foundPostsRef} from '../../firebaseConfig'
 import CameraComponent from '../CameraComponent/CameraComponent'
-import CategoryPicker from '../CategoryPicker/CategoryPicker';
+import CategoryPicker from '../CategoryPicker/CategoryPicker'
 import moment from 'moment'
 
 class PostForm extends Component {
@@ -76,7 +76,7 @@ class PostForm extends Component {
   }
   
   handleSave = () => {
-    const {title, description, date, img, location, categoryValue} = this.state
+    const {title, description, foundDate, img, location, categoryValue, type} = this.state
     const {id} = this.props.navigation.state.params.post;
 
     if(!title || !categoryValue) {
@@ -107,7 +107,6 @@ class PostForm extends Component {
       const user = usersRef.child(userId);
 
       var itemsRef = type === "lost" ? lostPostsRef : foundPostsRef;
-
       const newPostKey = itemsRef.push({
         title,
         description,
@@ -116,6 +115,7 @@ class PostForm extends Component {
         location,
         categoryValue: categoryValue[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        posterName: firebaseApp.auth().currentUser.displayName,
         user: userId
       }).key
 
@@ -132,7 +132,6 @@ class PostForm extends Component {
           })
         }
       });
-      this.setState({titleErrorMessage: ''})
       this.props.navigation.goBack();
     }
   }

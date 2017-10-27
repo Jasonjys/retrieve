@@ -52,5 +52,21 @@ export default StyleSheet.create({
   contentContainerStyle: {
     height: '100%',
     width: '100%'
+  },
+  tab: {
+    backgroundColor: "lightgrey",
+    flexDirection: 'row',
+  },
+  tabItem: {
+    flex: 1,
+    padding: 15,
+    width: 190 
+  },
+  tabFont: {
+    fontStyle: 'italic',
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold'
   }
 })
