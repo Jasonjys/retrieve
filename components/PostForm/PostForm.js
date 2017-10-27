@@ -116,6 +116,7 @@ class PostForm extends Component {
         categoryValue: categoryValue[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss'),
         posterName: firebaseApp.auth().currentUser.displayName,
+        email: firebaseApp.auth().currentUser.email,
         user: userId
       }).key
 
