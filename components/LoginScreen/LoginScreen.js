@@ -73,13 +73,14 @@ class LoginScreen extends Component {
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
         // Sign in with credential from the Facebook user.
         firebaseApp.auth().signInWithCredential(credential)
-        .then(({uid, email, displayName}) => {
+        .then(({uid, email, displayName, photoURL}) => {
           usersRef.once('value').then((users) => {
             const existUser = users.val()[uid];
             if (!existUser) {
               usersRef.child(`${uid}`).set({
                 email,
-                displayName
+                displayName,
+                photoURL
               });
             }
           })

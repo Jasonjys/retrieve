@@ -27,8 +27,8 @@ class CategoryPicker extends Component {
         label: 'Bag',
         value: 'bag'
       }, {
-        label: 'Other',
-        value: 'other'
+        label: 'Others',
+        value: 'others'
       }
     ]
     return data

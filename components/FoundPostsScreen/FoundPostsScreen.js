@@ -29,9 +29,9 @@ class FoundPostsScreen extends Component {
   });
 
   state = {
+    type: 'found',
     loading: true,
-    list: [],
-    type: 'found'
+    list: []
   }
 
   componentDidMount() {
