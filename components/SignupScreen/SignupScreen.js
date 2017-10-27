@@ -68,20 +68,20 @@ class SignupScreen extends Component {
           <FormLabel>Name</FormLabel>
           <FormInput
             value={this.state.name}
-            onChangeText={name => this.setState({name})}
+            onChangeText={name => this.setState({name, requiredError: ''})}
           />
           {requiredError ? <FormValidationMessage>{requiredError}</FormValidationMessage> : null}
           <FormLabel>Email</FormLabel>
           <FormInput
             value={this.state.email}
-            onChangeText={email => this.setState({email})}
+            onChangeText={email => this.setState({email, emailError: ''})}
           />
           {emailError ? <FormValidationMessage>{emailError}</FormValidationMessage> : null}
           <FormLabel>Password</FormLabel>
           <FormInput
             secureTextEntry={true}
             value={this.state.password}
-            onChangeText={password => {this.setState({password})}}
+            onChangeText={password => {this.setState({password, passwordError: ''})}}
           />
           {passwordError ? <FormValidationMessage>{passwordError}</FormValidationMessage> : null}
           <View style={style.buttonContainer}>

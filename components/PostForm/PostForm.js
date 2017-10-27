@@ -1,7 +1,7 @@
 import React, {Component}from 'react'
 import {View, Image} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
-import style from './Style'
+import style, {dateStyle} from './Style'
 import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
@@ -10,7 +10,7 @@ import CameraComponent from '../CameraComponent/CameraComponent'
 import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import moment from 'moment'
 
-export default class PostForm extends Component {
+class PostForm extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.post ? 'Edit Post' : 'New Post',
     tabBarIcon: ({tintColor}) => (
@@ -31,10 +31,11 @@ export default class PostForm extends Component {
         longitude: ''
       }
     },
-    foundDate: '',
+    date: '',
     description: '',
     categoryValue: '',
     titleErrorMessage: '',
+    categoryErrorMessage: ''
   }
 
   componentWillMount() {
@@ -47,7 +48,7 @@ export default class PostForm extends Component {
         title,
         categoryValue,
         description,
-        foundDate,
+        date,
         location={}
       } = params.post
 
@@ -55,7 +56,7 @@ export default class PostForm extends Component {
         title,
         categoryValue: [categoryValue],
         description,
-        foundDate,
+        date,
         img: params.post.img || null,
         location
       })
@@ -75,41 +76,43 @@ export default class PostForm extends Component {
   }
   
   handleSave = () => {
-    const {title, description, foundDate, img, location, categoryValue} = this.state
+    const {title, description, date, img, location, categoryValue} = this.state
     const {id} = this.props.navigation.state.params.post;
 
-    if(!title) {
+    if(!title || !categoryValue) {
       this.setState({titleErrorMessage: 'Title is required!'})
+      this.setState({categoryErrorMessage: 'Category is required!'})
+      return;
     } else {
       foundPostsRef.child(id).update({
         title,
-        foundDate,
+        date,
         description,
         img,
         location,
         categoryValue: categoryValue[0],
-        postDate: moment().format('YYYY-MM-DD HH:mm:ss')
-      })
-
-      this.props.navigation.goBack()
-    } 
+      }).then(() => this.props.navigation.goBack())
+    }
   }
-  
-  handleSubmit = () => {
-    const {title, description, foundDate, img, location, categoryValue, type} = this.state
 
-    if (!title) {
+  handleSubmit = () => {
+    const {title, description, date, img, location, categoryValue, type} = this.state
+
+    if (!title || !categoryValue) {
       this.setState({titleErrorMessage: 'Title is required!'})
+      this.setState({categoryErrorMessage: 'Category is required!'})
+      return;
     } else {
       const userId = firebaseApp.auth().currentUser.uid;
       const user = usersRef.child(userId);
 
-      var itemsRef = type === "lost" ? lostPostRef : foundPostsRef;
-      const newPostKey = foundPostsRef.push({
+      var itemsRef = type === "lost" ? lostPostsRef : foundPostsRef;
+
+      const newPostKey = itemsRef.push({
         title,
-        foundDate,
         description,
         img,
+        date,
         location,
         categoryValue: categoryValue[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -135,58 +138,49 @@ export default class PostForm extends Component {
   }
 
   render() {
+    const {params} = this.props.navigation.state
+    const {titleErrorMessage, categoryErrorMessage} = this.state
+    const {type} = params
     return (
       <KeyboardAwareScrollView style={style.container}>
-        <FormLabel style={{marginTop: 10}}>Title</FormLabel>
-        <FormInput
-          placeholder='Enter title here...' 
-          containerStyle={{borderBottomWidth: 2}}
-          value={this.state.title}
-          onChangeText={(title)=> this.setState({title})}
-        />
-        <FormValidationMessage>{this.state.titleErrorMessage}</FormValidationMessage>
-        <FormLabel>Description</FormLabel>
-        <FormInput
-          multiline={true}
-          numberOfLines = {4}
-          value={this.state.description}
-          inputStyle={{height: 80, width: '100%'}}
-          containerStyle={{borderBottomWidth: 2}}
-          multiline={true}
-          placeholder='Found:...'
-          autoCapitalize='words'
-          onChangeText={(description)=> this.setState({description})}
-        />
-        <FormLabel>Found Date</FormLabel>
-        <View style={{margin: 20}}>
+        <FormLabel>{type === 'found' || params.post ? 'Found Date' : 'Lost Date'}</FormLabel>
+        <View style={{marginTop: 10, marginLeft: 20, marginRight: 20}}>
           <DatePicker
             style={{width: 200}}
-            date={this.state.foundDate}
+            date={this.state.date}
             mode="date"
             placeholder="select date"
             format="YYYY-MM-DD"
             maxDate={new Date()}
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 50,
-                borderWidth: 0,
-                borderBottomWidth: 2
-              }
-            }}
-            onDateChange={(foundDate) => this.setState({foundDate})}
+            customStyles={dateStyle}
+            onDateChange={(date) => this.setState({date})}
           />
         </View>
+        <FormLabel style={{marginTop: 10}}>Title</FormLabel>
+        <FormInput
+          placeholder='Enter title here...'
+          containerStyle={{borderBottomWidth: 2}}
+          value={this.state.title}
+          onChangeText={(title)=> this.setState({title})}
+        />
+        {titleErrorMessage ? <FormValidationMessage>{titleErrorMessage}</FormValidationMessage> : null}
+        <FormLabel>Description</FormLabel>
+        <FormInput
+          placeholder={type === 'found' || params.post ? 'Found...' : 'Lost...'}
+          multiline={true}
+          numberOfLines = {4}
+          value={this.state.description}
+          inputStyle={{height: 80, width: '100%'}}
+          containerStyle={{borderBottomWidth: 2}}
+          multiline={true}
+          onChangeText={(description)=> this.setState({description})}
+        />
         <FormLabel>Location</FormLabel>
         <View style={{margin: 10}}>
           <AutoComplete
+            placeholder={type === 'found' || params.post ? 'Enter found location' : 'Enter lost location'}
             defaultValue={this.state.location.address}
             setLocation={this.setLocation}
           />
@@ -195,43 +189,23 @@ export default class PostForm extends Component {
           categoryValue={this.state.categoryValue}
           handleOnChange={(v) => this.setState({categoryValue: v})}
         />
-        
+        {categoryErrorMessage ? <FormValidationMessage>{categoryErrorMessage}</FormValidationMessage> : null}
         <CameraComponent imageUri={this.state.img} onUploadImage={this.handleUploadPicture}/>
-
-        {this.props.navigation.state.params.post ? 
+        {params.post ?
           <Button
             title='Save'
-            buttonStyle={{
-              backgroundColor: '#b26aed',
-              margin: 10,
-              shadowColor: '#000000',
-              borderRadius:10,
-              shadowOffset: {
-                width: 0,
-                height: 3
-              },
-              shadowRadius: 5,
-              shadowOpacity: 0.3}}
+            buttonStyle={style.buttonStyle}
             onPress={this.handleSave}
-            style={{width: '100%', height: '50%'}}
-          /> : <Button
+          /> :
+          <Button
             title='Submit'
-            buttonStyle={{
-              backgroundColor: '#b26aed',
-              margin: 10,
-              shadowColor: '#000000',
-              borderRadius:10,
-              shadowOffset: {
-                width: 0,
-                height: 3
-              },
-              shadowRadius: 5,
-              shadowOpacity: 0.3}}
+            buttonStyle={style.buttonStyle}
             onPress={this.handleSubmit}
-            style={{width: '100%', height: '50%'}}
           />
         }
       </KeyboardAwareScrollView>
     );
   }
 }
+
+export default PostForm;

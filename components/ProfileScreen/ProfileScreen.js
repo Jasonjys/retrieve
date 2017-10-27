@@ -8,6 +8,7 @@ import ProfileConTent from './ProfileContent';
 import {Modal} from 'antd-mobile';
 import style from './Style';
 import httpRequest from '../../library/httpRequest';
+import moment from 'moment'
 
 
 class ProfileScreen extends Component {
@@ -51,8 +52,11 @@ class ProfileScreen extends Component {
           foundPostsIds.val().map((id) => {
             if (foundPostsRef.val()[id]) {
               const foundPost = {...foundPostsRef.val()[id], id: id}
-              foundPosts.unshift(foundPost)
+              foundPosts.push(foundPost)
             }
+          })
+          foundPosts.sort((a,b) => {
+            return moment(b.postDate) - moment(a.postDate)
           })
           this.setState({foundPosts})
         }
@@ -78,16 +82,17 @@ class ProfileScreen extends Component {
         foundPostsRef.child(id).remove();
         const {uid} = firebaseApp.auth().currentUser;
         let newFoundPostsIds = []
-        usersRef.child(uid).once('value').then((user) => {
-          const foundPosts = user.val().foundPosts;
-          newFoundPostsIds = [
-            ...foundPosts.slice(0, index),
-            ...foundPosts.slice(index + 1)
-          ].reverse()
-          usersRef.child(uid).update({
-            foundPosts: newFoundPostsIds
-          })
+        const foundPostsIds = this.state.foundPosts.map((post) => {
+          return post.id
         });
+
+        newFoundPostsIds = [
+          ...foundPostsIds.slice(0, index),
+          ...foundPostsIds.slice(index + 1)
+        ]
+        usersRef.child(uid).update({
+          foundPosts: newFoundPostsIds
+        })
       } },
     ])
   }

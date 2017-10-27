@@ -5,10 +5,9 @@ import ProfileScreen from './components/ProfileScreen/ProfileScreen';
 import FoundPostsScreen from './components/FoundPostsScreen/FoundPostsScreen';
 import LostPostsScreen from './components/LostPostsScreen/LostPostsScreen';
 import PostFormScreen from './components/PostForm/PostForm';
-import SearchScreen from './components/SearchScreen/SearchScreen';
 import MapScreen from './components/Map/Map';
 import DetailsScreen from './components/DetailPage/DetailPage';
-import TemSearchScreen from './components/Map/TemSearch';
+import SearchScreen from './components/SearchScreen/SearchScreen';
 import EditProfileScreen from './components/EditProfile/EditProfile';
 
 const Tabs = TabNavigator({
@@ -38,6 +37,5 @@ export default StackNavigator({
   Map: {screen: MapScreen},
   Search: {screen: SearchScreen},
   Details: {screen: DetailsScreen},
-  TemSearch: {screen: TemSearchScreen},
   EditProfile: {screen: EditProfileScreen}
 });

@@ -31,10 +31,7 @@ class FoundPostsScreen extends Component {
   state = {
     loading: true,
     list: [],
-    keyword: '',
-    location: '',
-    date: '',
-    category: ''
+    type: 'found'
   }
 
   componentDidMount() {
@@ -42,12 +39,7 @@ class FoundPostsScreen extends Component {
   }
 
   refreshPostlist = () => {
-    this.setState({
-      loading: true,
-      list: []
-    });
-    const {date, location, keyword, category} = this.state;
-    httpRequest("found", {date, location, keyword, category})
+    httpRequest("found", {})
     .then((response) => {
       this.setState({
         loading: false,
@@ -59,54 +51,6 @@ class FoundPostsScreen extends Component {
     })
   }
 
-  searchUpdatedCallback = (newState) => {
-    const {
-      keyword,
-      location,
-      date
-    } = newState;
-    this.setState({
-      keyword,
-      location,
-      date
-    }, () => {
-      this.refreshPostlist();
-    });
-  }
-
-  _pullToRefresh = () => {
-    return new Promise((resolve, reject) => {
-      const {date, location, keyword, category} = this.state;
-      httpRequest("found", {date, location, keyword, category})
-      .then((response) => {
-        this.setState({
-          list: response
-        }, () => {
-          resolve();
-        })
-      })
-      .catch((error) => {
-        reject(error);
-      })
-    })
-  }
-
-  _onSearchPress = () => {
-    const {navigate} = this.props.navigation;
-    const {
-      navigation,
-      keyword,
-      date,
-      location,
-    } = this.state;
-    navigate('Search', {
-      keyword,
-      date,
-      location,
-      searchUpdatedCallback: this.searchUpdatedCallback
-    })
-  };
-
   render() {
     const {navigate} = this.props.navigation;
     const loadingOrList = this.state.loading 
@@ -114,7 +58,7 @@ class FoundPostsScreen extends Component {
           <ActivityIndicator animating text='Fetching Items'/>
         </View>
       : <PTRView
-          onRefresh={this._pullToRefresh}
+          onRefresh={this.refreshPostlist}
           offset={65}
         >
           <List navigate={navigate} list={this.state.list} />
@@ -129,7 +73,9 @@ class FoundPostsScreen extends Component {
           fontWeight={'500'}
           containerViewStyle={style.buttonContainer}
           buttonStyle={style.buttonStyle}
-          onPress={() => this.props.navigation.navigate('TemSearch')}
+          onPress={() => this.props.navigation.navigate('Search', {
+            type: this.state.type
+          })}
           borderRadius={50}
         />
         {loadingOrList}
