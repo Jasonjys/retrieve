@@ -9,7 +9,7 @@ import style from './Style'
 class EditProfile extends Component {
   state = {
     name: this.props.navigation.state.params.displayName,
-    email: this.props.navigation.state.params.email
+    email: this.props.navigation.state.params.email,
     url: this.props.navigation.state.params.photoURL || '',
     phoneNumber: this.props.navigation.state.params.phoneNumber || ''
   }
