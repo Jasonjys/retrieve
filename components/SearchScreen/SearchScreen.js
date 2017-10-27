@@ -15,7 +15,8 @@ class Search extends Component {
     keyword: '',
     date: '',
     categoryValue: '',
-    currentLocationMarker: ''
+    currentLocationMarker: '',
+    requiredError: ''
   }
 
   onEnterLocation = (location) => {
@@ -25,24 +26,27 @@ class Search extends Component {
         longitude: location.latlng.longitude,
         latitudeDelta: location.latlng.latitudeDelta,
         longitudeDelta: location.latlng.longitudeDelta
-       },
-       currentLocationMarker: {
-          latitude: location.latlng.latitude,
-          longitude: location.latlng.longitude
-        }
+      },
+      currentLocationMarker: {
+        latitude: location.latlng.latitude,
+        longitude: location.latlng.longitude
+      },
+      requiredError: ''
     })
   }
 
   _onSearchPressed = () => {
     const {location, currentLocationMarker} = this.state;
     if (!location || !currentLocationMarker) {
-      Alert.alert("Please enter a location for searching")
-    } else {
-      this.props.navigation.navigate('Map', this.state)
+      const requiredError = 'Location is required';
+      this.setState({requiredError});
+      return 
     }
+    this.props.navigation.navigate('Map', this.state)
   }
 
   render() {
+    const {date, location, categoryValue, requiredError} = this.state;
     return (
       <KeyboardAwareScrollView style={style.searchContainer}>
         <FormLabel>Keyword</FormLabel>
@@ -55,7 +59,7 @@ class Search extends Component {
         <View style={{margin: 20}}>
           <DatePicker
             style={style.datePickerContainer}
-            date={this.state.date}
+            date={date}
             mode="date"
             placeholder="select date"
             format="YYYY-MM-DD"
@@ -80,13 +84,14 @@ class Search extends Component {
         <FormLabel>Location</FormLabel>
         <View style={{margin: 10}}>
           <AutoComplete
-            defaultValue={this.state.location}
+            defaultValue={location}
             setLocation={this.onEnterLocation}
           />
         </View>
+        {requiredError ? <FormValidationMessage>{requiredError}</FormValidationMessage> : null}
         <View style={{margin: 10}}>
           <CategoryPicker
-            categoryValue={this.state.categoryValue}
+            categoryValue={categoryValue}
             handleOnChange={(v) => this.setState({categoryValue: v})}
           />
         </View>
