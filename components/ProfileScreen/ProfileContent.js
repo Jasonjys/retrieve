@@ -15,6 +15,7 @@ class ProfileContent extends Component {
 
   lostTabPress = () => {
     this.setState({items: this.props.lostPosts})
+    console.log(this.state.items)
   }
 
   componentWillMount () {
@@ -22,7 +23,6 @@ class ProfileContent extends Component {
   }
 
   render() {
-    console.log(this.state.items)
     const { navigate } = this.props.navigation
     return (
       <ScrollView style={[style.contentContainerStyle, { backgroundColor: 'white' }]}>

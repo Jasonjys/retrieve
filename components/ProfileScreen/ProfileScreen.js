@@ -73,9 +73,12 @@ class ProfileScreen extends Component {
         if (lostPostsIds.val()) {
           lostPostsIds.val().map((id) => {
             if (lostPostsRef.val()[id]) {
-              const foundPost = {...lostPostsRef.val()[id], id: id}
-              lostPosts.unshift(lostPosts)
+              const lostPost = {...lostPostsRef.val()[id], id: id}
+              lostPosts.push(lostPost)
             }
+          })
+          lostPosts.sort((a,b) => {
+            return moment(b.postDate) - moment(a.postDate)
           })
           this.setState({lostPosts})
         }
