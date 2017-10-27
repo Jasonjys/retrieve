@@ -20,6 +20,13 @@ export default StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 0.3
   },
+  input: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#b6b7ba',
+    width: '90%',
+    height: 35,
+    marginLeft: '5%'
+  },
 })
 
 export const dateStyle = {

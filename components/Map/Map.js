@@ -116,6 +116,11 @@ class Map extends Component {
                 e.stopPropagation()
                 this.setState({
                   markerPress: key,
+                  location: {
+                    ...this.state.location,
+                    latitude: item.location.geometry.latitude,
+                    longitude: item.location.geometry.longitude
+                  },
                   showList: false})
               }}
             /> : null
