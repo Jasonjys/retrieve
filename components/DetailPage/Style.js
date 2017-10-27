@@ -32,5 +32,10 @@ export default StyleSheet.create({
   infoLabelStyle: {
     fontSize: 13,
     marginBottom: -10
+  },
+  posterStyle: {
+    fontSize: 12,
+    fontWeight: '200',
+    fontStyle: 'italic'
   }
 });

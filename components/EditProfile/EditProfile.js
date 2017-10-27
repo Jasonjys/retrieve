@@ -9,6 +9,7 @@ import style from './Style'
 class EditProfile extends Component {
   state = {
     name: this.props.navigation.state.params.displayName,
+    email: this.props.navigation.state.params.email
     url: this.props.navigation.state.params.photoURL || '',
     phoneNumber: this.props.navigation.state.params.phoneNumber || ''
   }
@@ -22,12 +23,14 @@ class EditProfile extends Component {
     user.updateProfile({
       displayName: this.state.name,
       photoURL: this.state.url,
-      phoneNumber: this.state.phoneNumber
+      phoneNumber: this.state.phoneNumber,
+      email: this.state.email
     }).then(() => {
       usersRef.child(uid).update({
         displayName: this.state.name,
         photoURL: this.state.url,
-        phoneNumber: this.state.phoneNumber
+        phoneNumber: this.state.phoneNumber,
+        email: this.state.email
       }).then(() => {
         this.props.navigation.goBack()
       })
@@ -51,6 +54,8 @@ class EditProfile extends Component {
           <FormInput value={this.state.name} onChangeText={(name)=> this.setState({name})}/>
         <FormLabel>Phone Number</FormLabel>
           <FormInput value={this.state.phoneNumber}/>
+        <FormLabel>Email</FormLabel>
+          <FormInput value={this.state.email} onChangeText={(email)=> this.setState({email})}/>
           <Button
             title='Save'
             fontWeight='bold'
