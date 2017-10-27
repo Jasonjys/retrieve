@@ -37,8 +37,6 @@ class ProfileScreen extends Component {
     userInfo: null,
     foundPosts: [],
     lostPosts: [],
-    counterItem1: 0,
-    counterItem2: 0,
     showFoundItem: true
   }
   componentWillMount() {
