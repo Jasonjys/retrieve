@@ -42,10 +42,6 @@ class LostPostsScreen extends Component {
   }
 
   refreshPostlist = () => {
-    this.setState({
-      loading: true,
-      list: []
-    });
     const {date, location, keyword, category} = this.state;
     httpRequest("lost", {date, location, keyword, category})
     .then((response) => {
@@ -59,55 +55,6 @@ class LostPostsScreen extends Component {
     })
   }
 
-  searchUpdatedCallback = (newState) => {
-    const {
-      keyword,
-      location,
-      date
-    } = newState;
-    this.setState({
-      keyword,
-      location,
-      date
-    }, () => {
-      this.refreshPostlist();
-    });
-  }
-
-  _pullToRefresh = () => {
-    return new Promise((resolve, reject) => {
-      const {date, location, keyword, category} = this.state;
-      httpRequest("lost", {date, location, keyword, category})
-      .then((response) => {
-        this.setState({
-          list: response
-        }, () => {
-          resolve();
-        })
-      })
-      .catch((error) => {
-        reject(error);
-      })
-    })
-  }
-
-  _onSearchPress = () => {
-    const {navigate} = this.props.navigation;
-    const {
-      navigation,
-      keyword,
-      date,
-      location,
-    } = this.state;
-    navigate('Search', {
-      keyword,
-      date,
-      location,
-      searchUpdatedCallback: this.searchUpdatedCallback
-    })
-  };
- 
-
   render() {
     const {navigate} = this.props.navigation;
     const loadingOrList = this.state.loading 
@@ -115,7 +62,7 @@ class LostPostsScreen extends Component {
           <ActivityIndicator animating text='Fetching Items'/>
         </View>
       : <PTRView
-          onRefresh={this._pullToRefresh}
+          onRefresh={this.refreshPostlist}
           offset={65}
         >
           <List navigate={navigate} list={this.state.list} />
