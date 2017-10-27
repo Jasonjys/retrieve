@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {View, Image} from 'react-native';
+import {View, Image, TouchableOpacity, Text} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
 import {firebaseApp, usersRef, foundPostsRef, lostPostsRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
 import ProfileConTent from './ProfileContent';
+import ProfileTab from './ProfileTab'
 import {Modal} from 'antd-mobile';
 import style from './Style';
 import httpRequest from '../../library/httpRequest';
@@ -37,9 +38,9 @@ class ProfileScreen extends Component {
     foundPosts: [],
     lostPosts: [],
     counterItem1: 0,
-    counterItem2: 0
+    counterItem2: 0,
+    showFoundItem: true
   }
-
   componentWillMount() {
     let userFoundPostsIds = [];
     const user = firebaseApp.auth().currentUser;
@@ -73,9 +74,12 @@ class ProfileScreen extends Component {
         if (lostPostsIds.val()) {
           lostPostsIds.val().map((id) => {
             if (lostPostsRef.val()[id]) {
-              const foundPost = {...lostPostsRef.val()[id], id: id}
-              lostPosts.unshift(lostPosts)
+              const lostPost = {...lostPostsRef.val()[id], id: id}
+              lostPosts.push(lostPost)
             }
+          })
+          lostPosts.sort((a,b) => {
+            return moment(b.postDate) - moment(a.postDate)
           })
           this.setState({lostPosts})
         }
@@ -92,12 +96,15 @@ class ProfileScreen extends Component {
     foundPostsRef.off();
   }
 
+  handlePressTab = (showFoundItem) => {
+    this.setState({showFoundItem})
+  }
+
   handleDeletePost = (id, index) => {
     const alert = Modal.alert;
-
     alert('Delete Post', 'Are you sure you want to delete this post?', [
-      { text: 'Cancel'},
-      { text: 'Yes', onPress: () => {
+      {text: 'Cancel'},
+      {text: 'Yes', onPress: () => {
         foundPostsRef.child(id).remove();
         const {uid} = firebaseApp.auth().currentUser;
         let newFoundPostsIds = []
@@ -112,7 +119,7 @@ class ProfileScreen extends Component {
         usersRef.child(uid).update({
           foundPosts: newFoundPostsIds
         })
-      } },
+      }},
     ])
   }
 
@@ -132,21 +139,23 @@ class ProfileScreen extends Component {
           });
           this.props.navigation.dispatch(resetAction);
         })
-      } },
+      }},
     ])
   }
 
   render() {
+    const Content = this.state.foundPosts.length ?
+    <ProfileConTent
+      navigation={this.props.navigation}
+      posts={this.state.showFoundItem ? this.state.foundPosts : this.state.lostPosts}
+      onDelete={this.handleDeletePost}
+      onEdit={this.handleEditPost}
+    /> : null
     return (
       <View style={style.profileScreenContainer}>
         <ProfileHeader userInfo={this.state.userInfo} navigation={this.props.navigation}/>
-        <ProfileConTent
-          navigation={this.props.navigation}
-          foundPosts={this.state.foundPosts}
-          lostPosts={this.state.lostPosts}
-          onDelete={this.handleDeletePost}
-          onEdit={this.handleEditPost}
-        />
+        <ProfileTab onPressTab={this.handlePressTab}/>
+        {Content}
       </View>
     );
   }
