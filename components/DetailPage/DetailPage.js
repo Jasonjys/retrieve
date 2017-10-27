@@ -33,7 +33,7 @@ class DetailPage extends Component {
     }
   }
   render() {
-    let {title, img, description, foundDate, location, categoryValue, postDate, posterName, date} = this.props.navigation.state.params
+    let {title, img, description, foundDate, location, categoryValue, posterName, date} = this.props.navigation.state.params
     return (
       <ScrollView contentContainerStyle={style.container}>
         {img ? <Image source={{url: img}} style={style.image}/> : null}
