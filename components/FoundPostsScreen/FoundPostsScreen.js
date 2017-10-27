@@ -29,6 +29,7 @@ class FoundPostsScreen extends Component {
   });
 
   state = {
+    type: 'found',
     loading: true,
     list: []
   }
