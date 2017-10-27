@@ -30,8 +30,7 @@ class FoundPostsScreen extends Component {
 
   state = {
     loading: true,
-    list: [],
-    type: 'found'
+    list: []
   }
 
   componentDidMount() {
