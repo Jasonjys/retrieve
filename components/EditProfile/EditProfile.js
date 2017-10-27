@@ -9,8 +9,8 @@ import style from './Style'
 class EditProfile extends Component {
   state = {
     name: this.props.navigation.state.params.displayName,
-    url: this.props.navigation.state.params.photoURL,
-    phoneNumber: this.props.navigation.state.params.phoneNumber
+    url: this.props.navigation.state.params.photoURL || '',
+    phoneNumber: this.props.navigation.state.params.phoneNumber || ''
   }
 
   handleUploadPicture = (url) => {
@@ -18,12 +18,12 @@ class EditProfile extends Component {
   }
   handleSave = () =>{
     const user = firebaseApp.auth().currentUser
+    const {uid} = user
     user.updateProfile({
       displayName: this.state.name,
       photoURL: this.state.url,
       phoneNumber: this.state.phoneNumber
     }).then(() => {
-      const {uid} = firebaseApp.auth().currentUser
       usersRef.child(uid).update({
         displayName: this.state.name,
         photoURL: this.state.url,
@@ -33,11 +33,11 @@ class EditProfile extends Component {
       })
     }).catch((error) => {
       // An error happened.
+      console.log(error)
     });
   }
 
   render() {
-    console.log(this.props.navigation.state.params)
     const image = this.state.url ? <Image style={style.IconStyle} source={{uri: this.state.url}}/>
     : <Image style={style.IconStyle} source={require('../../assets/images/user.png')}/>
     return (
