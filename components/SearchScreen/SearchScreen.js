@@ -14,7 +14,7 @@ class Search extends Component {
     location: '',
     keyword: '',
     date: '',
-    categoryValue: '',
+    category: '',
     currentLocationMarker: '',
     requiredError: ''
   }
@@ -41,12 +41,18 @@ class Search extends Component {
       const requiredError = 'Location is required';
       this.setState({requiredError});
       return 
+    } else {
+      const {category} = this.state;
+      this.setState({
+        category: category[0]
+      }, () => {
+        this.props.navigation.navigate('Map', this.state);
+      });
     }
-    this.props.navigation.navigate('Map', this.state)
   }
 
   render() {
-    const {date, location, categoryValue, requiredError} = this.state;
+    const {date, location, category, requiredError} = this.state;
     return (
       <KeyboardAwareScrollView style={style.searchContainer}>
         <FormLabel>Keyword</FormLabel>
@@ -93,8 +99,8 @@ class Search extends Component {
         {requiredError ? <FormValidationMessage>{requiredError}</FormValidationMessage> : null}
         <View style={{margin: 10}}>
           <CategoryPicker
-            categoryValue={categoryValue}
-            handleOnChange={(v) => this.setState({categoryValue: v})}
+            categoryValue={category}
+            handleOnChange={(v) => this.setState({category: v})}
           />
         </View>
         <Button title='Search' onPress={() => this._onSearchPressed()}/>

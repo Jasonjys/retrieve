@@ -44,7 +44,6 @@ class Map extends Component {
   }
 
   handleLongPress = (key) => {
-    console.log(this.state.list[key].location.address)
     if(this.state.list[key].location.address){
       let {latitude, longitude} = this.state.list[key].location.geometry
       this.setState({

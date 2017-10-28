@@ -33,7 +33,7 @@ class PostForm extends Component {
     },
     date: '',
     description: '',
-    categoryValue: '',
+    category: '',
     titleErrorMessage: '',
     categoryErrorMessage: ''
   }
@@ -46,7 +46,7 @@ class PostForm extends Component {
     if (params.post) {
       const {
         title,
-        categoryValue,
+        category,
         description,
         date,
         location={}
@@ -54,7 +54,7 @@ class PostForm extends Component {
 
       this.setState({
         title,
-        categoryValue: [categoryValue],
+        category: [category],
         description,
         date,
         img: params.post.img || null,
@@ -76,10 +76,10 @@ class PostForm extends Component {
   }
   
   handleSave = () => {
-    const {title, description, date, img, location, categoryValue, type} = this.state
+    const {title, description, date, img, location, category, type} = this.state
     const {id} = this.props.navigation.state.params.post;
 
-    if(!title || !categoryValue) {
+    if(!title || !category) {
       this.setState({titleErrorMessage: 'Title is required!'})
       this.setState({categoryErrorMessage: 'Category is required!'})
       return;
@@ -90,15 +90,15 @@ class PostForm extends Component {
         description,
         img,
         location,
-        categoryValue: categoryValue[0],
+        category: category[0],
       }).then(() => this.props.navigation.goBack())
     }
   }
 
   handleSubmit = () => {
-    const {title, description, date, img, location, categoryValue, type} = this.state
+    const {title, description, date, img, location, category, type} = this.state
 
-    if (!title || !categoryValue) {
+    if (!title || !category) {
       this.setState({titleErrorMessage: 'Title is required!'})
       this.setState({categoryErrorMessage: 'Category is required!'})
       return;
@@ -113,7 +113,7 @@ class PostForm extends Component {
         img,
         date,
         location,
-        categoryValue: categoryValue[0],
+        category: category[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss'),
         posterName: firebaseApp.auth().currentUser.displayName,
         email: firebaseApp.auth().currentUser.email,
@@ -186,8 +186,8 @@ class PostForm extends Component {
           />
         </View>
         <CategoryPicker
-          categoryValue={this.state.categoryValue}
-          handleOnChange={(v) => this.setState({categoryValue: v})}
+          categoryValue={this.state.category}
+          handleOnChange={(v) => this.setState({category: v})}
         />
         {categoryErrorMessage ? <FormValidationMessage>{categoryErrorMessage}</FormValidationMessage> : null}
         <CameraComponent imageUri={this.state.img} onUploadImage={this.handleUploadPicture}/>

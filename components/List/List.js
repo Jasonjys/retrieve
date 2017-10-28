@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Text, View, Image, ScrollView} from 'react-native';
 import {List, ListItem, Icon} from 'react-native-elements'
 import style from './Style';
-import moment from 'moment'
+import moment from 'moment';
+import matchCategory from '../../library/matchCategory';
 
 class ListComponent extends Component {
   handleLongPress = (key) => {
@@ -10,34 +11,7 @@ class ListComponent extends Component {
       this.props.handleLongPress(key)
     }
   }
-  generateCategory = (category) => {
-    switch (category){
-      case 'eletronic':
-        return 'Eletronic'
-        break;
-      case 'clothingShoes':
-        return 'Clothing/Shoes'
-        break;
-      case 'supply':
-        return 'School/Office Supply'
-        break;
-      case 'jewelry':
-        return 'Jewelry & Watch';
-        break;
-      case 'wck':
-        return 'Wallet/Card/Key'
-        break;
-      case 'pet':
-        return 'Pet'
-        break;
-      case 'bag':
-        return 'Bag'
-        break;
-      case 'others':
-        return 'Others'
-        break;
-    }
-  }
+ 
   render() {
     return (
       <ScrollView>
@@ -64,7 +38,7 @@ class ListComponent extends Component {
                           size={18}
                           color='grey'
                         />
-                        {this.generateCategory(item.categoryValue)}
+                        {matchCategory(item.category)}
                       </Text>
                       {item.date ?
                         <Text style={{marginTop: 10, color: 'grey'}}>
