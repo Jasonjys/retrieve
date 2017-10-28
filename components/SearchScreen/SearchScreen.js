@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Alert, View, TextInput} from 'react-native';
-import {FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-elements';
+import {FormLabel, FormInput, FormValidationMessage, Button, Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-datepicker';
 import AutoComplete from '../AutoComplete/AutoComplete';
@@ -64,7 +64,7 @@ class Search extends Component {
           onChangeText={keyword => this.setState({keyword})}
         />
         <FormLabel>Date</FormLabel>
-        <View style={{margin: 20}}>
+        <View style={{margin: 20, flexDirection: "row"}}>
           <DatePicker
             style={style.datePickerContainer}
             date={date}
@@ -87,6 +87,12 @@ class Search extends Component {
               }
             }}
             onDateChange={date => this.setState({date})}
+          />
+          <Icon
+            name='clear'
+            color='#000'
+            size={20}
+            onPress={()=>{this.setState({date:""})}}
           />
         </View>
         <FormLabel>Location</FormLabel>

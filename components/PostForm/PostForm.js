@@ -2,7 +2,7 @@ import React, {Component}from 'react'
 import {View, Image, TextInput} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import style, {dateStyle} from './Style'
-import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-elements'
+import {FormLabel, FormInput, Button, Icon, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
 import {firebaseApp, usersRef, lostPostsRef, foundPostsRef} from '../../firebaseConfig'
@@ -144,7 +144,7 @@ class PostForm extends Component {
     return (
       <KeyboardAwareScrollView style={style.container}>
         <FormLabel>{type === 'found' || params.post ? 'Found Date' : 'Lost Date'}</FormLabel>
-        <View style={{marginTop: 10, marginLeft: 20, marginRight: 20}}>
+        <View style={style.datePicker}>
           <DatePicker
             style={{width: 200}}
             date={this.state.date}
@@ -156,6 +156,12 @@ class PostForm extends Component {
             cancelBtnText="Cancel"
             customStyles={dateStyle}
             onDateChange={(date) => this.setState({date})}
+          />
+          <Icon
+            name='clear'
+            color='#000'
+            size={20}
+            onPress={()=>{this.setState({date:""})}}
           />
         </View>
         <FormLabel style={{marginTop: 10}}>Title</FormLabel>
