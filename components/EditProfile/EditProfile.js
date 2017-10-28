@@ -53,7 +53,7 @@ class EditProfile extends Component {
         <FormLabel>Name</FormLabel>
           <FormInput value={this.state.name} onChangeText={(name)=> this.setState({name})}/>
         <FormLabel>Phone Number</FormLabel>
-          <FormInput value={this.state.phoneNumber}/>
+          <FormInput value={this.state.phoneNumber} onChangeText={(phoneNumber)=> this.setState({phoneNumber})}/>
         <FormLabel>Email</FormLabel>
           <FormInput value={this.state.email} onChangeText={(email)=> this.setState({email})}/>
           <Button
