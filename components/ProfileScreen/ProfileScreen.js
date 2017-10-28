@@ -45,7 +45,8 @@ class ProfileScreen extends Component {
     const {uid} = user;
 
     usersRef.child(uid).on('value', (user) => {
-      this.setState({userInfo: user.val()})
+      const userInfo = user.val()
+      this.setState({userInfo})
     })
 
     usersRef.child(uid).child('foundPosts').on('value', (foundPostsIds) => {
@@ -90,7 +91,10 @@ class ProfileScreen extends Component {
   }
 
   componentWillUnmount() {
+    const {uid} = firebaseApp.auth().currentUser;
     usersRef.off();
+    usersRef.child(uid).child('lostPosts').off();
+    usersRef.child(uid).child('foundPosts').off();
     foundPostsRef.off();
     lostPostsRef.off();
   }
