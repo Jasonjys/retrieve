@@ -14,7 +14,7 @@ class SwipeListItem extends Component {
   }
 
   render() {
-    const {onOpen, onClose} = this.props;
+    const {onOpen, onClose, displayFound, item, index} = this.props;
     return (
       <Swipeable
         onRef={ref => this.swipeable = ref}
@@ -25,7 +25,7 @@ class SwipeListItem extends Component {
             underlayColor='#95c2e2'
             style={style.editButtonContainerStyle}
             onPress={() => {
-              this.props.onEdit(this.props.item)
+              this.props.onEdit(displayFound, this.props.item)
               this.props.onRecenter()
             }}
           >
@@ -37,7 +37,7 @@ class SwipeListItem extends Component {
             underlayColor='#ff9eaf'
             style={style.deleteButtonContainerStyle}
             onPress={() => {
-              this.props.onDelete(this.props.item.id, this.props.id)
+              this.props.onDelete(displayFound, item.id, index)
               this.props.onRecenter()
             }}
           >
