@@ -91,10 +91,7 @@ class ProfileScreen extends Component {
   }
 
   componentWillUnmount() {
-    const {uid} = firebaseApp.auth().currentUser;
     usersRef.off();
-    usersRef.child(uid).child('lostPosts').off();
-    usersRef.child(uid).child('foundPosts').off();
     foundPostsRef.off();
     lostPostsRef.off();
   }
