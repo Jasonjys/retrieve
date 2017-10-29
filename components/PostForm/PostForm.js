@@ -76,6 +76,7 @@ class PostForm extends Component {
   }
   
   handleSave = () => {
+    //todo found and lost update
     const {title, description, date, img, location, category, type} = this.state
     const {id} = this.props.navigation.state.params.post;
 

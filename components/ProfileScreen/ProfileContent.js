@@ -12,6 +12,7 @@ class ProfileContent extends Component {
           list={this.props.posts}
           onDelete={this.props.onDelete}
           onEdit={this.props.onEdit}
+          displayFound={this.props.displayFound}
           navigate={navigate}
         />
       </ScrollView>

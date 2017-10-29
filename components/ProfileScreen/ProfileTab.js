@@ -3,9 +3,6 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import style from './Style';
 
 class ProfileTab extends Component {
-  state = {
-    showFoundItem: true
-  }
   render() {
     return (
       <View style={style.tab}>

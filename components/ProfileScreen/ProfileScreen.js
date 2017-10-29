@@ -4,7 +4,7 @@ import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
 import {firebaseApp, usersRef, foundPostsRef, lostPostsRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
-import ProfileConTent from './ProfileContent';
+import ProfileContent from './ProfileContent';
 import ProfileTab from './ProfileTab'
 import {Modal} from 'antd-mobile';
 import style from './Style';
@@ -55,7 +55,7 @@ class ProfileScreen extends Component {
         if (foundPostsIds.val()) {
           foundPostsIds.val().map((id) => {
             if (foundPostsRef.val()[id]) {
-              const foundPost = {...foundPostsRef.val()[id], id: id}
+              const foundPost = {...foundPostsRef.val()[id], id}
               foundPosts.push(foundPost)
             }
           })
@@ -73,7 +73,7 @@ class ProfileScreen extends Component {
         if (lostPostsIds.val()) {
           lostPostsIds.val().map((id) => {
             if (lostPostsRef.val()[id]) {
-              const lostPost = {...lostPostsRef.val()[id], id: id}
+              const lostPost = {...lostPostsRef.val()[id], id}
               lostPosts.push(lostPost)
             }
           })
@@ -103,31 +103,31 @@ class ProfileScreen extends Component {
     this.setState({showFoundItem})
   }
 
-  handleDeletePost = (id, index) => {
+  handleDeletePost = (found, id, index) => {
     const alert = Modal.alert;
     alert('Delete Post', 'Are you sure you want to delete this post?', [
       {text: 'Cancel'},
       {text: 'Yes', onPress: () => {
-        foundPostsRef.child(id).remove();
+        const postRef = found ? foundPostsRef : lostPostsRef;
+        const propertyName = found ? 'foundPosts' : 'lostPosts';
+        postRef.child(id).remove();
         const {uid} = firebaseApp.auth().currentUser;
-        let newFoundPostsIds = []
-        const foundPostsIds = this.state.foundPosts.map((post) => {
+        const oldIds = this.state[propertyName].map((post) => {
           return post.id
         });
-
-        newFoundPostsIds = [
-          ...foundPostsIds.slice(0, index),
-          ...foundPostsIds.slice(index + 1)
+        newIds = [
+          ...oldIds.slice(0, index),
+          ...oldIds.slice(index + 1)
         ]
-        usersRef.child(uid).update({
-          foundPosts: newFoundPostsIds
-        })
+        const updateObject = {}
+        updateObject[propertyName] = newIds;
+        usersRef.child(uid).update(updateObject)
       }},
     ])
   }
 
-  handleEditPost = (item) => {
-    this.props.navigation.navigate('PostForm', {post: item});
+  handleEditPost = (found, item) => {
+    this.props.navigation.navigate('PostForm', {post: item, found});
   }
 
   handleSignout = () => {
@@ -148,9 +148,10 @@ class ProfileScreen extends Component {
 
   render() {
     const Content = this.state.foundPosts.length ?
-    <ProfileConTent
+    <ProfileContent
       navigation={this.props.navigation}
       posts={this.state.showFoundItem ? this.state.foundPosts : this.state.lostPosts}
+      displayFound={this.state.showFoundItem}
       onDelete={this.handleDeletePost}
       onEdit={this.handleEditPost}
     /> : null

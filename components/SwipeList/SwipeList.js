@@ -29,8 +29,9 @@ class SwipeList extends Component {
         {this.props.list.map((item, key) => (
           <SwipeListItem
             key={key}
-            id={key}
+            index={key}
             item={item}
+            displayFound={this.props.displayFound}
             onEdit={this.props.onEdit}
             onDelete={this.props.onDelete}
             onRecenter={() => currentlyOpenItem.recenter()}
