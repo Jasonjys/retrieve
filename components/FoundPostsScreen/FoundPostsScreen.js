@@ -39,15 +39,20 @@ class FoundPostsScreen extends Component {
   }
 
   refreshPostlist = () => {
-    httpRequest("found", {})
-    .then((response) => {
-      this.setState({
-        loading: false,
-        list: response
-      })
-    })
-    .catch((error) => {
-      console.log(error)
+    return new Promise((resolve, reject) => {
+      const {type} = this.state;
+      httpRequest(type, {})
+        .then((response) => {
+          this.setState({
+            loading: false,
+            list: response
+          }, () => {
+            resolve();
+          })
+        })
+        .catch((error) => {
+          reject(error);
+        })
     })
   }
 

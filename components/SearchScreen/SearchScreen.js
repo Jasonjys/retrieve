@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Alert, View, TextInput} from 'react-native';
-import {FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-elements';
+import {FormLabel, FormInput, FormValidationMessage, Button, Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-datepicker';
 import AutoComplete from '../AutoComplete/AutoComplete';
@@ -14,7 +14,7 @@ class Search extends Component {
     location: '',
     keyword: '',
     date: '',
-    categoryValue: '',
+    category: '',
     currentLocationMarker: '',
     requiredError: ''
   }
@@ -41,12 +41,18 @@ class Search extends Component {
       const requiredError = 'Location is required';
       this.setState({requiredError});
       return 
+    } else {
+      const {category} = this.state;
+      this.setState({
+        category: category[0]
+      }, () => {
+        this.props.navigation.navigate('Map', this.state);
+      });
     }
-    this.props.navigation.navigate('Map', this.state)
   }
 
   render() {
-    const {date, location, categoryValue, requiredError} = this.state;
+    const {date, location, category, requiredError} = this.state;
     return (
       <KeyboardAwareScrollView style={style.searchContainer}>
         <FormLabel>Keyword</FormLabel>
@@ -58,7 +64,7 @@ class Search extends Component {
           onChangeText={keyword => this.setState({keyword})}
         />
         <FormLabel>Date</FormLabel>
-        <View style={{margin: 20}}>
+        <View style={{margin: 20, flexDirection: "row"}}>
           <DatePicker
             style={style.datePickerContainer}
             date={date}
@@ -82,6 +88,12 @@ class Search extends Component {
             }}
             onDateChange={date => this.setState({date})}
           />
+          <Icon
+            name='clear'
+            color='#000'
+            size={20}
+            onPress={()=>{this.setState({date:""})}}
+          />
         </View>
         <FormLabel>Location</FormLabel>
         <View style={{margin: 10}}>
@@ -93,8 +105,8 @@ class Search extends Component {
         {requiredError ? <FormValidationMessage>{requiredError}</FormValidationMessage> : null}
         <View style={{margin: 10}}>
           <CategoryPicker
-            categoryValue={categoryValue}
-            handleOnChange={(v) => this.setState({categoryValue: v})}
+            categoryValue={category}
+            handleOnChange={(v) => this.setState({category: v})}
           />
         </View>
         <Button title='Search' onPress={() => this._onSearchPressed()}/>

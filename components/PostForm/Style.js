@@ -3,6 +3,12 @@ import {StyleSheet} from 'react-native';
 
 
 export default StyleSheet.create({
+  datePicker: {
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    flexDirection: "row"
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',
