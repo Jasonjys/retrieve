@@ -41,14 +41,8 @@ class Search extends Component {
       const requiredError = 'Location is required';
       this.setState({requiredError});
       return 
-    } else {
-      const {category} = this.state;
-      this.setState({
-        category: category[0]
-      }, () => {
-        this.props.navigation.navigate('Map', this.state);
-      });
     }
+    this.props.navigation.navigate('Map', {...this.state, category: this.state.category[0]})
   }
 
   render() {

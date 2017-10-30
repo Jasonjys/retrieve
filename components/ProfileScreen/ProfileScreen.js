@@ -40,49 +40,51 @@ class ProfileScreen extends Component {
     showFoundItem: true
   }
   componentWillMount() {
-    let userFoundPostsIds = [];
     const user = firebaseApp.auth().currentUser;
     const {uid} = user;
 
-    usersRef.child(uid).on('value', (user) => {
-      const userInfo = user.val()
-      this.setState({userInfo})
-    })
+    usersRef.on('value', (usersRef) => {
+      if (usersRef) {
+        const userInfo = usersRef.val()[uid]
+        this.setState({userInfo})
 
-    usersRef.child(uid).child('foundPosts').on('value', (foundPostsIds) => {
-      foundPostsRef.on('value', (foundPostsRef) => {
-        let foundPosts = [];
-        if (foundPostsIds.val()) {
-          foundPostsIds.val().map((id) => {
-            if (foundPostsRef.val()[id]) {
-              const foundPost = {...foundPostsRef.val()[id], id}
-              foundPosts.push(foundPost)
+        if (userInfo.foundPosts) {
+          userFoundPostsIds = userInfo.foundPosts
+          foundPostsRef.on('value', (items) => {
+            let foundPosts = [];
+            if (userFoundPostsIds.length) {
+              userFoundPostsIds.map((id) => {
+                if (items) {
+                  const itemsRef = items.val()
+                  if (itemsRef && itemsRef[id]) {
+                    const post = {...itemsRef[id], id};
+                    foundPosts.push(post)
+                  }
+                }
+              })
+              this.setState({foundPosts})
             }
           })
-          foundPosts.sort((a,b) => {
-            return moment(b.postDate) - moment(a.postDate)
-          })
-          this.setState({foundPosts})
         }
-      })
-    })
-
-    usersRef.child(uid).child('lostPosts').on('value', (lostPostsIds) => {
-      lostPostsRef.on('value', (lostPostsRef) => {
-        let lostPosts = [];
-        if (lostPostsIds.val()) {
-          lostPostsIds.val().map((id) => {
-            if (lostPostsRef.val()[id]) {
-              const lostPost = {...lostPostsRef.val()[id], id}
-              lostPosts.push(lostPost)
+        if (userInfo.lostPosts) {
+          userLostPostIds = userInfo.lostPosts
+          lostPostsRef.on('value', (items) => {
+            let lostPosts = [];
+            if (userLostPostIds.length) {
+              userLostPostIds.map((id) => {
+                if (items) {
+                  const itemsRef = items.val()
+                  if (itemsRef && itemsRef[id]) {
+                    const post = {...itemsRef[id], id};
+                    lostPosts.push(post)
+                  }
+                }
+              })
+              this.setState({lostPosts})
             }
           })
-          lostPosts.sort((a,b) => {
-            return moment(b.postDate) - moment(a.postDate)
-          })
-          this.setState({lostPosts})
         }
-      })
+      }
     })
 
     this.props.navigation.setParams({
