@@ -144,7 +144,10 @@ export default class App extends Component {
               width: 25, 
               borderRadius: 50,
               opacity: 0.8}}
-            onPress={()=>this.setState({image: ''})}
+            onPress={() => {
+              this.setState({image: ''})
+              this.props.onClearImage()
+            }}
           />
           </Image>
         </View>

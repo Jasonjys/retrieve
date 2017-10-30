@@ -180,7 +180,7 @@ class PostForm extends Component {
           numberOfLines = {4}
           value={this.state.description}
           placeholder={type === 'found' || params.post ? 'Found...' : 'Lost...'}
-          style={[style.input, {height: 80}]}
+          style={[style.input, {height: 80, fontSize: 16}]}
           clearButtonMode= "while-editing"
           onChangeText={(description)=> this.setState({description})}
         />
@@ -197,7 +197,11 @@ class PostForm extends Component {
           handleOnChange={(v) => this.setState({category: v})}
         />
         {categoryErrorMessage ? <FormValidationMessage>{categoryErrorMessage}</FormValidationMessage> : null}
-        <CameraComponent imageUri={this.state.img} onUploadImage={this.handleUploadPicture}/>
+        <CameraComponent 
+          imageUri={this.state.img}
+          onUploadImage={this.handleUploadPicture}
+          onClearImage={() => this.setState({img: null})}
+        />
         {params.post ?
           <Button
             title='Save'
