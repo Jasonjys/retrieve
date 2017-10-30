@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Image, ScrollView, Modal, TouchableHighlight, Text} from 'react-native';
+import {View, Image, ScrollView, Modal, TouchableHighlight} from 'react-native';
 import {FormLabel} from 'react-native-elements'
 import style from './Style';
 import ImageViewer from 'react-native-image-zoom-viewer';

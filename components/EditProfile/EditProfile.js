@@ -52,14 +52,16 @@ class EditProfile extends Component {
   render() {
     const image = this.state.url
       ? <Image
-          style={{height: '100%', width: '100%',     borderRadius: 100,
-    borderColor: 'rgba(0,0,0, 0.4)',
-    borderWidth: 6}}
-          source={{
-          uri: this.state.url
-        }}/>
-      : <Image
-        source={require('../../assets/images/user.png')} style={style.iconStyle}/>
+          style={{
+            height: '100%',
+            width: '100%',
+            borderRadius: 100,
+            borderColor: 'rgba(0,0,0, 0.4)',
+            borderWidth: 6
+          }}
+          source={{uri: this.state.url}}
+        />
+      : <Image source={require('../../assets/images/user.png')} style={style.iconStyle}/>
     return (
       <KeyboardAwareScrollView style={style.scrollViewStyle}>
         <View style={style.centerImageStyle}>
