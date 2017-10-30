@@ -3,11 +3,11 @@ import {
   View,
   Image,
   Modal,
-  TouchableHighlight
+  TouchableHighlight,
 } from 'react-native';
 import {ActivityIndicator} from 'antd-mobile';
 import {firebaseApp, usersRef} from '../../firebaseConfig';
-import {FormLabel, FormInput, Button} from 'react-native-elements'
+import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-elements'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CameraComponent from '../CameraComponent/CameraComponent'
 import style from './Style'
@@ -19,34 +19,33 @@ class EditProfile extends Component {
     email: this.props.navigation.state.params.email,
     url: this.props.navigation.state.params.photoURL || '',
     phoneNumber: this.props.navigation.state.params.phoneNumber || '',
-    openModal: false
+    openModal: false,
+    emailError: ''
   }
 
   handleUploadPicture = (url) => {
     this.setState({url})
   }
   handleSave = () => {
-    const user = firebaseApp
-      .auth()
-      .currentUser
+    const {name, photoURL, phoneNumber, email} = this.state
+    if (!email) {
+      this.setState({emailError: 'Email is required!'})
+      return
+    }
+    const user = firebaseApp.auth().currentUser
     const {uid} = user
-    user
-      .updateProfile({displayName: this.state.name, photoURL: this.state.url, phoneNumber: this.state.phoneNumber, email: this.state.email})
-      .then(() => {
-        usersRef
-          .child(uid)
-          .update({displayName: this.state.name, photoURL: this.state.url, phoneNumber: this.state.phoneNumber, email: this.state.email})
-          .then(() => {
-            this
-              .props
-              .navigation
-              .goBack()
-          })
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log(error)
-      });
+    user.updateProfile({displayName: name, photoURL, phoneNumber, email})
+    .then(() => {
+      usersRef.child(uid)
+        .update({displayName: name, photoURL: this.state.url, phoneNumber, email})
+        .then(() => {
+          this.props.navigation.goBack()
+        })
+    })
+    .catch((error) => {
+      // An error happened.
+      console.log(error)
+    });
   }
 
   render() {
@@ -97,7 +96,9 @@ class EditProfile extends Component {
         <FormLabel>Email</FormLabel>
         <FormInput
           value={this.state.email}
-          onChangeText={(email) => this.setState({email})}/>
+          onChangeText={(email) => this.setState({email})}
+        />
+        {this.state.emailError ? <FormValidationMessage>{this.state.emailError}</FormValidationMessage> : null}
         <Button
           title='Save'
           fontWeight='bold'
