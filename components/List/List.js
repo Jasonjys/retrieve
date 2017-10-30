@@ -13,6 +13,13 @@ class ListComponent extends Component {
   }
  
   render() {
+    if (!this.props.list.length) {
+      return (
+        <View style={{height: '100%', alignItems: 'center'}}>
+          <Text style={{marginTop: '60%'}}>No post available</Text>
+        </View>
+      );
+    }
     return (
       <ScrollView>
         <List containerStyle={style.listContainer}>
