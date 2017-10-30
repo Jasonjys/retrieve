@@ -34,9 +34,10 @@ export default StyleSheet.create({
     marginBottom: -10
   },
   posterStyle: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '200',
     fontStyle: 'italic',
+    fontWeight: 'bold',
     marginBottom: -10
   }
 });
