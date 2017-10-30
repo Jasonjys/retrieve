@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Image, TouchableOpacity, Text} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
 import {firebaseApp, usersRef, foundPostsRef, lostPostsRef} from '../../firebaseConfig';
@@ -146,17 +146,14 @@ class ProfileScreen extends Component {
   }
 
   render() {
-    const Content = this.state.foundPosts.length ?
+    const Content = this.state.foundPosts ?
     <ProfileContent
       navigation={this.props.navigation}
       posts={this.state.showFoundItem ? this.state.foundPosts : this.state.lostPosts}
       displayFound={this.state.showFoundItem}
       onDelete={this.handleDeletePost}
       onEdit={this.handleEditPost}
-    /> : 
-    <View style={{backgroundColor: 'white',height: '100%', alignItems: 'center'}}>
-      <Text style={{justifyContent: 'center', marginTop: '30%', fontSize: 18, color: '#bababa'}}>You don't have any posts at the moment</Text>
-    </View>
+    /> : null
     return (
       <View style={style.profileScreenContainer}>
         <ProfileHeader userInfo={this.state.userInfo} navigation={this.props.navigation}/>

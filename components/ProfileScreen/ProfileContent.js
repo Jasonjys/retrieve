@@ -6,6 +6,15 @@ import style from './Style'
 class ProfileContent extends Component {
   render() {
     const {navigate} = this.props.navigation
+    if (!this.props.posts.length) {
+      return (
+        <View style={[style.contentContainerStyle, {alignItems: 'center'}]}>
+          <Text style={{marginTop: '35%', fontSize: 18, color: '#bababa'}}>
+            You don't have any posts at the moment
+          </Text>
+        </View>
+      )
+    }
     return (
       <ScrollView style={style.contentContainerStyle}>
         <SwipeList
