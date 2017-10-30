@@ -13,6 +13,13 @@ export default StyleSheet.create({
     borderColor: 'rgba(0,0,0, 0.4)',
     borderWidth: 6
   },
+  touchableHeighlightStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 140,
+    height: 140
+  },
   profileDefaultStyle: {
     flex: 1,
     width: 140,
@@ -27,7 +34,7 @@ export default StyleSheet.create({
   },
   editButtonStyle: {
     marginLeft: 5,
-    marginTop: 2
+    marginTop: 0
   },
   headerBackgroundStyle: {
     width: '100%',
@@ -51,7 +58,8 @@ export default StyleSheet.create({
   },
   contentContainerStyle: {
     height: '100%',
-    width: '100%'
+    width: '100%',
+    backgroundColor: 'white'
   },
   tab: {
     backgroundColor: "lightgrey",

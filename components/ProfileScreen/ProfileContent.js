@@ -7,7 +7,7 @@ class ProfileContent extends Component {
   render() {
     const {navigate} = this.props.navigation
     return (
-      <ScrollView style={[style.contentContainerStyle, { backgroundColor: 'white' }]}>
+      <ScrollView style={style.contentContainerStyle}>
         <SwipeList
           list={this.props.posts}
           onDelete={this.props.onDelete}
