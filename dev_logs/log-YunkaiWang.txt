@@ -19,6 +19,11 @@ Week Oct 16 - Oct 22
 - fixed ec2 server so that it handles the GET request appropriately
 - some bug fixing
 
+Week Oct 23 - Oct 29
+- fixed searching by category, make all variable names consistent
+- write documentation
+- add reset button to time picker
+- fixed searching in lost post page
 
 
 
