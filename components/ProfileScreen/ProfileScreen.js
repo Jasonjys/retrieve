@@ -34,7 +34,7 @@ class ProfileScreen extends Component {
   };
 
   state = {
-    userInfo: null,
+    userInfo: {},
     foundPosts: [],
     lostPosts: [],
     showFoundItem: true
@@ -48,41 +48,43 @@ class ProfileScreen extends Component {
         const userInfo = usersRef.val()[uid]
         this.setState({userInfo})
 
-        if (userInfo.foundPosts) {
-          userFoundPostsIds = userInfo.foundPosts
-          foundPostsRef.on('value', (items) => {
-            let foundPosts = [];
-            if (userFoundPostsIds.length) {
-              userFoundPostsIds.map((id) => {
-                if (items) {
-                  const itemsRef = items.val()
-                  if (itemsRef && itemsRef[id]) {
-                    const post = {...itemsRef[id], id};
-                    foundPosts.push(post)
+        if (userInfo) {
+          if (userInfo.foundPosts) {
+            userFoundPostsIds = userInfo.foundPosts
+            foundPostsRef.on('value', (items) => {
+              let foundPosts = [];
+              if (userFoundPostsIds.length) {
+                userFoundPostsIds.map((id) => {
+                  if (items) {
+                    const itemsRef = items.val()
+                    if (itemsRef && itemsRef[id]) {
+                      const post = {...itemsRef[id], id};
+                      foundPosts.push(post)
+                    }
                   }
-                }
-              })
-              this.setState({foundPosts})
-            }
-          })
-        }
-        if (userInfo.lostPosts) {
-          userLostPostIds = userInfo.lostPosts
-          lostPostsRef.on('value', (items) => {
-            let lostPosts = [];
-            if (userLostPostIds.length) {
-              userLostPostIds.map((id) => {
-                if (items) {
-                  const itemsRef = items.val()
-                  if (itemsRef && itemsRef[id]) {
-                    const post = {...itemsRef[id], id};
-                    lostPosts.push(post)
+                })
+                this.setState({foundPosts})
+              }
+            })
+          }
+          if (userInfo.lostPosts) {
+            userLostPostIds = userInfo.lostPosts
+            lostPostsRef.on('value', (items) => {
+              let lostPosts = [];
+              if (userLostPostIds.length) {
+                userLostPostIds.map((id) => {
+                  if (items) {
+                    const itemsRef = items.val()
+                    if (itemsRef && itemsRef[id]) {
+                      const post = {...itemsRef[id], id};
+                      lostPosts.push(post)
+                    }
                   }
-                }
-              })
-              this.setState({lostPosts})
-            }
-          })
+                })
+                this.setState({lostPosts})
+              }
+            })
+          } 
         }
       }
     })
