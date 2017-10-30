@@ -109,50 +109,11 @@
       "user" : "W3IdqOw7knVb02nIJcMkbKgmUQh2"
     }
   },
-  "lostPosts" : {
-    "-KxUJpS_RXFFybKyxSkY" : {
-      "category" : "eletronic",
-      "date" : "2017-10-27",
-      "description" : "BALLSACKS",
-      "email" : "1@qq.com",
-      "location" : {
-        "address" : "Carleton University, Ottawa, ON, Canada",
-        "geometry" : {
-          "latitude" : 45.3875812,
-          "latitudeDelta" : 0.0922,
-          "longitude" : -75.69602019999999,
-          "longitudeDelta" : 0.0421
-        }
-      },
-      "postDate" : "2017-10-27 15:33:38",
-      "posterName" : "Jason Jiang",
-      "title" : "CUNT",
-      "user" : "W3IdqOw7knVb02nIJcMkbKgmUQh2"
-    },
-    "-KxUKaSjY0hIVcxog-7X" : {
-      "category" : "supply",
-      "date" : "",
-      "description" : "",
-      "email" : "1@qq.com",
-      "location" : {
-        "address" : "",
-        "geometry" : {
-          "latitude" : "",
-          "longitude" : ""
-        }
-      },
-      "postDate" : "2017-10-27 15:36:59",
-      "posterName" : "Jason Jiang",
-      "title" : "GGGGGG",
-      "user" : "W3IdqOw7knVb02nIJcMkbKgmUQh2"
-    }
-  },
   "users" : {
     "W3IdqOw7knVb02nIJcMkbKgmUQh2" : {
       "displayName" : "Jason Jiang",
       "email" : "1@qq.com",
       "foundPosts" : [ "-KvmOq8HIkPwLh_jw28m", "-KvmNE4L5ROR7UrVq0rL", "-Kvj6i_6IlnyJ2y3HAdi", "-KvmN62ysOSS2TE1xEB2", "-KvmMyIrhljYo1DRG1pB", "-Kvpfxi4wy1TnuAJ8KwD" ],
-      "lostPosts" : [ "-KxUJpS_RXFFybKyxSkY", "-KxUKaSjY0hIVcxog-7X" ],
       "photoURL" : "https://elasticbeanstalk-ca-central-1-981124746773.s3.ca-central-1.amazonaws.com/1508261749885.png"
     }
   }
