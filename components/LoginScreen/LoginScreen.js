@@ -84,11 +84,6 @@ class LoginScreen extends Component {
               });
             }
           })
-          const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [NavigationActions.init({routeName: 'Tabs'})]
-          });
-          this.props.navigation.dispatch(resetAction);
         })
         .catch((error) => {
           console.log(error)
