@@ -67,7 +67,11 @@ class EditProfile extends Component {
           <FormLabel>Profile Photo</FormLabel>
           <TouchableHighlight
             style={style.touchableHeighlightStyle}
-            onPress={()=>this.setState({openModal: true})}
+            onPress={()=>{
+              if(this.state.url){
+                this.setState({openModal: true})}
+              }
+            }
             underlayColor='rgba(0, 0, 0, 0)'>
             {image}
           </TouchableHighlight>
