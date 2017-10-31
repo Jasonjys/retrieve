@@ -63,6 +63,9 @@ class ProfileScreen extends Component {
                     }
                   }
                 })
+                foundPosts.sort((a,b) => {
+                  return moment(b.postDate) - moment(a.postDate)
+                })
                 this.setState({foundPosts})
               }
             })
@@ -80,6 +83,9 @@ class ProfileScreen extends Component {
                       lostPosts.push(post)
                     }
                   }
+                })
+                lostPosts.sort((a,b) => {
+                  return moment(b.postDate) - moment(a.postDate)
                 })
                 this.setState({lostPosts})
               }
