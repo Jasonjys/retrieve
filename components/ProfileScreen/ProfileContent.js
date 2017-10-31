@@ -10,7 +10,7 @@ class ProfileContent extends Component {
       return (
         <View style={[style.contentContainerStyle, {alignItems: 'center'}]}>
           <Text style={{marginTop: '35%', fontSize: 18, color: '#bababa'}}>
-            You don't have any posts at the moment
+            You don't have any {this.props.displayFound ? 'found' : 'lost'} posts at the moment
           </Text>
         </View>
       )
