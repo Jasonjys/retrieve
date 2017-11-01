@@ -74,6 +74,7 @@ class SignupScreen extends Component {
           <FormLabel>Email</FormLabel>
           <FormInput
             value={this.state.email}
+            autoCapitalize='none'
             onChangeText={email => this.setState({email, emailError: ''})}
           />
           {emailError ? <FormValidationMessage>{emailError}</FormValidationMessage> : null}
@@ -81,6 +82,7 @@ class SignupScreen extends Component {
           <FormInput
             secureTextEntry={true}
             value={this.state.password}
+            autoCapitalize='none'
             onChangeText={password => {this.setState({password, passwordError: ''})}}
           />
           {passwordError ? <FormValidationMessage>{passwordError}</FormValidationMessage> : null}
