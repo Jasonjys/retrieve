@@ -9,6 +9,7 @@ import MapScreen from './components/Map/Map';
 import DetailsScreen from './components/DetailPage/DetailPage';
 import SearchScreen from './components/SearchScreen/SearchScreen';
 import EditProfileScreen from './components/EditProfile/EditProfile';
+import MessageScreen from './components/MessageScreen/MessageScreen';
 
 const Tabs = TabNavigator({
   Profile: {
@@ -19,6 +20,9 @@ const Tabs = TabNavigator({
   },
   LostPosts: {
     screen: LostPostsScreen
+  },
+  Message: {
+    screen: MessageScreen
   }
 }, {
   initialRouteName: 'FoundPosts',
