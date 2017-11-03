@@ -26,10 +26,11 @@ class ProfileHeader extends Component {
           <View style={style.headerContainerStyle}>
             <TouchableHighlight
               style={style.touchableHeighlightStyle}
-              onPress={()=>{
+              onPress={() => {
                 if(photoURL){
-                  this.setState({openModal: true})}
-                }}
+                  this.setState({openModal: true})
+                }
+              }}
               underlayColor='rgba(0, 0, 0, 0)'>
               {image}
             </TouchableHighlight>
