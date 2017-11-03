@@ -25,7 +25,7 @@ class ProfileTab extends Component {
               backgroundColor: '#ffc1cc'
             }
           ]}>
-            <Text style={style.tabFont}>Lost {this.props.lost ? this.props.lost : '0'}</Text>
+            <Text style={style.tabFont}>Lost {this.props.lost}</Text>
           </View>
         </TouchableHighlight>
       </View>
