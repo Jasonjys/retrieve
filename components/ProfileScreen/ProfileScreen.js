@@ -154,18 +154,19 @@ class ProfileScreen extends Component {
   }
 
   render() {
-    const Content = this.state.foundPosts ?
+    const {foundPosts, lostPosts, showFoundItem, userInfo} = this.state;
+    const Content = foundPosts ?
     <ProfileContent
       navigation={this.props.navigation}
-      posts={this.state.showFoundItem ? this.state.foundPosts : this.state.lostPosts}
+      posts={showFoundItem ? foundPosts : lostPosts}
       displayFound={this.state.showFoundItem}
       onDelete={this.handleDeletePost}
       onEdit={this.handleEditPost}
     /> : null
     return (
       <View style={style.profileScreenContainer}>
-        <ProfileHeader userInfo={this.state.userInfo} navigation={this.props.navigation}/>
-        <ProfileTab onPressTab={this.handlePressTab}/>
+        <ProfileHeader userInfo={userInfo} navigation={this.props.navigation}/>
+        <ProfileTab found={foundPosts.length} lost={lostPosts.length} onPressTab={this.handlePressTab}/>
         {Content}
       </View>
     );
