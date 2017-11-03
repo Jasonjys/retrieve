@@ -10,7 +10,7 @@ import PTRView from 'react-native-pull-to-refresh';
 
 class LostPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Lost Posts',
+    title: 'Recent Lost',
     headerRight: <Icon
       name='add-circle'
       color='#e91e63'

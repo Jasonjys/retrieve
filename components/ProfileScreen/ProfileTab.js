@@ -14,7 +14,7 @@ class ProfileTab extends Component {
               }
             ]}
           >
-            <Text style={style.tabFont}>Found</Text>
+            <Text style={style.tabFont}>Found {this.props.found}</Text>
           </View>
         </TouchableHighlight>
 
@@ -25,7 +25,7 @@ class ProfileTab extends Component {
               backgroundColor: '#ffc1cc'
             }
           ]}>
-            <Text style={style.tabFont}>Lost</Text>
+            <Text style={style.tabFont}>Lost {this.props.lost}</Text>
           </View>
         </TouchableHighlight>
       </View>
