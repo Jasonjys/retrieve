@@ -18,13 +18,7 @@ class MessageScreen extends Component {
       <Text>
         Clear history
       </Text>
-    </TouchableHighlight>,
-    tabBarIcon: ({tintColor}) => (
-      <Image
-        source={require('../../assets/images/item.png')}
-        style={{tintColor: tintColor}}
-      />
-    )
+    </TouchableHighlight>
   });
 
   componentWillMount() {

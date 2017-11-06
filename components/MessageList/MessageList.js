@@ -12,8 +12,8 @@ class MessageList extends Component {
     title: 'Chat',
     tabBarIcon: ({tintColor}) => (
       <Image
-        source={require('../../assets/images/chat_icon.jpg')}
-        style={{width: 30, height: 30}}
+        source={require('../../assets/images/ic_chat.png')}
+        style={{ tintColor: tintColor }}
       />
     )
   });

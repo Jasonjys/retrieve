@@ -36,12 +36,16 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
     paddingBottom: '4%'
   },
-  textStyle: {
+  textUserNameStyle: {
     fontWeight: '900',
     fontSize: 18,
-    margin: 10,
-    textAlign: 'center',
+    marginLeft: 10,
+    marginTop: 10,
     flexWrap: 'wrap'
+  },
+  textMessageStyle: {
+    marginTop: 5,
+    marginLeft: 10
   },
   deleteButtonContainerStyle: {
     backgroundColor: '#ffc1cc'
