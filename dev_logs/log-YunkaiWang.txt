@@ -25,6 +25,9 @@ Week Oct 23 - Oct 29
 - add reset button to time picker
 - fixed searching in lost post page
 
-
+Week Oct 30 - Nov 5
+- design the chat/message object storage
+- add messaging functionality
+- add sendMessage & createChat request hanler on the server
 
 
