@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Button, Text, Image, TouchableHighlight} from 'react-native';
-import { Icon } from 'react-native-elements'
+import {Icon} from 'react-native-elements';
 import Swipeable from 'react-native-swipeable';
 import style from './Style'
 
@@ -14,14 +14,14 @@ class SwipeListItem extends Component {
   }
 
   render() {
-    const {onOpen, onClose, displayFound, item, index} = this.props;
+    const {onOpen, onClose, onPress, displayFound, item, index} = this.props;
     return (
       <Swipeable
         onRef={ref => this.swipeable = ref}
         onRightButtonsOpenRelease={() => onOpen(this)}
         onRightButtonsCloseRelease={() => onClose(this)}
         rightButtons={[
-          <TouchableHighlight 
+          <TouchableHighlight
             underlayColor='#95c2e2'
             style={style.editButtonContainerStyle}
             onPress={() => {
@@ -47,7 +47,7 @@ class SwipeListItem extends Component {
           </TouchableHighlight>
         ]}
       >
-        <TouchableHighlight onPress={()=>{this.props.onPress()}} underlayColor='#e5e5e5'>
+        <TouchableHighlight onPress={()=>{onPress()}} underlayColor='#e5e5e5'>
           <View style={style.listItemStyle}>
             {this.props.item.img ? 
               <Image

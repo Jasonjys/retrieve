@@ -9,6 +9,8 @@ import MapScreen from './components/Map/Map';
 import DetailsScreen from './components/DetailPage/DetailPage';
 import SearchScreen from './components/SearchScreen/SearchScreen';
 import EditProfileScreen from './components/EditProfile/EditProfile';
+import MessageScreen from './components/MessageScreen/MessageScreen';
+import MessageList from './components/MessageList/MessageList';
 
 const Tabs = TabNavigator({
   Profile: {
@@ -19,6 +21,9 @@ const Tabs = TabNavigator({
   },
   LostPosts: {
     screen: LostPostsScreen
+  },
+  MessageList: {
+    screen: MessageList
   }
 }, {
   initialRouteName: 'FoundPosts',
@@ -37,5 +42,6 @@ export default StackNavigator({
   Map: {screen: MapScreen},
   Search: {screen: SearchScreen},
   Details: {screen: DetailsScreen},
-  EditProfile: {screen: EditProfileScreen}
+  EditProfile: {screen: EditProfileScreen},
+  MessageScreen: {screen: MessageScreen}
 });

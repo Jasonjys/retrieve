@@ -1,14 +1,34 @@
 import React, {Component} from 'react';
-import {View, Image, ScrollView, Modal, TouchableHighlight} from 'react-native';
+import {View, Text, Image, ScrollView, Modal, TouchableHighlight} from 'react-native';
 import {FormLabel} from 'react-native-elements'
 import style from './Style';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import matchCategory from '../../library/matchCategory';
+import httpRequest from '../../library/httpRequest';
+import {firebaseApp, usersRef} from '../../firebaseConfig';
 
 class DetailPage extends Component {
   state = {
     openModal: false
   }
+
+  chatPressed = () => {
+    let {user} = this.props.navigation.state.params;
+    const currentUser = firebaseApp.auth().currentUser;
+    const {uid, displayName, photoURL} = currentUser;
+    httpRequest("createChat", {}, 'POST', JSON.stringify({
+      uid1: uid,
+      uid2: user
+    })).then((response) => {
+      this.props.navigation.navigate('MessageScreen', {
+        ...response,
+        user: {uid, displayName, photoURL}
+      });
+    }).catch((error) => {
+      console.log(error);
+    })
+  }
+
   render() {
     let {title, img, description, location, category, posterName, date, postDate, email} = this.props.navigation.state.params
     return (
@@ -32,6 +52,12 @@ class DetailPage extends Component {
           <FormLabel labelStyle={style.posterStyle}> Posted by: {posterName}</FormLabel>
           <FormLabel labelStyle={style.posterStyle}> Email: {email ? email : 'No Email'}</FormLabel>
         </View>
+        <TouchableHighlight
+          style={{marginTop:10}}
+          onPress={()=>this.chatPressed()}
+        >
+          <Text>Chat with {posterName}</Text>
+        </TouchableHighlight>
       </ScrollView>
     );
   }
