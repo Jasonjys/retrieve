@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Image, TouchableOpacity, Text} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
 import {firebaseApp, usersRef, foundPostsRef, lostPostsRef} from '../../firebaseConfig';
@@ -34,7 +34,7 @@ class ProfileScreen extends Component {
   };
 
   state = {
-    userInfo: null,
+    userInfo: {},
     foundPosts: [],
     lostPosts: [],
     showFoundItem: true
@@ -48,41 +48,49 @@ class ProfileScreen extends Component {
         const userInfo = usersRef.val()[uid]
         this.setState({userInfo})
 
-        if (userInfo.foundPosts) {
-          userFoundPostsIds = userInfo.foundPosts
-          foundPostsRef.on('value', (items) => {
-            let foundPosts = [];
-            if (userFoundPostsIds.length) {
-              userFoundPostsIds.map((id) => {
-                if (items) {
-                  const itemsRef = items.val()
-                  if (itemsRef && itemsRef[id]) {
-                    const post = {...itemsRef[id], id};
-                    foundPosts.push(post)
+        if (userInfo) {
+          if (userInfo.foundPosts) {
+            userFoundPostsIds = userInfo.foundPosts
+            foundPostsRef.on('value', (items) => {
+              let foundPosts = [];
+              if (userFoundPostsIds.length) {
+                userFoundPostsIds.map((id) => {
+                  if (items) {
+                    const itemsRef = items.val()
+                    if (itemsRef && itemsRef[id]) {
+                      const post = {...itemsRef[id], id};
+                      foundPosts.push(post)
+                    }
                   }
-                }
-              })
-              this.setState({foundPosts})
-            }
-          })
-        }
-        if (userInfo.lostPosts) {
-          userLostPostIds = userInfo.lostPosts
-          lostPostsRef.on('value', (items) => {
-            let lostPosts = [];
-            if (userLostPostIds.length) {
-              userLostPostIds.map((id) => {
-                if (items) {
-                  const itemsRef = items.val()
-                  if (itemsRef && itemsRef[id]) {
-                    const post = {...itemsRef[id], id};
-                    lostPosts.push(post)
+                })
+                foundPosts.sort((a,b) => {
+                  return moment(b.postDate) - moment(a.postDate)
+                })
+                this.setState({foundPosts})
+              }
+            })
+          }
+          if (userInfo.lostPosts) {
+            userLostPostIds = userInfo.lostPosts
+            lostPostsRef.on('value', (items) => {
+              let lostPosts = [];
+              if (userLostPostIds.length) {
+                userLostPostIds.map((id) => {
+                  if (items) {
+                    const itemsRef = items.val()
+                    if (itemsRef && itemsRef[id]) {
+                      const post = {...itemsRef[id], id};
+                      lostPosts.push(post)
+                    }
                   }
-                }
-              })
-              this.setState({lostPosts})
-            }
-          })
+                })
+                lostPosts.sort((a,b) => {
+                  return moment(b.postDate) - moment(a.postDate)
+                })
+                this.setState({lostPosts})
+              }
+            })
+          } 
         }
       }
     })
@@ -146,18 +154,19 @@ class ProfileScreen extends Component {
   }
 
   render() {
-    const Content = this.state.foundPosts.length ?
+    const {foundPosts, lostPosts, showFoundItem, userInfo} = this.state;
+    const Content = foundPosts ?
     <ProfileContent
       navigation={this.props.navigation}
-      posts={this.state.showFoundItem ? this.state.foundPosts : this.state.lostPosts}
+      posts={showFoundItem ? foundPosts : lostPosts}
       displayFound={this.state.showFoundItem}
       onDelete={this.handleDeletePost}
       onEdit={this.handleEditPost}
     /> : null
     return (
       <View style={style.profileScreenContainer}>
-        <ProfileHeader userInfo={this.state.userInfo} navigation={this.props.navigation}/>
-        <ProfileTab onPressTab={this.handlePressTab}/>
+        <ProfileHeader userInfo={userInfo} navigation={this.props.navigation}/>
+        <ProfileTab found={foundPosts.length} lost={lostPosts.length} onPressTab={this.handlePressTab}/>
         {Content}
       </View>
     );

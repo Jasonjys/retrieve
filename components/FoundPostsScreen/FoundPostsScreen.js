@@ -10,7 +10,7 @@ import PTRView from 'react-native-pull-to-refresh';
 
 class FoundPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Found Posts',
+    title: 'Recent Found',
     headerRight: <Icon
       name='add-circle'
       color='#e91e63'

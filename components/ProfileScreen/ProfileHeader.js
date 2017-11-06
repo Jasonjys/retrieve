@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Modal, TouchableHighlight} from 'react-native';
 import {ActivityIndicator} from 'antd-mobile';
-import { Icon } from 'react-native-elements'
+import {Icon} from 'react-native-elements'
 import style from './Style'
+import ImageViewer from 'react-native-image-zoom-viewer';
+
 
 class ProfileHeader extends Component {
+  state = {
+    openModal: false
+  }
   handleEditPress = () =>{
     this.props.navigation.navigate('EditProfile', this.props.userInfo)
   }
@@ -19,14 +24,29 @@ class ProfileHeader extends Component {
           source={require('../../assets/images/header3.jpg')}
         >
           <View style={style.headerContainerStyle}>
-            {image}
+            <TouchableHighlight
+              style={style.touchableHeighlightStyle}
+              onPress={() => {
+                if(photoURL){
+                  this.setState({openModal: true})
+                }
+              }}
+              underlayColor='rgba(0, 0, 0, 0)'>
+              {image}
+            </TouchableHighlight>
+            <Modal visible={this.state.openModal} transparent={true}>
+              <ImageViewer
+                imageUrls={[{url: photoURL}]}
+                onClick={() => this.setState({openModal: false})}
+              />
+            </Modal>
             <View style={style.textBackgroundStyle}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={style.headerNameStyle}>{displayName}</Text>
                 <Icon
                   name='mode-edit'
                   color='white'
-                  size={16}
+                  size={20}
                   style={style.editButtonStyle}
                   onPress={this.handleEditPress}/>
               </View>

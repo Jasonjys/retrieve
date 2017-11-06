@@ -1,32 +1,33 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity, Text, TouchableHighlight} from 'react-native';
 import style from './Style';
 
 class ProfileTab extends Component {
   render() {
     return (
       <View style={style.tab}>
-        <TouchableOpacity style={{width: '50%'}} onPress={()=>this.props.onPressTab(true)}>
+        <TouchableHighlight style={{width: '50%'}} onPress={()=>this.props.onPressTab(true)} underlayColor='#95c2e2'>
           <View
             style={[
-            style.tabItem, {
-              backgroundColor: '#95c2e2'
-            }
-          ]}>
-            <Text style={style.tabFont}>Found</Text>
+              style.tabItem, {
+                backgroundColor: '#aad1ed'
+              }
+            ]}
+          >
+            <Text style={style.tabFont}>Found {this.props.found}</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableHighlight>
 
-        <TouchableOpacity style={{width: '50%'}} onPress={()=>this.props.onPressTab(false)}>
+        <TouchableHighlight style={{width: '50%'}} onPress={()=>this.props.onPressTab(false)} underlayColor='#f4bac4'>
           <View
             style={[
             style.tabItem, {
-              backgroundColor: '#ff9eaf'
+              backgroundColor: '#ffc1cc'
             }
           ]}>
-            <Text style={style.tabFont}>Lost</Text>
+            <Text style={style.tabFont}>Lost {this.props.lost}</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </View>
     );
   }

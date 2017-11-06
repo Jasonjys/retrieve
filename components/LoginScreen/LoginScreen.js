@@ -84,11 +84,6 @@ class LoginScreen extends Component {
               });
             }
           })
-          const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [NavigationActions.init({routeName: 'Tabs'})]
-          });
-          this.props.navigation.dispatch(resetAction);
         })
         .catch((error) => {
           console.log(error)
@@ -131,12 +126,14 @@ class LoginScreen extends Component {
         <FormInput
           value={this.state.email}
           onChangeText={email => this.setState({email})}
+          autoCapitalize='none'
         />
         <FormLabel>Password</FormLabel>
         <FormInput
           secureTextEntry={true}
           value={this.state.password}
           onChangeText={password => this.setState({password})}
+          autoCapitalize='none'
         />
         <FormValidationMessage>{errorMessage}</FormValidationMessage>
         <View style={style.buttonContainer}>
