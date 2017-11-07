@@ -104,8 +104,9 @@ class PostForm extends Component {
       this.setState({categoryErrorMessage: 'Category is required!'})
       return;
     } else {
-      const userId = firebaseApp.auth().currentUser.uid;
-      const user = usersRef.child(userId);
+      const currentUser = firebaseApp.auth().currentUser;
+      const {uid, email, displayName, photoURL} = currentUser;
+      const user = usersRef.child(uid);
 
       var itemsRef = type === "lost" ? lostPostsRef : foundPostsRef;
       const newPostKey = itemsRef.push({
@@ -116,9 +117,7 @@ class PostForm extends Component {
         location,
         category: category[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-        posterName: firebaseApp.auth().currentUser.displayName,
-        email: firebaseApp.auth().currentUser.email,
-        user: userId
+        poster: {uid, email, displayName, photoURL}
       }).key
 
       user.once('value').then((snapshot) => {
