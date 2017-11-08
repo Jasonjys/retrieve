@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, Image, ScrollView, Modal, TouchableHighlight} from 'react-native';
+import {View, Text, Image, ScrollView, Modal, CameraRoll, ActionSheetIOS, TouchableHighlight} from 'react-native';
 import {FormLabel} from 'react-native-elements'
 import style from './Style';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import matchCategory from '../../library/matchCategory';
 import httpRequest from '../../library/httpRequest';
 import {firebaseApp, usersRef} from '../../firebaseConfig';
+
 
 class DetailPage extends Component {
   state = {
@@ -42,12 +43,34 @@ class DetailPage extends Component {
     })
   }
 
+  handleLongPressImage = (img) => {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        "Save image",
+        "Cancel"
+      ],
+      cancelButtonIndex: 1,
+    },
+    (buttonIndex) => {
+      switch(buttonIndex) {
+        case 0:
+          CameraRoll.saveToCameraRoll(img);
+          break;
+        case 1:
+          break;
+      }
+    })
+  }
+
   render() {
     let {title, img, description, location, category, date, postDate} = this.props.navigation.state.params
     const {displayName, email, photoURL} = this.state.poster
     return (
       <ScrollView contentContainerStyle={style.container}>
-        {img ? <TouchableHighlight style={style.image} onPress={()=>this.setState({openModal: true})}>
+        {img ? <TouchableHighlight style={style.image}
+                  onPress={() => this.setState({openModal: true})}
+                  onLongPress={() => this.handleLongPressImage(img)}
+                  >
           <Image source={{url: img}} style={{height: '100%'}}/>
           </ TouchableHighlight>: null}
         <Modal
@@ -68,6 +91,7 @@ class DetailPage extends Component {
         </View>
         <TouchableHighlight
           style={{marginTop:10}}
+          disabled={firebaseApp.auth().currentUser.uid===uid}
           onPress={()=>this.chatPressed()}
         >
           <Text>Chat with {displayName}</Text>
