@@ -117,7 +117,7 @@ class PostForm extends Component {
         location,
         category: category[0],
         postDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-        poster: {uid, email, displayName, photoURL}
+        posterUID: uid
       }).key
 
       user.once('value').then((snapshot) => {
