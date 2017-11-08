@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {View, Button, Text, Image, TouchableHighlight} from 'react-native';
-import { Icon } from 'react-native-elements'
-import Swipeable from 'react-native-swipeable';
+import { Icon } from 'react-native-elements';
 import style from './Style'
 import SwipeListItem from './SwipeListItem'
 

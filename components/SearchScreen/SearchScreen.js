@@ -101,6 +101,7 @@ class Search extends Component {
           <CategoryPicker
             categoryValue={category}
             handleOnChange={(v) => this.setState({category: v})}
+            handleOnDismiss={() => this.setState({category: ""})}
           />
         </View>
         <Button title='Search' onPress={() => this._onSearchPressed()}/>

@@ -27,17 +27,17 @@ class EditProfile extends Component {
     this.setState({url})
   }
   handleSave = () => {
-    const {name, photoURL, phoneNumber, email} = this.state
+    const {name, url, phoneNumber, email} = this.state
     if (!email) {
       this.setState({emailError: 'Email is required!'})
       return
     }
     const user = firebaseApp.auth().currentUser
     const {uid} = user
-    user.updateProfile({displayName: name, photoURL, phoneNumber, email})
+    user.updateProfile({displayName: name, photoURL: url, phoneNumber, email})
     .then(() => {
       usersRef.child(uid)
-        .update({displayName: name, photoURL: this.state.url, phoneNumber, email})
+        .update({displayName: name, photoURL: url, phoneNumber, email})
         .then(() => {
           this.props.navigation.goBack()
         })
