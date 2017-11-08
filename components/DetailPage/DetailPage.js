@@ -9,16 +9,29 @@ import {firebaseApp, usersRef} from '../../firebaseConfig';
 
 class DetailPage extends Component {
   state = {
-    openModal: false
+    openModal: false,
+    poster: {
+      displayName: '',
+      email: '',
+      photoURL: ''
+    }
+  }
+
+  componentDidMount() {
+    const item = this.props.navigation.state.params
+    usersRef.child(item.posterUID).once('value').then((poster) => {
+      this.setState({poster: poster.val()})
+    })
   }
 
   chatPressed = () => {
-    const {poster} = this.props.navigation.state.params;
+    const {poster} = this.state;
+    const item = this.props.navigation.state.params;
     const currentUser = firebaseApp.auth().currentUser;
     const {uid, displayName, photoURL} = currentUser;
     httpRequest("createChat", {}, 'POST', JSON.stringify({
       user1: {uid, displayName, photoURL},
-      user2: poster
+      user2: {uid: item.posterUID, displayName: poster.displayName, photoURL: poster.photoURL}
     })).then((response) => {
       this.props.navigation.navigate('MessageScreen', {
         ...response,
@@ -30,8 +43,8 @@ class DetailPage extends Component {
   }
 
   render() {
-    let {title, img, description, location, category, date, postDate, poster} = this.props.navigation.state.params
-    const {displayName, email} = poster
+    let {title, img, description, location, category, date, postDate} = this.props.navigation.state.params
+    const {displayName, email, photoURL} = this.state.poster
     return (
       <ScrollView contentContainerStyle={style.container}>
         {img ? <TouchableHighlight style={style.image} onPress={()=>this.setState({openModal: true})}>
