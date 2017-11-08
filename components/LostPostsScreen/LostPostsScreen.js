@@ -3,8 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { ActivityIndicator } from 'antd-mobile';
 import List from '../List/List';
-import { lostPostsRef } from '../../firebaseConfig';
-import httpRequest from '../../library/httpRequest';
+import {firebaseApp, usersRef, lostPostsRef} from '../../firebaseConfig';
 import style from './Style';
 import PTRView from 'react-native-pull-to-refresh';
 
@@ -36,23 +35,30 @@ class LostPostsScreen extends Component {
 
   componentDidMount() {
     this.refreshPostlist()
+    const currentUser = firebaseApp.auth().currentUser;
+    const {uid} = currentUser;
+    this.setState({uid})
+    usersRef.child(uid).child('lostPosts').on('value', () => {
+      this.refreshPostlist();
+    })
+  }
+
+  componentWillUnmount() {
+    const {uid} = this.state;
+    usersRef.child(uid).child('lostPosts').off();
   }
 
   refreshPostlist = () => {
     return new Promise((resolve, reject) => {
-      const {type} = this.state;
-      httpRequest(type, {})
-        .then((response) => {
-          this.setState({
-            loading: false,
-            list: response
-          }, () => {
-            resolve();
-          })
+      lostPostsRef.once('value').then((snapShot) => {
+        var list = Object.values(snapShot.val()).reverse();
+        this.setState({
+          loading: false,
+          list
+        }, () => {
+          resolve()
         })
-        .catch((error) => {
-          reject(error);
-        })
+      })
     })
   }
 
