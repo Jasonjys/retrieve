@@ -6,6 +6,7 @@ import List from '../List/List';
 import {firebaseApp, usersRef, foundPostsRef} from '../../firebaseConfig';
 import style from './Style';
 import PTRView from 'react-native-pull-to-refresh';
+import Cardgrid from '../CardGrid/CardGrid'
 
 class FoundPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -72,7 +73,7 @@ class FoundPostsScreen extends Component {
           onRefresh={this.refreshPostlist}
           offset={65}
         >
-          <List navigate={navigate} list={this.state.list} />
+        <Cardgrid navigate={navigate} list={this.state.list}/>
         </PTRView>
 
     return (
