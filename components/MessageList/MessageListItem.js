@@ -32,7 +32,7 @@ class MessageListItem extends Component {
           </TouchableHighlight>
         ]}
       >
-        <TouchableHighlight onPress={() => onPress()}>
+        <TouchableHighlight onPress={() => onPress()} underlayColor='#e5e5e5'>
           <View style={style.listItemStyle}>
             {item.contact.photoURL ? 
               <Image

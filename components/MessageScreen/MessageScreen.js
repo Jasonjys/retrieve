@@ -1,5 +1,5 @@
 import React, {Component}from 'react';
-import {Text, TouchableHighlight, Image} from 'react-native';
+import {Text, Button, Image} from 'react-native';
 import stylefrom from './Style';
 import {GiftedChat} from 'react-native-gifted-chat';
 import httpRequest from '../../library/httpRequest';
@@ -8,22 +8,26 @@ import {usersRef} from '../../firebaseConfig';
 class MessageScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.contact.displayName,
-    headerRight: <TouchableHighlight
+    headerRight: <Button
       onPress={() => {
         const {user, key} = navigation.state.params;
         const {uid} = user;
         usersRef.child(uid).child('chat').child(key).child('messages').remove();
       }}
-    >
-      <Text>
-        Clear history
-      </Text>
-    </TouchableHighlight>
+      title='Clear'
+    />
   });
 
-  componentWillMount() {
+  state = {
+    user: {
+      uid: '',
+      displayName: '',
+      photoURL: ''
+    }
+  }
+
+  componentDidMount() {
     const {user, contact, messages, key} = this.props.navigation.state.params;
-    console.log(contact)
     const {uid} = user;
     this.setState({
       user,

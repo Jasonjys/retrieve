@@ -33,11 +33,25 @@ export default StyleSheet.create({
     fontSize: 13,
     marginBottom: -10
   },
-  posterStyle: {
-    fontSize: 14,
-    fontWeight: '200',
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    marginBottom: -10
+  posterContainerStyle: {
+    marginLeft: '5%',
+    marginTop: '2%',
+    flexDirection: 'row'
+  },
+  posterImage: {
+    height: 60,
+    width: 60,
+    borderRadius: 30
+  },
+  posterName: {
+    marginLeft: '2%',
+    marginTop: '15%',
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  posterEmail: {
+    marginLeft: '5%',
+    fontSize: 12,
+    color: '#919191'
   }
 });

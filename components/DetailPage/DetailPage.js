@@ -50,13 +50,12 @@ class DetailPage extends Component {
         "Cancel"
       ],
       cancelButtonIndex: 1,
-    },
-    (buttonIndex) => {
+    }, (buttonIndex) => {
       switch(buttonIndex) {
         case 0:
           CameraRoll.saveToCameraRoll(img);
           break;
-        case 1:
+        default:
           break;
       }
     })
@@ -67,13 +66,13 @@ class DetailPage extends Component {
     const {displayName, email, photoURL} = this.state.poster
     return (
       <ScrollView contentContainerStyle={style.container}>
-              <View style={{marginLeft: '5%', marginTop: '2%', flexDirection: 'row'}}>
+        <View style={style.posterContainerStyle}>
           <View>
-            <Image source={{url: photoURL}} style={{height: 60, width: 60, borderRadius: 30}}/>
+            <Image source={{url: photoURL}} style={style.posterImage}/>
           </View>
-          <View style={{flexDirection:'column', marginLeft: '4%'}}>
-            <Text style={{marginTop: '15%', fontSize: 16, fontWeight: 'bold'}}> {displayName}</Text>
-            <Text style={{fontSize: 12, color: '#919191'}}>{email}</Text>
+          <View style={{flexDirection:'column'}}>
+            <Text style={style.posterName}> {displayName}</Text>
+            <Text style={style.posterEmail}>{email}</Text>
           </View>
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <Icon
@@ -81,7 +80,8 @@ class DetailPage extends Component {
               style={{marginLeft: '10%'}}
               color='#848484'
               disabled={firebaseApp.auth().currentUser.uid===posterUID}
-              onPress={()=> this.chatPressed()}/>
+              onPress={()=> this.chatPressed()}
+            />
           </View>
         </View>
         {img ? 
@@ -91,15 +91,14 @@ class DetailPage extends Component {
             onLongPress={() => this.handleLongPressImage(img)}
           >
             <Image source={{url: img}} style={{height: '100%'}}/>
-          </TouchableHighlight>
-          : null
+          </TouchableHighlight> : null  
         }
         <Modal
           visible={this.state.openModal}
           transparent={true}
-          >
-            <ImageViewer imageUrls={[{url:img}]} onClick={()=>{this.setState({openModal: false})}}/>
-          </Modal>
+        >
+          <ImageViewer imageUrls={[{url:img}]} onClick={()=>{this.setState({openModal: false})}}/>
+        </Modal>
         <View style={{width: '100%'}}>
           <FormLabel labelStyle={style.title}>{title}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Found on: {date ? date : 'Not provided'}</FormLabel>

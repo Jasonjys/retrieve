@@ -16,8 +16,7 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   listContainer: {
-    height: 300,
-    flex: 1
+    height: '100%',
   },
   listItemStyle: {
     flex: 1,

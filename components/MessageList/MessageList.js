@@ -109,7 +109,7 @@ class MessageList extends Component {
       </ScrollView>
 
     return (
-      <View>
+      <View style={{height: '100%', backgroundColor: 'white'}}>
         {loadingOrList}
       </View>
     );
