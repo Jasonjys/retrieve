@@ -39,7 +39,7 @@ class ProfileScreen extends Component {
     lostPosts: [],
     showFoundItem: true
   }
-  componentWillMount() {
+  componentDidMount() {
     const user = firebaseApp.auth().currentUser;
     const {uid} = user;
 
