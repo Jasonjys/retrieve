@@ -9,9 +9,13 @@ class CardGrid extends Component {
   render() {
     return (
       <ScrollView style={{flex: 1}}>
-          <View style={{height: '100%', flexDirection: 'row', flexWrap: 'wrap', marginTop: '3%'}}>
+          <View style={{height: '100%', flexDirection: 'row', flexWrap: 'wrap', marginTop: '3%', marginLeft: '2%'}}>
             {this.props.list.map((item, key)=>(
-              <TouchableHighlight key={key} style={{width: '48%', marginHorizontal:2, borderColor: 'black'}}>
+              <TouchableHighlight
+                key={key}
+                style={{width: '48%', marginHorizontal:2, borderColor: 'black'}}
+                onPress={()=>this.props.navigate('Details', item)}
+                underlayColor='rgba(0,0,0,0.2)'>
                 <View>
                   <View style={{alignItems: 'center', justifyContent: 'center'}}>
                     <Image
@@ -19,7 +23,10 @@ class CardGrid extends Component {
                       style={{height: 240,
                         width: '100%',
                         flexDirection: 'column',
-                        justifyContent: 'flex-end'
+                        justifyContent: 'flex-end',
+                        borderWidth: 1,
+                        borderRadius: 7,
+                        borderColor: '#828282'
                       }}
                     >
                     <View style={{width: '100%',height: 90, backgroundColor: 'rgba(0,0,0,0.3)',alignContent: 'flex-start', justifyContent: 'center'}}>

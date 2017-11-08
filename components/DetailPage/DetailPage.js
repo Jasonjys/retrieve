@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Image, ScrollView, Modal, TouchableHighlight} from 'react-native';
-import {FormLabel} from 'react-native-elements'
+import {FormLabel, Icon} from 'react-native-elements'
 import style from './Style';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import matchCategory from '../../library/matchCategory';
@@ -47,6 +47,22 @@ class DetailPage extends Component {
     const {displayName, email, photoURL} = this.state.poster
     return (
       <ScrollView contentContainerStyle={style.container}>
+              <View style={{marginLeft: '5%', marginTop: '2%', flexDirection: 'row'}}>
+          <View>
+            <Image source={{url: photoURL}} style={{height: 60, width: 60, borderRadius: 30}}/>
+          </View>
+          <View style={{flexDirection:'column', marginLeft: '4%'}}>
+            <Text style={{marginTop: '15%', fontSize: 16, fontWeight: 'bold'}}> {displayName}</Text>
+            <Text style={{fontSize: 12, color: '#919191'}}>{email}</Text>
+          </View>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Icon
+              name='chat'
+              style={{marginLeft: '10%'}}
+              color='#848484'
+              onPress={()=> this.chatPressed()}/>
+          </View>
+        </View>
         {img ? <TouchableHighlight style={style.image} onPress={()=>this.setState({openModal: true})}>
           <Image source={{url: img}} style={{height: '100%'}}/>
           </ TouchableHighlight>: null}
@@ -63,15 +79,7 @@ class DetailPage extends Component {
           <FormLabel labelStyle={style.infoLabelStyle}>Category: {category ? matchCategory(category) : 'Not provided'}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Location: {location && location.address ? location.address :'Not provided' }</FormLabel>
           <FormLabel labelStyle={style.desStyle}>{description ? description : 'No Description'}</FormLabel>
-          <FormLabel labelStyle={style.posterStyle}> Posted by: {displayName}</FormLabel>
-          <FormLabel labelStyle={style.posterStyle}> Email: {email ? email : 'No Email'}</FormLabel>
         </View>
-        <TouchableHighlight
-          style={{marginTop:10}}
-          onPress={()=>this.chatPressed()}
-        >
-          <Text>Chat with {displayName}</Text>
-        </TouchableHighlight>
       </ScrollView>
     );
   }

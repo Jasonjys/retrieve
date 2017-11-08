@@ -7,7 +7,7 @@ import {usersRef} from '../../firebaseConfig';
 
 class MessageScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Chat with ' + navigation.state.params.contact.displayName,
+    title: navigation.state.params.contact.displayName,
     headerRight: <TouchableHighlight
       onPress={() => {
         const {user, key} = navigation.state.params;
