@@ -63,7 +63,7 @@ class DetailPage extends Component {
   }
 
   render() {
-    let {title, img, description, location, category, date, postDate} = this.props.navigation.state.params
+    const {title, img, description, location, category, date, postDate, posterUID} = this.props.navigation.state.params
     const {displayName, email, photoURL} = this.state.poster
     return (
       <ScrollView contentContainerStyle={style.container}>
@@ -91,7 +91,7 @@ class DetailPage extends Component {
         </View>
         <TouchableHighlight
           style={{marginTop:10}}
-          disabled={firebaseApp.auth().currentUser.uid===uid}
+          disabled={firebaseApp.auth().currentUser.uid===posterUID}
           onPress={()=>this.chatPressed()}
         >
           <Text>Chat with {displayName}</Text>
