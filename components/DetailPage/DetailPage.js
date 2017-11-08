@@ -13,12 +13,12 @@ class DetailPage extends Component {
   }
 
   chatPressed = () => {
-    let {user} = this.props.navigation.state.params;
+    const {poster} = this.props.navigation.state.params;
     const currentUser = firebaseApp.auth().currentUser;
     const {uid, displayName, photoURL} = currentUser;
     httpRequest("createChat", {}, 'POST', JSON.stringify({
-      uid1: uid,
-      uid2: user
+      user1: {uid, displayName, photoURL},
+      user2: poster
     })).then((response) => {
       this.props.navigation.navigate('MessageScreen', {
         ...response,
@@ -30,7 +30,8 @@ class DetailPage extends Component {
   }
 
   render() {
-    let {title, img, description, location, category, posterName, date, postDate, email} = this.props.navigation.state.params
+    let {title, img, description, location, category, date, postDate, poster} = this.props.navigation.state.params
+    const {displayName, email} = poster
     return (
       <ScrollView contentContainerStyle={style.container}>
         {img ? <TouchableHighlight style={style.image} onPress={()=>this.setState({openModal: true})}>
@@ -49,14 +50,14 @@ class DetailPage extends Component {
           <FormLabel labelStyle={style.infoLabelStyle}>Category: {category ? matchCategory(category) : 'Not provided'}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Location: {location && location.address ? location.address :'Not provided' }</FormLabel>
           <FormLabel labelStyle={style.desStyle}>{description ? description : 'No Description'}</FormLabel>
-          <FormLabel labelStyle={style.posterStyle}> Posted by: {posterName}</FormLabel>
+          <FormLabel labelStyle={style.posterStyle}> Posted by: {displayName}</FormLabel>
           <FormLabel labelStyle={style.posterStyle}> Email: {email ? email : 'No Email'}</FormLabel>
         </View>
         <TouchableHighlight
           style={{marginTop:10}}
           onPress={()=>this.chatPressed()}
         >
-          <Text>Chat with {posterName}</Text>
+          <Text>Chat with {displayName}</Text>
         </TouchableHighlight>
       </ScrollView>
     );
