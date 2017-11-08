@@ -194,6 +194,7 @@ class PostForm extends Component {
         <CategoryPicker
           categoryValue={this.state.category}
           handleOnChange={(v) => this.setState({category: v})}
+          handleOnDismiss={() => this.setState({category: ""})}
         />
         {categoryErrorMessage ? <FormValidationMessage>{categoryErrorMessage}</FormValidationMessage> : null}
         <CameraComponent 
