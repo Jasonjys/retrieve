@@ -63,13 +63,8 @@ class DetailPage extends Component {
   }
 
   render() {
-<<<<<<< HEAD
-    let {title, img, description, location, category, date, postDate, poster} = this.props.navigation.state.params
-    const {displayName, email, uid} = poster
-=======
     let {title, img, description, location, category, date, postDate} = this.props.navigation.state.params
     const {displayName, email, photoURL} = this.state.poster
->>>>>>> fba0f0701e09f31ad0e7057a4733f264540374b0
     return (
       <ScrollView contentContainerStyle={style.container}>
         {img ? <TouchableHighlight style={style.image}
