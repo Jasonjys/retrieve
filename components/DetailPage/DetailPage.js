@@ -66,24 +66,6 @@ class DetailPage extends Component {
     const {displayName, email, photoURL} = this.state.poster
     return (
       <ScrollView contentContainerStyle={style.container}>
-        <View style={style.posterContainerStyle}>
-          <View>
-            <Image source={{url: photoURL}} style={style.posterImage}/>
-          </View>
-          <View style={{flexDirection:'column'}}>
-            <Text style={style.posterName}> {displayName}</Text>
-            <Text style={style.posterEmail}>{email}</Text>
-          </View>
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Icon
-              name='chat'
-              style={{marginLeft: '10%'}}
-              color='#848484'
-              disabled={firebaseApp.auth().currentUser.uid===posterUID}
-              onPress={()=> this.chatPressed()}
-            />
-          </View>
-        </View>
         {img ? 
           <TouchableHighlight
             style={style.image}
@@ -101,6 +83,24 @@ class DetailPage extends Component {
         </Modal>
         <View style={{width: '100%'}}>
           <FormLabel labelStyle={style.title}>{title}</FormLabel>
+          <View style={style.posterContainerStyle}>
+            <View>
+              <Image source={{url: photoURL}} style={style.posterImage}/>
+            </View>
+            <View style={{flexDirection:'column'}}>
+              <Text style={style.posterName}> {displayName}</Text>
+              <Text style={style.posterEmail}>{email}</Text>
+            </View>
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <Icon
+                name='chat'
+                style={{marginLeft: '10%'}}
+                color='#848484'
+                disabled={firebaseApp.auth().currentUser.uid===posterUID}
+                onPress={()=> this.chatPressed()}
+              />
+            </View>
+          </View>
           <FormLabel labelStyle={style.infoLabelStyle}>Found on: {date ? date : 'Not provided'}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Posted on: {postDate}</FormLabel>
           <FormLabel labelStyle={style.infoLabelStyle}>Category: {category ? matchCategory(category) : 'Not provided'}</FormLabel>

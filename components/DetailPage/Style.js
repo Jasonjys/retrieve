@@ -36,7 +36,8 @@ export default StyleSheet.create({
   posterContainerStyle: {
     marginLeft: '5%',
     marginTop: '2%',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   posterImage: {
     height: 60,
