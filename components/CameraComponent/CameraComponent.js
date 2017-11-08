@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
-import {
-  ActivityIndicator,
-  Clipboard,
-  Image,
-  Share,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import {ActivityIndicator, Clipboard, Image, Share, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Exponent, { Constants, ImagePicker, registerRootComponent } from 'expo'
 import { Button, Icon } from 'react-native-elements';
 import ActionSheet from 'react-native-actionsheet';
@@ -193,10 +184,6 @@ export default class App extends Component {
         this.props.onUploadImage(image)
       }
     } catch (e) {
-      // // console.log({ uploadResponse });
-      // // console.log({ uploadResult });
-      // // console.log({ e });
-      // alert('Upload failed, sorry :(');
     } finally {
       this.setState({ uploading: false });
     }
