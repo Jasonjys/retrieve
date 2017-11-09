@@ -79,11 +79,16 @@ class MessageList extends Component {
 
   render() {
     const {user, chat, loading, currentlyOpenItem} = this.state;
+    console.log(chat)
     const loadingOrList = loading
     ? <View style={style.loading}>
         <ActivityIndicator animating text='Loading chats'/>
       </View>
-    : <ScrollView Style={style.listContainer}>
+    : chat.length === 0
+       ? <View style={{height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{fontSize: 18, alignContent: 'center', color: '#a0a0a0'}}>No messages for now</Text>
+        </View>
+        : <ScrollView Style={style.listContainer}>
         {
           chat.map((item, key) => (
             <MessageListItem
