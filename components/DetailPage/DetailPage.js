@@ -31,11 +31,12 @@ class DetailPage extends Component {
     const currentUser = firebaseApp.auth().currentUser;
     const {uid, displayName, photoURL} = currentUser;
     httpRequest("createChat", {}, 'POST', JSON.stringify({
-      user1: {uid, displayName, photoURL},
-      user2: {uid: item.posterUID, displayName: poster.displayName, photoURL: poster.photoURL}
+      uid1: uid,
+      uid2: item.posterUID
     })).then((response) => {
       this.props.navigation.navigate('MessageScreen', {
         ...response,
+        contact: {uid: item.posterUID, displayName: poster.displayName, photoURL: poster.photoURL},
         user: {uid, displayName, photoURL}
       });
     }).catch((error) => {

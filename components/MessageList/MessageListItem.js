@@ -14,7 +14,8 @@ class MessageListItem extends Component {
   }
 
   render() {
-    const {onOpen, onClose, onPress, onDelete, item, index} = this.props;
+    const {onOpen, onClose, onPress, onDelete, item} = this.props;
+    const {contact} = item;
     return (
       <Swipeable
         onRef={ref => this.swipeable = ref}
@@ -34,9 +35,9 @@ class MessageListItem extends Component {
       >
         <TouchableHighlight onPress={() => onPress()} underlayColor='#e5e5e5'>
           <View style={style.listItemStyle}>
-            {item.contact.photoURL ? 
+            {contact.photoURL ? 
               <Image
-                source={{uri: item.contact.photoURL}}
+                source={{uri: contact.photoURL}}
                 style={style.imageStyle}
               /> :
               <Image 
@@ -46,7 +47,7 @@ class MessageListItem extends Component {
             }
             <View style={style.textContainerStyle}>
               <Text style={style.textUserNameStyle}>
-                {item.contact.displayName}
+                {contact.displayName}
               </Text>
               {item.messages ? 
                 <Text style={style.textMessageStyle} numberOfLines={1}>

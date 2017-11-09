@@ -27,11 +27,14 @@ class MessageScreen extends Component {
   }
 
   componentDidMount() {
-    const {user, contact, messages, key} = this.props.navigation.state.params;
+    const {user, contact, contactUID, messages, key} = this.props.navigation.state.params;
     const {uid} = user;
     this.setState({
       user,
-      contact,
+      contact : {
+        ...contact,
+        uid: contactUID
+      },
       messages
     });
     usersRef.child(uid).child('chat').child(key).on('value', (newMessages) => {

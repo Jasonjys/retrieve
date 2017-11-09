@@ -27,22 +27,33 @@ class MessageList extends Component {
   componentWillMount() {
     const user = firebaseApp.auth().currentUser;
     const {uid, photoURL, displayName} = user;
-    this.setState({user: {uid, photoURL, displayName}}, () => {
-      this.fetchMessageList(uid);
-    });
-    usersRef.child(uid).on('value', (user) => {
-      user = user.val() ? user.val() : [];
-      var chat = user.chat ? user.chat : [];
+    this.setState({user: {uid, photoURL, displayName}});
+    usersRef.child(uid).child('chat').on('value', (chat) => {
+      var chat = chat.val() ? chat.val() : [];
       chat = Object.keys(chat).map((key) => {
-        chat[key].key = key;
-        return chat[key];
+        var singleChat = chat[key];
+        singleChat.key = key;
+        return new Promise((resolve, reolve) => {
+          const {contactUID} = singleChat;
+          usersRef.child(contactUID).once('value').then((snapShot) => {
+            const contactUser = snapShot.val();
+            const {displayName, photoURL} = contactUser;
+            singleChat.contact = {displayName, photoURL};
+            resolve(singleChat);
+          })
+        })
+        resolve(chat[key]);
       })
-      chat.sort((a, b) => {
-        return new Date(b.lastModified) - new Date(a.lastModified);
-      });
-      this.setState({
-        loading: false,
-        chat
+
+      Promise.all(chat).then((response) => {
+        response.sort((a, b) => {
+          return new Date(b.lastModified) - new Date(a.lastModified);
+        })
+
+        this.setState({
+          loading: false,
+          chat: response
+        })
       })
     })
   }
@@ -51,23 +62,6 @@ class MessageList extends Component {
     const {user} = this.state;
     const {uid} = user;
     usersRef.child(uid).off();
-  }
-
-  fetchMessageList = (uid) => {
-    usersRef.child(uid).child('chat').once('value').then((chat) => {
-      chat = chat.val() ? chat.val() : [];
-      chat = Object.keys(chat).map((key) => {
-        chat[key].key = key;
-        return chat[key];
-      })
-      chat.sort((a, b) => {
-        return new Date(b.lastModified) - new Date(a.lastModified);
-      });
-      this.setState({
-        loading: false,
-        chat
-      });
-    })
   }
 
   deleteChat = (chat) => {
