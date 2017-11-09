@@ -2,10 +2,11 @@ import React, {Component}from 'react';
 import {Text, View, Image, TouchableHighlight, ScrollView} from 'react-native';
 import {ActivityIndicator} from 'antd-mobile';
 import {List, Icon} from 'react-native-elements'
-import {firebaseApp, usersRef} from '../../firebaseConfig';
+import {usersRef} from '../../firebaseConfig';
 import style from './Style';
 import Swipeable from 'react-native-swipeable';
 import MessageListItem from './MessageListItem';
+import currentUser from '../../library/singleton';
 
 class MessageList extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -25,7 +26,7 @@ class MessageList extends Component {
   }
 
   componentWillMount() {
-    const user = firebaseApp.auth().currentUser;
+    const user = currentUser.getCurrentUser();
     const {uid, photoURL, displayName} = user;
     this.setState({user: {uid, photoURL, displayName}});
     usersRef.child(uid).child('chat').on('value', (chat) => {

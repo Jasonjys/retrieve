@@ -3,10 +3,11 @@ import { View, Text, Image } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { ActivityIndicator } from 'antd-mobile';
 import List from '../List/List';
-import {firebaseApp, usersRef, lostPostsRef} from '../../firebaseConfig';
+import {usersRef, lostPostsRef} from '../../firebaseConfig';
 import style from './Style';
 import PTRView from 'react-native-pull-to-refresh';
-import Cardgrid from '../CardGrid/CardGrid'
+import Cardgrid from '../CardGrid/CardGrid';
+import currentUser from '../../library/singleton';
 
 class LostPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -36,8 +37,8 @@ class LostPostsScreen extends Component {
 
   componentDidMount() {
     this.refreshPostlist()
-    const currentUser = firebaseApp.auth().currentUser;
-    const {uid} = currentUser;
+    const user = currentUser.getCurrentUser();
+    const {uid} = user;
     this.setState({uid})
     usersRef.child(uid).child('lostPosts').on('value', () => {
       this.refreshPostlist();

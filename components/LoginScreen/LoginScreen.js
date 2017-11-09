@@ -27,15 +27,11 @@ class LoginScreen extends Component {
     const {navigation} = this.props;
     this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
       if (user) {
-        usersRef.child(user.uid).once('value', userRef => {
-          if (userRef) {
-            const resetAction = NavigationActions.reset({
-              index: 0,
-              actions: [NavigationActions.init({routeName: 'Tabs'})]
-            });
-            navigation.dispatch(resetAction);
-          }
-        })
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [NavigationActions.init({routeName: 'Tabs'})]
+        });
+        navigation.dispatch(resetAction);
       } else {
         this.setState({loading: false});
       }

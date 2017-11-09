@@ -2,14 +2,15 @@ import React, {Component} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
-import {firebaseApp, usersRef, foundPostsRef, lostPostsRef} from '../../firebaseConfig';
+import {usersRef, foundPostsRef, lostPostsRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
 import ProfileContent from './ProfileContent';
 import ProfileTab from './ProfileTab'
 import {Modal} from 'antd-mobile';
 import style from './Style';
 import httpRequest from '../../library/httpRequest';
-import moment from 'moment'
+import moment from 'moment';
+import currentUser from '../../library/singleton';
 
 
 class ProfileScreen extends Component {
@@ -40,7 +41,7 @@ class ProfileScreen extends Component {
     showFoundItem: true
   }
   componentDidMount() {
-    const user = firebaseApp.auth().currentUser;
+    const user = currentUser.getCurrentUser();
     const {uid} = user;
 
     usersRef.on('value', (usersRef) => {
@@ -118,7 +119,7 @@ class ProfileScreen extends Component {
         const postRef = found ? foundPostsRef : lostPostsRef;
         const propertyName = found ? 'foundPosts' : 'lostPosts';
         postRef.child(id).remove();
-        const {uid} = firebaseApp.auth().currentUser;
+        const {uid} = currentUser.getCurrentUser();
         const oldIds = this.state[propertyName].map((post) => {
           return post.id
         });
@@ -142,7 +143,7 @@ class ProfileScreen extends Component {
     alert('Signing out', 'Are you sure you want to sign out?', [
       {text: 'Cancel'},
       {text: 'Yes', onPress: () => {
-        firebaseApp.auth().signOut().then(() => {
+        currentUser.signOut().then(() => {
           const resetAction = NavigationActions.reset({
             index: 0,
             actions: [NavigationActions.init({routeName: 'Login'})]

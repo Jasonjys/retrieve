@@ -5,10 +5,11 @@ import style, {dateStyle} from './Style'
 import {FormLabel, FormInput, Button, Icon, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
-import {firebaseApp, usersRef, lostPostsRef, foundPostsRef} from '../../firebaseConfig'
+import {usersRef, lostPostsRef, foundPostsRef} from '../../firebaseConfig'
 import CameraComponent from '../CameraComponent/CameraComponent'
 import CategoryPicker from '../CategoryPicker/CategoryPicker'
-import moment from 'moment'
+import moment from 'moment';
+import getCurrentUser from '../../library/singleton';
 
 class PostForm extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -104,7 +105,7 @@ class PostForm extends Component {
       this.setState({categoryErrorMessage: 'Category is required!'})
       return;
     } else {
-      const currentUser = firebaseApp.auth().currentUser;
+      const currentUser = getCurrentUser.getCurrentUser();
       const {uid, email, displayName, photoURL} = currentUser;
       const user = usersRef.child(uid);
 
