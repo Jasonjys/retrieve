@@ -41,7 +41,7 @@ class MessageListItem extends Component {
                 style={style.imageStyle}
               /> :
               <Image 
-                source={require('../../assets/images/noImage.jpg')}
+                source={require('../../assets/images/account_circle.png')}
                 style={style.imageStyle}
               />
             }

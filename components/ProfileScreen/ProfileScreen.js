@@ -9,7 +9,6 @@ import ProfileTab from './ProfileTab'
 import {Modal} from 'antd-mobile';
 import style from './Style';
 import httpRequest from '../../library/httpRequest';
-import moment from 'moment';
 import currentUser from '../../library/singleton';
 
 
@@ -44,56 +43,14 @@ class ProfileScreen extends Component {
     const user = currentUser.getCurrentUser();
     const {uid} = user;
 
-    usersRef.on('value', (usersRef) => {
-      if (usersRef) {
-        const userInfo = usersRef.val()[uid]
-        this.setState({userInfo})
-
-        if (userInfo) {
-          if (userInfo.foundPosts) {
-            userFoundPostsIds = userInfo.foundPosts
-            foundPostsRef.on('value', (items) => {
-              let foundPosts = [];
-              if (userFoundPostsIds.length) {
-                userFoundPostsIds.map((id) => {
-                  if (items) {
-                    const itemsRef = items.val()
-                    if (itemsRef && itemsRef[id]) {
-                      const post = {...itemsRef[id], id};
-                      foundPosts.push(post)
-                    }
-                  }
-                })
-                foundPosts.sort((a,b) => {
-                  return moment(b.postDate) - moment(a.postDate)
-                })
-                this.setState({foundPosts})
-              }
-            })
-          }
-          if (userInfo.lostPosts) {
-            userLostPostIds = userInfo.lostPosts
-            lostPostsRef.on('value', (items) => {
-              let lostPosts = [];
-              if (userLostPostIds.length) {
-                userLostPostIds.map((id) => {
-                  if (items) {
-                    const itemsRef = items.val()
-                    if (itemsRef && itemsRef[id]) {
-                      const post = {...itemsRef[id], id};
-                      lostPosts.push(post)
-                    }
-                  }
-                })
-                lostPosts.sort((a,b) => {
-                  return moment(b.postDate) - moment(a.postDate)
-                })
-                this.setState({lostPosts})
-              }
-            })
-          } 
-        }
-      }
+    usersRef.child(uid).on('value', (userSnapShot) => {
+      const userInfo = userSnapShot.val();
+      const {photoURL, displayName, email, phoneNumber} = userInfo;
+      this.setState({
+        userInfo: {uid, phoneNumber, photoURL, displayName, email},
+        lostPosts: userInfo.lostPosts ? userInfo.lostPosts : [],
+        foundPosts: userInfo.foundPosts ? userInfo.foundPosts : []
+      });
     })
 
     this.props.navigation.setParams({
@@ -102,9 +59,8 @@ class ProfileScreen extends Component {
   }
 
   componentWillUnmount() {
-    usersRef.off();
-    foundPostsRef.off();
-    lostPostsRef.off();
+    const {uid} = this.state.userInfo;
+    usersRef.child(uid).off();
   }
 
   handlePressTab = (showFoundItem) => {
@@ -120,9 +76,8 @@ class ProfileScreen extends Component {
         const propertyName = found ? 'foundPosts' : 'lostPosts';
         postRef.child(id).remove();
         const {uid} = currentUser.getCurrentUser();
-        const oldIds = this.state[propertyName].map((post) => {
-          return post.id
-        });
+        const oldIds = this.state[propertyName];
+        const index = oldIds.indexOf(id)
         newIds = [
           ...oldIds.slice(0, index),
           ...oldIds.slice(index + 1)
@@ -160,6 +115,7 @@ class ProfileScreen extends Component {
     <ProfileContent
       navigation={this.props.navigation}
       posts={showFoundItem ? foundPosts : lostPosts}
+      type={showFoundItem}
       displayFound={this.state.showFoundItem}
       onDelete={this.handleDeletePost}
       onEdit={this.handleEditPost}
