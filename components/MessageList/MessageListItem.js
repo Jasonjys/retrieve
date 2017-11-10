@@ -51,7 +51,7 @@ class MessageListItem extends Component {
               </Text>
               {item.messages ? 
                 <Text style={style.textMessageStyle} numberOfLines={1}>
-                  {item.messages[0].text}
+                  {item.messages[item.messages.length - 1].text}
                 </Text> : null
               }
             </View>

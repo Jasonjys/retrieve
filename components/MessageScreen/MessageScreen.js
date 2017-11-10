@@ -35,30 +35,27 @@ class MessageScreen extends Component {
         ...contact,
         uid: contactUID
       },
-      messages
-    });
-    usersRef.child(uid).child('chat').child(key).on('value', (newMessages) => {
-      const chatInfo = newMessages.val();
-      if (chatInfo) {
-        const messages = chatInfo.messages ? chatInfo.messages : [];
-        this.setState({messages});
+      messages: messages.reverse()
+    }, () => {
+    usersRef.child(uid).child('chat').child(key).child('messages').on('child_added', (newMessage) => {
+      newMessage = newMessage.val();
+      const {messages} = this.state;
+      if (newMessage) {
+        const exist = messages.find((message) => {
+          return message._id === newMessage._id;
+        })
+        if (!exist) {
+          this.setState({messages: [newMessage, ...messages]});
+        }
       }
     })
+  });
   }
 
   componentWillUnmount() {
     const {user, key} = this.props.navigation.state.params;
     const {uid} = user;
     usersRef.child(uid).child('chat').child(key).off();
-  }
-
-  onSend(newMessage = []) {
-    const {messages} = this.state;
-    this.setState({
-      messages: GiftedChat.append(messages, newMessage),
-    }, () => {
-      this.sendMessage(newMessage)
-    });
   }
 
   sendMessage = (newMessage) => {
@@ -79,7 +76,7 @@ class MessageScreen extends Component {
     return (
       <GiftedChat
         messages={this.state.messages}
-        onSend={(messages) => this.onSend(messages)}
+        onSend={(messages) => this.sendMessage(messages)}
         placeholder="Enter your message here..."
         showUserAvatar={true}
         renderAvatarOnTop={true}

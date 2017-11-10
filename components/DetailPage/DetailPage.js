@@ -28,8 +28,8 @@ class DetailPage extends Component {
   chatPressed = () => {
     const {poster} = this.state;
     const item = this.props.navigation.state.params;
-    const currentUser = currentUser.getCurrentUser();
-    const {uid, displayName, photoURL} = currentUser;
+    const user = currentUser.getCurrentUser();
+    const {uid, displayName, photoURL} = user;
     httpRequest("createChat", {}, 'POST', JSON.stringify({
       uid1: uid,
       uid2: item.posterUID

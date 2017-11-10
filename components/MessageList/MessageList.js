@@ -62,7 +62,7 @@ class MessageList extends Component {
   componentWillUnmount() {
     const {user} = this.state;
     const {uid} = user;
-    usersRef.child(uid).off();
+    usersRef.child(uid).child('chat').off();
   }
 
   deleteChat = (chat) => {

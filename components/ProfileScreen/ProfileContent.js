@@ -26,13 +26,14 @@ class ProfileContent extends Component {
     posts.forEach((postID, index) => {
       postsRef.child(postID).on('value', (singlePost) => {
         singlePost = singlePost.val();
-        delete postArr[postArr.indexOf(postArr.find((post) => {
+        index = postArr.indexOf(postArr.find((post) => {
           return post.id === postID;
-        }))]
-        postArr.push({...singlePost, id: postID});
-        postArr.sort((a, b) => {
-          return moment(b.postDate) - moment(a.postDate);
-        })
+        }));
+        if (index !== -1) {
+          postArr[index] = {...singlePost, id: postID};
+        } else {
+          postArr.unshift({...singlePost, id: postID});
+        }
         this.setState({
           posts: postArr,
           loading: false

@@ -45,12 +45,14 @@ class ProfileScreen extends Component {
 
     usersRef.child(uid).on('value', (userSnapShot) => {
       const userInfo = userSnapShot.val();
-      const {photoURL, displayName, email, phoneNumber} = userInfo;
-      this.setState({
-        userInfo: {uid, phoneNumber, photoURL, displayName, email},
-        lostPosts: userInfo.lostPosts ? userInfo.lostPosts : [],
-        foundPosts: userInfo.foundPosts ? userInfo.foundPosts : []
-      });
+      if (userInfo) {
+        const {photoURL, displayName, email, phoneNumber} = userInfo;
+        this.setState({
+          userInfo: {uid, phoneNumber, photoURL, displayName, email},
+          lostPosts: userInfo.lostPosts ? userInfo.lostPosts : [],
+          foundPosts: userInfo.foundPosts ? userInfo.foundPosts : []
+        });
+      }
     })
 
     this.props.navigation.setParams({
