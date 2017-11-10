@@ -10,11 +10,15 @@ class ProfileContent extends Component {
     loading: true
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      loading: true,
-      posts: []
+  removeListener = () => {
+    const {posts, type} = this.props;
+    const postsRef = type ? foundPostsRef : lostPostsRef;
+    posts.map((postID) => {
+      postsRef.child(postsRef).off();
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
     const {posts, type} = nextProps;
     if (posts.length === 0) {
       this.setState({
@@ -43,11 +47,7 @@ class ProfileContent extends Component {
   }
 
   componentWillUnMount() {
-    const {posts, type} = this.props;
-    const postsRef = type ? foundPostsRef : lostPostsRef;
-    posts.map((postID) => {
-      postsRef.child(postsRef).off();
-    });
+    this.removeListener();
   }
 
   render() {
