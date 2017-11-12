@@ -1,6 +1,5 @@
 import React, {Component}from 'react';
 import {Text, View, Image, TouchableHighlight, ScrollView} from 'react-native';
-import {ActivityIndicator} from 'antd-mobile';
 import {List, Icon} from 'react-native-elements'
 import {usersRef} from '../../firebaseConfig';
 import style from './Style';
@@ -11,16 +10,19 @@ import currentUser from '../../library/singleton';
 class MessageList extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Chat',
-    tabBarIcon: ({tintColor}) => (
+    tabBarIcon: ({tintColor}) => {
+      const {params = {}} = navigation.state;
+      return (
       <Image
-        source={require('../../assets/images/ic_chat.png')}
+        source={
+          require('../../assets/images/ic_chat.png')
+          }
         style={{ tintColor: tintColor }}
-      />
-    )
+      />)
+    }
   });
 
   state = {
-    loading: true,
     chat: [],
     currentlyOpenItem: null
   }
@@ -29,33 +31,42 @@ class MessageList extends Component {
     const user = currentUser.getCurrentUser();
     const {uid, photoURL, displayName} = user;
     this.setState({user: {uid, photoURL, displayName}});
-    usersRef.child(uid).child('chat').on('value', (chat) => {
-      var chat = chat.val() ? chat.val() : [];
-      chat = Object.keys(chat).map((key) => {
-        var singleChat = chat[key];
+
+    usersRef.child(uid).child('chat').on('child_added', (snapShot) => {
+      const singleChat = snapShot.val() ? snapShot.val() : [];
+      const key = snapShot.key;
+      const promise = new Promise((resolve, reject) => {
         singleChat.key = key;
-        return new Promise((resolve, reolve) => {
-          const {contactUID} = singleChat;
-          usersRef.child(contactUID).once('value').then((snapShot) => {
-            const contactUser = snapShot.val();
-            const {displayName, photoURL} = contactUser;
-            singleChat.contact = {displayName, photoURL};
-            resolve(singleChat);
-          })
+        const {contactUID} = singleChat;
+        usersRef.child(contactUID).once('value').then((snapShot) => {
+          const contactUser = snapShot.val();
+          const {displayName, photoURL} = contactUser;
+          singleChat.contact = {displayName, photoURL};
+          resolve(singleChat)
         })
-        resolve(chat[key]);
       })
+      Promise.all([promise]).then((singleChat) => {
+        let {chat = []} = this.state;
+        chat = [...singleChat, ...chat];
+        chat.sort((a, b) => {return new Date(b.lastModified) - new Date(a.lastModified);})
+        this.setState({chat});
+      })
+    })
 
-      Promise.all(chat).then((response) => {
-        response.sort((a, b) => {
-          return new Date(b.lastModified) - new Date(a.lastModified);
-        })
-
+    usersRef.child(uid).child('chat').on('child_removed', (snapShot) => {
+      const key = snapShot.key;
+      const {chat = []} = this.state;
+      const index = chat.indexOf(chat.find((singleChat) => {
+        return singleChat.key === key
+      }))
+      if (index !== -1) {
         this.setState({
-          loading: false,
-          chat: response
+          chat: [
+          ...chat.splice(0, index),
+          ...chat.splice(index + 1, chat.length)
+          ]
         })
-      })
+      }
     })
   }
 
@@ -72,19 +83,38 @@ class MessageList extends Component {
     usersRef.child(uid).child('chat').child(key).remove();
   }
 
+  receiveNewMessage = (messages, chatKey, receivedNewMessage) => {
+    const {chat} = this.state;
+    const oldChat = chat.find((singleChat) => {
+      return singleChat.key === chatKey;
+    });
+    const index = chat.indexOf(oldChat);
+    this.setState({
+      chat: [
+        {
+          ...oldChat,
+          messages
+        },
+        ...chat.splice(0, index),
+        ...chat.splice(index + 1, chat.length)
+      ]
+    }, () => {
+      this.props.navigation.setParams({receivedNewMessage});
+    })
+  }
+
   render() {
     const {user, chat, loading, currentlyOpenItem} = this.state;
-    const loadingOrList = loading
-    ? <View style={style.loading}>
-        <ActivityIndicator animating text='Loading chats'/>
-      </View>
-    : <ScrollView Style={style.listContainer}>
+    const list =
+      <ScrollView Style={style.listContainer}>
         {
           chat.map((item, key) => (
             <MessageListItem
               key={item.key}
               index={key}
               item={item}
+              user={user}
+              receiveNewMessage={this.receiveNewMessage}
               onDelete={this.deleteChat}
               onPress={() => this.props.navigation.navigate('MessageScreen', {
                 ...item,
@@ -105,7 +135,7 @@ class MessageList extends Component {
 
     return (
       <View style={{height: '100%', backgroundColor: 'white'}}>
-        {loadingOrList}
+        {list}
       </View>
     );
   }

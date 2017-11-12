@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {View, Button, Text, Image, TouchableHighlight} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Swipeable from 'react-native-swipeable';
-import style from './Style'
+import style from './Style';
+import {usersRef} from '../../firebaseConfig';
+import moment from "moment";
 
 class MessageListItem extends Component {
   swipeable = null
@@ -13,9 +15,36 @@ class MessageListItem extends Component {
     }
   }
 
+  componentWillMount() {
+    const {item, user, receiveNewMessage} = this.props;
+    const {uid} = user;
+    const {messages = [], key} = item;
+    this.setState({uid, key, messages, receivedNewMessage: false}, () => {
+      usersRef.child(uid).child('chat').child(key).child('messages').on('value', (snapShot) => {
+        const newMessage = snapShot.val();
+        if (newMessage) {
+          let receivedNewMessage = false;
+          if (newMessage.length > messages.length) {
+            if (newMessage[newMessage.length - 1].user._id !== uid) {
+              receivedNewMessage = true;
+              this.setState({receivedNewMessage})
+            }
+          }
+          receiveNewMessage(newMessage, key, receivedNewMessage);
+        }
+      })
+    })
+  }
+
+  componentWillUnmount() {
+    const {uid, key} = this.state;
+    usersRef.child(uid).child('chat').child(key).child('messages').off();
+  }
+
   render() {
-    const {onOpen, onClose, onPress, onDelete, item} = this.props;
-    const {contact} = item;
+    const {onOpen, onClose, onPress, onDelete, viewdNewMessage, item} = this.props;
+    const {contact, messages, lastModified} = item;
+    const {receivedNewMessage} = this.state;
     return (
       <Swipeable
         onRef={ref => this.swipeable = ref}
@@ -33,14 +62,20 @@ class MessageListItem extends Component {
           </TouchableHighlight>
         ]}
       >
-        <TouchableHighlight onPress={() => onPress()} underlayColor='#e5e5e5'>
+        <TouchableHighlight
+          onPress={() => {
+            this.setState({receivedNewMessage: false}, () => {
+              onPress();
+            });
+          }}
+          underlayColor='#e5e5e5'>
           <View style={style.listItemStyle}>
             {contact.photoURL ? 
               <Image
                 source={{uri: contact.photoURL}}
                 style={style.imageStyle}
               /> :
-              <Image 
+              <Image
                 source={require('../../assets/images/account_circle.png')}
                 style={style.imageStyle}
               />
@@ -49,9 +84,11 @@ class MessageListItem extends Component {
               <Text style={style.textUserNameStyle}>
                 {contact.displayName}
               </Text>
-              {item.messages ? 
+              {messages ? 
                 <Text style={style.textMessageStyle} numberOfLines={1}>
-                  {item.messages[item.messages.length - 1].text}
+                  {receivedNewMessage ? <Text style={{color: 'red'}}> New </Text> : null}
+                  {messages[messages.length - 1].text}
+                  <Text style={{textAlign: "right"}}>{moment(lastModified).fromNow()}</Text>
                 </Text> : null
               }
             </View>

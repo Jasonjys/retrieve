@@ -27,29 +27,24 @@ class MessageScreen extends Component {
   }
 
   componentDidMount() {
-    const {user, contact, contactUID, messages, key} = this.props.navigation.state.params;
+    const {user, contact, contactUID, key} = this.props.navigation.state.params;
     const {uid} = user;
     this.setState({
       user,
       contact : {
         ...contact,
         uid: contactUID
-      },
-      messages: messages.reverse()
-    }, () => {
-    usersRef.child(uid).child('chat').child(key).child('messages').on('child_added', (newMessage) => {
-      newMessage = newMessage.val();
-      const {messages} = this.state;
-      if (newMessage) {
-        const exist = messages.find((message) => {
-          return message._id === newMessage._id;
-        })
-        if (!exist) {
-          this.setState({messages: [newMessage, ...messages]});
-        }
       }
-    })
-  });
+    }, () => {
+      usersRef.child(uid).child('chat').child(key).child('messages').on('value', (messages) => {
+        messages = messages.val();
+        if (messages) {
+          this.setState({messages: messages.reverse()});
+        } else {
+          this.setState({messages: []})
+        }
+      })
+    });
   }
 
   componentWillUnmount() {
