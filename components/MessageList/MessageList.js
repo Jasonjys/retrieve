@@ -1,11 +1,10 @@
 import React, {Component}from 'react';
 import {Text, View, Image, TouchableHighlight, ScrollView} from 'react-native';
-import {List, Icon} from 'react-native-elements'
-import {usersRef} from '../../firebaseConfig';
+import {List, Icon} from 'react-native-elements';
 import style from './Style';
 import Swipeable from 'react-native-swipeable';
 import MessageListItem from './MessageListItem';
-import currentUser from '../../library/singleton';
+import firebase from '../../library/firebase';
 
 class MessageList extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -29,11 +28,11 @@ class MessageList extends Component {
   }
 
   componentWillMount() {
-    const user = currentUser.getCurrentUser();
+    const user = firebase.getCurrentUser();
     const {uid, photoURL, displayName} = user;
     this.setState({user: {uid, photoURL, displayName}});
 
-    usersRef.child(uid).child('chat').on('value', (snapShot) => {
+    firebase.usersRef.child(uid).child('chat').on('value', (snapShot) => {
       const chat = snapShot.val() ? snapShot.val() : [];
       const key = snapShot.key;
       const promise = Object.keys(chat).map((key) => {
@@ -41,7 +40,7 @@ class MessageList extends Component {
           let singleChat = chat[key];
           singleChat.key = key;
           const {contactUID} = singleChat;
-          usersRef.child(contactUID).once('value').then((snapShot) => {
+          firebase.usersRef.child(contactUID).once('value').then((snapShot) => {
             const contactUser = snapShot.val();
             const {displayName, photoURL} = contactUser;
             singleChat.contact = {displayName, photoURL};
@@ -59,14 +58,14 @@ class MessageList extends Component {
   componentWillUnmount() {
     const {user} = this.state;
     const {uid} = user;
-    usersRef.child(uid).child('chat').off();
+    firebase.usersRef.child(uid).child('chat').off();
   }
 
   deleteChat = (chat) => {
     const {key} = chat;
     const {user} = this.state;
     const {uid} = user;
-    usersRef.child(uid).child('chat').child(key).remove();
+    firebase.usersRef.child(uid).child('chat').child(key).remove();
   }
 
   receiveNewMessage = (chatKey) => {

@@ -3,7 +3,7 @@ import {Text, Button, Image} from 'react-native';
 import stylefrom from './Style';
 import {GiftedChat} from 'react-native-gifted-chat';
 import httpRequest from '../../library/httpRequest';
-import {usersRef} from '../../firebaseConfig';
+import firebase from '../../library/firebase';
 
 class MessageScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -12,7 +12,7 @@ class MessageScreen extends Component {
       onPress={() => {
         const {user, key} = navigation.state.params;
         const {uid} = user;
-        usersRef.child(uid).child('chat').child(key).child('messages').remove();
+        firebase.usersRef.child(uid).child('chat').child(key).child('messages').remove();
       }}
       title='Clear'
     />
@@ -36,7 +36,7 @@ class MessageScreen extends Component {
         uid: contactUID
       }
     }, () => {
-      usersRef.child(uid).child('chat').child(key).child('messages').on('value', (messages) => {
+      firebase.usersRef.child(uid).child('chat').child(key).child('messages').on('value', (messages) => {
         messages = messages.val();
         if (messages) {
           this.setState({messages: messages.reverse()});
@@ -50,7 +50,7 @@ class MessageScreen extends Component {
   componentWillUnmount() {
     const {user, key} = this.props.navigation.state.params;
     const {uid} = user;
-    usersRef.child(uid).child('chat').child(key).child('messages').off();
+    firebase.usersRef.child(uid).child('chat').child(key).child('messages').off();
   }
 
   sendMessage = (newMessage) => {

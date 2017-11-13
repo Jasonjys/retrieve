@@ -4,9 +4,7 @@ import {FormLabel, FormInput, FormValidationMessage, Button, Text} from 'react-n
 import {ActivityIndicator} from 'antd-mobile';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NavigationActions} from 'react-navigation';
-import {firebaseApp} from '../../firebaseConfig';
-import firebase from 'firebase';
-import {usersRef} from '../../firebaseConfig';
+import firebase from '../../library/firebase';
 import style from './Style';
 
 const FB_APP_ID = '1376485632449872';
@@ -25,7 +23,7 @@ class LoginScreen extends Component {
 
   componentWillMount() {
     const {navigation} = this.props;
-    this.removeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
+    this.removeAuthListener = firebase.auth.onAuthStateChanged((user) => {
       if (user) {
         const resetAction = NavigationActions.reset({
           index: 0,
@@ -49,7 +47,7 @@ class LoginScreen extends Component {
       return;
     }
     this.setState({loading: true});
-    firebaseApp.auth().signInWithEmailAndPassword(email, password)
+    firebase.auth.signInWithEmailAndPassword(email, password)
     .catch((error) => {
       // Handle Errors here.
       this.setState({loading: false});
@@ -70,10 +68,10 @@ class LoginScreen extends Component {
         // Sign in with credential from the Facebook user.
         firebaseApp.auth().signInWithCredential(credential)
         .then(({uid, email, displayName, photoURL}) => {
-          usersRef.once('value').then((users) => {
+          firebase.usersRef.once('value').then((users) => {
             const existUser = users.val()[uid];
             if (!existUser) {
-              usersRef.child(`${uid}`).set({
+              firebase.usersRef.child(`${uid}`).set({
                 email,
                 displayName,
                 photoURL

@@ -5,11 +5,10 @@ import style, {dateStyle} from './Style'
 import {FormLabel, FormInput, Button, Icon, FormValidationMessage} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import AutoComplete from '../AutoComplete/AutoComplete'
-import {usersRef, lostPostsRef, foundPostsRef} from '../../firebaseConfig'
+import firebase from '../../library/firebase';
 import CameraComponent from '../CameraComponent/CameraComponent'
 import CategoryPicker from '../CategoryPicker/CategoryPicker'
 import moment from 'moment';
-import getCurrentUser from '../../library/singleton';
 
 class PostForm extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -86,7 +85,7 @@ class PostForm extends Component {
       this.setState({categoryErrorMessage: 'Category is required!'})
       return;
     } else {
-      foundPostsRef.child(id).update({
+      firebase.foundPostsRef.child(id).update({
         title,
         date,
         description,
@@ -105,11 +104,11 @@ class PostForm extends Component {
       this.setState({categoryErrorMessage: 'Category is required!'})
       return;
     } else {
-      const currentUser = getCurrentUser.getCurrentUser();
+      const currentUser = firebase.getCurrentUser();
       const {uid, email, displayName, photoURL} = currentUser;
-      const user = usersRef.child(uid);
+      const user = firebase.usersRef.child(uid);
 
-      var itemsRef = type === "lost" ? lostPostsRef : foundPostsRef;
+      var itemsRef = type === "lost" ? firebase.lostPostsRef : firebase.foundPostsRef;
       const newPostKey = itemsRef.push({
         title,
         description,

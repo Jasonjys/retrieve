@@ -2,14 +2,13 @@ import React, {Component} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {Icon} from 'react-native-elements';
-import {usersRef, foundPostsRef, lostPostsRef} from '../../firebaseConfig';
 import ProfileHeader from './ProfileHeader';
 import ProfileContent from './ProfileContent';
 import ProfileTab from './ProfileTab'
 import {Modal} from 'antd-mobile';
 import style from './Style';
 import httpRequest from '../../library/httpRequest';
-import currentUser from '../../library/singleton';
+import firebase from '../../library/firebase';
 
 
 class ProfileScreen extends Component {
@@ -40,10 +39,10 @@ class ProfileScreen extends Component {
     showFoundItem: true
   }
   componentDidMount() {
-    const user = currentUser.getCurrentUser();
+    const user = firebase.getCurrentUser();
     const {uid} = user;
 
-    usersRef.child(uid).on('value', (userSnapShot) => {
+    firebase.usersRef.child(uid).on('value', (userSnapShot) => {
       const userInfo = userSnapShot.val();
       if (userInfo) {
         const {photoURL, displayName, email, phoneNumber} = userInfo;
@@ -62,7 +61,7 @@ class ProfileScreen extends Component {
 
   componentWillUnmount() {
     const {uid} = this.state.userInfo;
-    usersRef.child(uid).off();
+    firebase.usersRef.child(uid).off();
   }
 
   handlePressTab = (showFoundItem) => {
@@ -74,10 +73,10 @@ class ProfileScreen extends Component {
     alert('Delete Post', 'Are you sure you want to delete this post?', [
       {text: 'Cancel'},
       {text: 'Yes', onPress: () => {
-        const postRef = found ? foundPostsRef : lostPostsRef;
+        const postRef = found ? firebase.foundPostsRef : firebase.lostPostsRef;
         const propertyName = found ? 'foundPosts' : 'lostPosts';
         postRef.child(id).remove();
-        const {uid} = currentUser.getCurrentUser();
+        const {uid} = firebase.getCurrentUser();
         const oldIds = this.state[propertyName];
         const index = oldIds.indexOf(id)
         newIds = [
@@ -86,7 +85,7 @@ class ProfileScreen extends Component {
         ]
         const updateObject = {}
         updateObject[propertyName] = newIds;
-        usersRef.child(uid).update(updateObject)
+        firebase.usersRef.child(uid).update(updateObject)
       }},
     ])
   }
@@ -100,7 +99,7 @@ class ProfileScreen extends Component {
     alert('Signing out', 'Are you sure you want to sign out?', [
       {text: 'Cancel'},
       {text: 'Yes', onPress: () => {
-        currentUser.signOut().then(() => {
+        firebase.signOut().then(() => {
           const resetAction = NavigationActions.reset({
             index: 0,
             actions: [NavigationActions.init({routeName: 'Login'})]

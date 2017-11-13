@@ -3,7 +3,6 @@ import {View, Button, Text, Image, TouchableHighlight} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Swipeable from 'react-native-swipeable';
 import style from './Style';
-import {usersRef} from '../../firebaseConfig';
 import moment from "moment";
 
 class MessageListItem extends Component {

@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import {ScrollView, TouchableOpacity, View, Text, ActivityIndicator} from 'react-native';
 import SwipeList from '../SwipeList/SwipeList';
 import style from './Style';
-import {foundPostsRef, lostPostsRef} from '../../firebaseConfig';
+import firebase from '../../library/firebase';
 import moment from 'moment';
 
 class ProfileContent extends Component {
   state = {
-    loading: true
+    loading: true,
+    posts: []
   }
 
   removeListener = () => {
     const {posts, type} = this.props;
-    const postsRef = type ? foundPostsRef : lostPostsRef;
+    const postsRef = type ? firebase.foundPostsRef : firebase.lostPostsRef;
     posts.map((postID) => {
       postsRef.child(postsRef).off();
     });
@@ -25,7 +26,7 @@ class ProfileContent extends Component {
         loading: false
       })
     }
-    const postsRef = type ? foundPostsRef : lostPostsRef;
+    const postsRef = type ? firebase.foundPostsRef : firebase.lostPostsRef;
     const postArr = [];
     posts.forEach((postID, index) => {
       postsRef.child(postID).on('value', (singlePost) => {
@@ -59,7 +60,7 @@ class ProfileContent extends Component {
         <ActivityIndicator animating text='Fetching posts' />
       </View>)
     }
-    else if (!this.props.posts.length) {
+    if (!this.props.posts.length) {
       return (
         <View style={[style.contentContainerStyle, {alignItems: 'center'}]}>
           <Text style={{marginTop: '35%', fontSize: 18, color: '#bababa'}}>
