@@ -29,9 +29,13 @@ class MessageListItem extends Component {
     const {receiveNewMessage} = this.props;
     const {item} = newProps;
     const {messages = []} = item;
-    const {messagesLength = 0} = this.state;
+    const {messagesLength = 0, uid} = this.state;
     if (messages.length > messagesLength) {
-      receiveNewMessage(item.key);
+      if (messages[messagesLength].user._id !== uid) {
+        this.setState({receivedNewMessage: true}, () => {
+          receiveNewMessage(item.key);
+        })
+      }
     }
   }
 
