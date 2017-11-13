@@ -50,20 +50,22 @@ class MessageScreen extends Component {
   componentWillUnmount() {
     const {user, key} = this.props.navigation.state.params;
     const {uid} = user;
-    usersRef.child(uid).child('chat').child(key).off();
+    usersRef.child(uid).child('chat').child(key).child('messages').off();
   }
 
   sendMessage = (newMessage) => {
-    const {user, contact} = this.state;
-    httpRequest('sendMessage', {}, 'POST', JSON.stringify({
-      sender: user,
-      receiver: contact,
-      newMessage
-    }))
-    .then()
-    .catch((error) => {
-      console.log(error);
-    })
+    const {user, contact, messages} = this.state;
+    this.setState({messages: [...newMessage, ...messages]}, () => {
+      httpRequest('sendMessage', {}, 'POST', JSON.stringify({
+        sender: user,
+        receiver: contact,
+        newMessage
+      }))
+      .then()
+      .catch((error) => {
+        console.log(error);
+      })
+    });
   }
 
   render() {

@@ -16,29 +16,30 @@ class MessageListItem extends Component {
   }
 
   componentWillMount() {
-    const {item, user, receiveNewMessage} = this.props;
+    const {item, user} = this.props;
     const {uid} = user;
     const {messages = [], key} = item;
-    this.setState({uid, key, messages, receivedNewMessage: false}, () => {
-      usersRef.child(uid).child('chat').child(key).child('messages').on('value', (snapShot) => {
-        const newMessage = snapShot.val();
-        if (newMessage) {
-          let receivedNewMessage = false;
-          if (newMessage.length > messages.length) {
-            if (newMessage[newMessage.length - 1].user._id !== uid) {
-              receivedNewMessage = true;
-              this.setState({receivedNewMessage})
-            }
-          }
-          receiveNewMessage(newMessage, key, receivedNewMessage);
-        }
-      })
-    })
+    this.setState({uid, key,
+      messagesLength: messages.length,
+      receivedNewMessage: false
+    });
   }
 
-  componentWillUnmount() {
-    const {uid, key} = this.state;
-    usersRef.child(uid).child('chat').child(key).child('messages').off();
+  componentWillReceiveProps(newProps) {
+    const {receiveNewMessage} = this.props;
+    const {item} = newProps;
+    const {messages = []} = item;
+    const {messagesLength = 0} = this.state;
+    if (messages.length > messagesLength) {
+      receiveNewMessage(item.key);
+    }
+  }
+
+  checkNewMessage = (index) => {
+    const {checkedNewMessage} = this.props
+    this.setState({receivedNewMessage: false}, () => {
+      checkedNewMessage(index);
+    })
   }
 
   render() {
@@ -64,9 +65,8 @@ class MessageListItem extends Component {
       >
         <TouchableHighlight
           onPress={() => {
-            this.setState({receivedNewMessage: false}, () => {
-              onPress();
-            });
+            this.checkNewMessage(item.key);
+            onPress();
           }}
           underlayColor='#e5e5e5'>
           <View style={style.listItemStyle}>

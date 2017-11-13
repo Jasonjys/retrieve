@@ -12,6 +12,7 @@ class MessageList extends Component {
     title: 'Chat',
     tabBarIcon: ({tintColor}) => {
       const {params = {}} = navigation.state;
+      const {list = []} = params;
       return (
       <Image
         source={
@@ -32,41 +33,26 @@ class MessageList extends Component {
     const {uid, photoURL, displayName} = user;
     this.setState({user: {uid, photoURL, displayName}});
 
-    usersRef.child(uid).child('chat').on('child_added', (snapShot) => {
-      const singleChat = snapShot.val() ? snapShot.val() : [];
+    usersRef.child(uid).child('chat').on('value', (snapShot) => {
+      const chat = snapShot.val() ? snapShot.val() : [];
       const key = snapShot.key;
-      const promise = new Promise((resolve, reject) => {
-        singleChat.key = key;
-        const {contactUID} = singleChat;
-        usersRef.child(contactUID).once('value').then((snapShot) => {
-          const contactUser = snapShot.val();
-          const {displayName, photoURL} = contactUser;
-          singleChat.contact = {displayName, photoURL};
-          resolve(singleChat)
+      const promise = Object.keys(chat).map((key) => {
+        return new Promise((resolve, reject) => {
+          let singleChat = chat[key];
+          singleChat.key = key;
+          const {contactUID} = singleChat;
+          usersRef.child(contactUID).once('value').then((snapShot) => {
+            const contactUser = snapShot.val();
+            const {displayName, photoURL} = contactUser;
+            singleChat.contact = {displayName, photoURL};
+            resolve(singleChat)
+          })
         })
       })
-      Promise.all([promise]).then((singleChat) => {
-        let {chat = []} = this.state;
-        chat = [...singleChat, ...chat];
+      Promise.all(promise).then((chat) => {
         chat.sort((a, b) => {return new Date(b.lastModified) - new Date(a.lastModified);})
         this.setState({chat});
       })
-    })
-
-    usersRef.child(uid).child('chat').on('child_removed', (snapShot) => {
-      const key = snapShot.key;
-      const {chat = []} = this.state;
-      const index = chat.indexOf(chat.find((singleChat) => {
-        return singleChat.key === key
-      }))
-      if (index !== -1) {
-        this.setState({
-          chat: [
-          ...chat.splice(0, index),
-          ...chat.splice(index + 1, chat.length)
-          ]
-        })
-      }
     })
   }
 
@@ -83,24 +69,22 @@ class MessageList extends Component {
     usersRef.child(uid).child('chat').child(key).remove();
   }
 
-  receiveNewMessage = (messages, chatKey, receivedNewMessage) => {
-    const {chat} = this.state;
-    const oldChat = chat.find((singleChat) => {
-      return singleChat.key === chatKey;
-    });
-    const index = chat.indexOf(oldChat);
-    this.setState({
-      chat: [
-        {
-          ...oldChat,
-          messages
-        },
-        ...chat.splice(0, index),
-        ...chat.splice(index + 1, chat.length)
-      ]
-    }, () => {
-      this.props.navigation.setParams({receivedNewMessage});
-    })
+  receiveNewMessage = (chatKey) => {
+    const {params = {}} = this.props.navigation.state;
+    const {list = []} = params;
+    this.props.navigation.setParams({"list": [...list, chatKey]});
+  }
+
+  checkedNewMessage = (key) => {
+    const {params = {}} = this.props.navigation.state;
+    const {list = []} = params;
+    const index = list.indexOf(key);
+    if (index !== -1) {
+      this.props.navigation.setParams({list: [
+        ...list.splice(0, index),
+        ...list.splice(index + 1, list.length)
+      ]});
+    }
   }
 
   render() {
@@ -115,6 +99,7 @@ class MessageList extends Component {
               item={item}
               user={user}
               receiveNewMessage={this.receiveNewMessage}
+              checkedNewMessage={this.checkedNewMessage}
               onDelete={this.deleteChat}
               onPress={() => this.props.navigation.navigate('MessageScreen', {
                 ...item,
