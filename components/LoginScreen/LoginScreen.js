@@ -5,6 +5,7 @@ import {ActivityIndicator} from 'antd-mobile';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NavigationActions} from 'react-navigation';
 import firebase from '../../library/firebase';
+import firebaseLibrary from 'firebase';
 import style from './Style';
 
 const FB_APP_ID = '1376485632449872';
@@ -64,10 +65,11 @@ class LoginScreen extends Component {
     });
     if (type === 'success') {
       try {
-        const credential = firebase.auth.FacebookAuthProvider.credential(token);
+        const credential = firebaseLibrary.auth.FacebookAuthProvider.credential(token);
         // Sign in with credential from the Facebook user.
-        firebaseApp.auth().signInWithCredential(credential)
+        firebase.auth.signInWithCredential(credential)
         .then(({uid, email, displayName, photoURL}) => {
+          this.setState({loading: false});
           firebase.usersRef.once('value').then((users) => {
             const existUser = users.val()[uid];
             if (!existUser) {
