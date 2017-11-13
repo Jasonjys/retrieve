@@ -15,9 +15,6 @@ const auth = firebaseApp.auth()
 
 export default {
     auth,
-    signInWithEmailAndPassword: () => {
-        return auth.signInWithEmailAndPassword();
-    },
     getCurrentUser: () => {
         return auth.currentUser;
     },

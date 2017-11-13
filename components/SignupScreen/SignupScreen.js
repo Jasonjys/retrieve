@@ -35,7 +35,7 @@ class SignupScreen extends Component {
       this.setState({requiredError});
     }
 
-    firebaseApp.auth().createUserWithEmailAndPassword(email, password)
+    firebase.auth.createUserWithEmailAndPassword(email, password)
     .then(({uid}) => {
       const user = firebase.getCurrentUser();
       user.updateProfile({
