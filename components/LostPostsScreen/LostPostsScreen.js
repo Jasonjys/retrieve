@@ -52,7 +52,7 @@ class LostPostsScreen extends Component {
   refreshPostlist = () => {
     return new Promise((resolve, reject) => {
       firebase.lostPostsRef.once('value').then((snapShot) => {
-        var list = Object.values(snapShot.val()).reverse();
+        const list = Object.values(snapShot.val()).reverse();
         this.setState({
           loading: false,
           list
