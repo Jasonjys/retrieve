@@ -3,10 +3,8 @@ import {View} from 'react-native';
 import {FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NavigationActions} from 'react-navigation';
-import {firebaseApp} from '../../firebaseConfig';
 import style from './Style';
-import {usersRef} from '../../firebaseConfig';
-import currentUser from '../../library/singleton';
+import firebase from '../../library/firebase';
 
 class SignupScreen extends Component {
   static navigationOptions = {
@@ -37,13 +35,13 @@ class SignupScreen extends Component {
       this.setState({requiredError});
     }
 
-    firebaseApp.auth().createUserWithEmailAndPassword(email, password)
+    firebase.auth.createUserWithEmailAndPassword(email, password)
     .then(({uid}) => {
-      const user = currentUser.getCurrentUser();
+      const user = firebase.getCurrentUser();
       user.updateProfile({
         displayName: name,
       }).then(() => {
-        usersRef.child(uid).set({
+        firebase.usersRef.child(uid).set({
           email,
           displayName: name
         })
@@ -52,7 +50,7 @@ class SignupScreen extends Component {
       })
     })
     .catch((error) => {
-      var {code, message} = error;
+      const {code, message} = error;
       console.log(message);
       if (code === 'auth/weak-password') {
         this.setState({passwordError: message});

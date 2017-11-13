@@ -5,8 +5,7 @@ import style from './Style';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import matchCategory from '../../library/matchCategory';
 import httpRequest from '../../library/httpRequest';
-import {usersRef} from '../../firebaseConfig';
-import currentUser from '../../library/singleton';
+import firebase from '../../library/firebase';
 
 class DetailPage extends Component {
   state = {
@@ -20,7 +19,7 @@ class DetailPage extends Component {
 
   componentDidMount() {
     const item = this.props.navigation.state.params
-    usersRef.child(item.posterUID).once('value').then((poster) => {
+    firebase.usersRef.child(item.posterUID).once('value').then((poster) => {
       this.setState({poster: poster.val()})
     })
   }
@@ -28,7 +27,7 @@ class DetailPage extends Component {
   chatPressed = () => {
     const {poster} = this.state;
     const item = this.props.navigation.state.params;
-    const user = currentUser.getCurrentUser();
+    const user = firebase.getCurrentUser();
     const {uid, displayName, photoURL} = user;
     httpRequest("createChat", {}, 'POST', JSON.stringify({
       uid1: uid,
@@ -97,7 +96,7 @@ class DetailPage extends Component {
                 name='chat'
                 style={{marginLeft: '10%'}}
                 color='#848484'
-                disabled={currentUser.getCurrentUser().uid===posterUID}
+                disabled={firebase.getCurrentUser().uid===posterUID}
                 onPress={()=> this.chatPressed()}
               />
             </View>

@@ -3,11 +3,10 @@ import { View, Text, Image } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { ActivityIndicator } from 'antd-mobile';
 import List from '../List/List';
-import {usersRef, lostPostsRef} from '../../firebaseConfig';
 import style from './Style';
 import PTRView from 'react-native-pull-to-refresh';
 import Cardgrid from '../CardGrid/CardGrid';
-import currentUser from '../../library/singleton';
+import firebase from '../../library/firebase';
 
 class LostPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -37,23 +36,23 @@ class LostPostsScreen extends Component {
 
   componentDidMount() {
     this.refreshPostlist()
-    const user = currentUser.getCurrentUser();
+    const user = firebase.getCurrentUser();
     const {uid} = user;
     this.setState({uid})
-    usersRef.child(uid).child('lostPosts').on('value', () => {
+    firebase.usersRef.child(uid).child('lostPosts').on('value', () => {
       this.refreshPostlist();
     })
   }
 
   componentWillUnmount() {
     const {uid} = this.state;
-    usersRef.child(uid).child('lostPosts').off();
+    firebase.usersRef.child(uid).child('lostPosts').off();
   }
 
   refreshPostlist = () => {
     return new Promise((resolve, reject) => {
-      lostPostsRef.once('value').then((snapShot) => {
-        var list = Object.values(snapShot.val()).reverse();
+      firebase.lostPostsRef.once('value').then((snapShot) => {
+        const list = Object.values(snapShot.val()).reverse();
         this.setState({
           loading: false,
           list

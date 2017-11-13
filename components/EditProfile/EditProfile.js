@@ -6,13 +6,12 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import {ActivityIndicator} from 'antd-mobile';
-import {usersRef} from '../../firebaseConfig';
 import {FormLabel, FormInput, Button, FormValidationMessage} from 'react-native-elements'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CameraComponent from '../CameraComponent/CameraComponent'
 import style from './Style'
 import ImageViewer from 'react-native-image-zoom-viewer';
-import currentUser from '../../library/singleton';
+import firebase from '../../library/firebase';
 
 class EditProfile extends Component {
   state = {
@@ -33,11 +32,11 @@ class EditProfile extends Component {
       this.setState({emailError: 'Email is required!'})
       return
     }
-    const user = currentUser.getCurrentUser();
+    const user = firebase.getCurrentUser();
     const {uid} = user
     user.updateProfile({displayName: name, photoURL: url, phoneNumber, email})
     .then(() => {
-      usersRef.child(uid)
+      firebase.usersRef.child(uid)
         .update({displayName: name, photoURL: url, phoneNumber, email})
         .then(() => {
           this.props.navigation.goBack()
