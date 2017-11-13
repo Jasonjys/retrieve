@@ -108,7 +108,7 @@ class PostForm extends Component {
       const {uid, email, displayName, photoURL} = currentUser;
       const user = firebase.usersRef.child(uid);
 
-      var itemsRef = type === "lost" ? firebase.lostPostsRef : firebase.foundPostsRef;
+      const itemsRef = type === "lost" ? firebase.lostPostsRef : firebase.foundPostsRef;
       const newPostKey = itemsRef.push({
         title,
         description,

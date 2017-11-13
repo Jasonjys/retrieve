@@ -50,7 +50,7 @@ class SignupScreen extends Component {
       })
     })
     .catch((error) => {
-      var {code, message} = error;
+      const {code, message} = error;
       console.log(message);
       if (code === 'auth/weak-password') {
         this.setState({passwordError: message});
