@@ -9,16 +9,20 @@ const config = {
     messagingSenderId: "569280491909"
 };
 
-export const firebaseApp = firebase.initializeApp(config);
+const firebaseApp = firebase.initializeApp(config);
 const getRef = () => firebaseApp.database().ref();
+const auth = firebaseApp.auth()
 
 export default {
-    auth: firebaseApp.auth(),
+    auth,
+    signInWithEmailAndPassword: () => {
+        return auth.signInWithEmailAndPassword();
+    },
     getCurrentUser: () => {
-        return firebaseApp.auth().currentUser;
+        return auth.currentUser;
     },
     signOut: () => {
-        return firebaseApp.auth().signOut();
+        return auth.signOut();
     },
     lostPostsRef: getRef().child('lostPosts'),
     foundPostsRef: getRef().child('foundPosts'),
