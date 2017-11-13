@@ -4,6 +4,7 @@ import {Icon} from 'react-native-elements';
 import Swipeable from 'react-native-swipeable';
 import style from './Style';
 import moment from "moment";
+import checkTime from '../../library/checkTime'
 
 class MessageListItem extends Component {
   swipeable = null
@@ -30,7 +31,9 @@ class MessageListItem extends Component {
     const {messages = []} = item;
     const {messagesLength = 0} = this.state;
     if (messages.length > messagesLength) {
-      receiveNewMessage(item.key);
+      this.setState({receivedNewMessage: true}, () => {
+        receiveNewMessage(item.key);
+      })
     }
   }
 
@@ -40,6 +43,7 @@ class MessageListItem extends Component {
       checkedNewMessage(index);
     })
   }
+
 
   render() {
     const {onOpen, onClose, onPress, onDelete, viewdNewMessage, item} = this.props;
@@ -83,12 +87,14 @@ class MessageListItem extends Component {
               <Text style={style.textUserNameStyle}>
                 {contact.displayName}
               </Text>
-              {messages ? 
-                <Text style={style.textMessageStyle} numberOfLines={1}>
-                  {receivedNewMessage ? <Text style={{color: 'red'}}> New </Text> : null}
-                  {messages[messages.length - 1].text}
-                  <Text style={{textAlign: "right"}}>{moment(lastModified).fromNow()}</Text>
-                </Text> : null
+              {messages ?
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={style.textMessageStyle} numberOfLines={1}>
+                    {receivedNewMessage ? <Text style={{color: 'red'}}> New </Text> : null}
+                    {messages[messages.length - 1].text}
+                  </Text>
+                  <Text style={style.textMessageStyle}>{checkTime(lastModified)}</Text>
+                </View> : null
               }
             </View>
           </View>
