@@ -72,7 +72,7 @@ class MessageList extends Component {
     const {params = {}} = this.props.navigation.state;
     const {list = []} = params;
     if (list.indexOf(chatKey) === -1) {
-      this.props.navigation.setParams({"list": [...list, chatKey]}); 
+      this.props.navigation.setParams({"list": [...list, chatKey]});
     }
   }
 
@@ -105,6 +105,7 @@ class MessageList extends Component {
               onPress={() => this.props.navigation.navigate('MessageScreen', {
                 ...item,
                 key: item.key,
+                checkedNewMessage: this.checkedNewMessage,
                 user
               })}
               onOpen={listItem => {
