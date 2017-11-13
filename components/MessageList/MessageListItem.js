@@ -32,7 +32,7 @@ class MessageListItem extends Component {
     const {messagesLength = 0, uid} = this.state;
     if (messages.length > messagesLength) {
       if (messages[messagesLength].user._id !== uid) {
-        this.setState({receivedNewMessage: true}, () => {
+        this.setState({receivedNewMessage: true, messagesLength: messages.length}, () => {
           receiveNewMessage(item.key);
         })
       }
