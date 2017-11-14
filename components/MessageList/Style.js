@@ -9,11 +9,11 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginLeft: '3%'
   },
-  loading: {
-    height: '95%',
+  contentContainerStyle: {
+    height: '100%',
     width: '100%',
-    alignItems: 'center', 
-    justifyContent: 'center'
+    backgroundColor: 'white',
+    alignItems: 'center'
   },
   listContainer: {
     height: '100%',

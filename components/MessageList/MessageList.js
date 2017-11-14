@@ -11,10 +11,12 @@ class MessageList extends Component {
     title: 'Chat',
     tabBarIcon: ({tintColor}) => {
       const {params = {}} = navigation.state;
-      const {list = []} = params;
+      const {list} = params;
       return (
       <Image
         source={
+          list ?
+          require('../../assets/images/ic_chat_notification.png') :
           require('../../assets/images/ic_chat.png')
           }
         style={{ tintColor: tintColor }}
@@ -89,8 +91,9 @@ class MessageList extends Component {
   }
 
   render() {
-    const {user, chat, loading, currentlyOpenItem} = this.state;
+    const {user, chat = [], loading, currentlyOpenItem} = this.state;
     const list =
+      chat.length ?
       <ScrollView Style={style.listContainer}>
         {
           chat.map((item, key) => (
@@ -100,7 +103,6 @@ class MessageList extends Component {
               item={item}
               user={user}
               receiveNewMessage={this.receiveNewMessage}
-              checkedNewMessage={this.checkedNewMessage}
               onDelete={this.deleteChat}
               onPress={() => this.props.navigation.navigate('MessageScreen', {
                 ...item,
@@ -118,7 +120,13 @@ class MessageList extends Component {
             />
           ))
         }
-      </ScrollView>
+      </ScrollView> :
+      <View style={style.contentContainerStyle}>
+        <Text style={{marginTop: '50%', fontSize: 18, color: '#bababa'}}>
+          You don't have any chat at the moment.
+          To create a chat, please go to the detail post page and click the chat button.
+        </Text>
+      </View>
 
     return (
       <View style={{height: '100%', backgroundColor: 'white'}}>
