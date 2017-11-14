@@ -13,23 +13,25 @@ class MessageList extends Component {
       const {params = {}} = navigation.state;
       const {list} = params;
       return (
-      <Image
-        source={
-          list ?
-          require('../../assets/images/ic_chat_notification.png') :
-          require('../../assets/images/ic_chat.png')
+        <Image
+          source={
+            list && list.length ?
+              require('../../assets/images/ic_chat_notification.png') :
+              require('../../assets/images/ic_chat.png')
           }
-        style={{ tintColor: tintColor }}
-      />)
+          style={{tintColor: tintColor}}
+        />
+      )
     }
   });
 
   state = {
+    loading: true,
     chat: [],
     currentlyOpenItem: null
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const user = firebase.getCurrentUser();
     const {uid, photoURL, displayName} = user;
     this.setState({user: {uid, photoURL, displayName}});
@@ -38,16 +40,15 @@ class MessageList extends Component {
       const chat = snapShot.val() ? snapShot.val() : [];
       const key = snapShot.key;
       const promise = Object.keys(chat).map((key) => {
-        return new Promise((resolve, reject) => {
-          let singleChat = chat[key];
-          singleChat.key = key;
-          const {contactUID} = singleChat;
-          firebase.usersRef.child(contactUID).once('value').then((snapShot) => {
-            const contactUser = snapShot.val();
-            const {displayName, photoURL} = contactUser;
-            singleChat.contact = {displayName, photoURL};
-            resolve(singleChat)
-          })
+        const {contactUID} = chat[key];
+        return firebase.usersRef.child(contactUID).once('value').then((snapShot) => {
+          const contactUser = snapShot.val();
+          const {displayName, photoURL} = contactUser;
+          return {
+            ...chat[key],
+            key,
+            contact: {displayName, photoURL}
+          }
         })
       })
       Promise.all(promise).then((chat) => {
@@ -91,7 +92,7 @@ class MessageList extends Component {
   }
 
   render() {
-    const {user, chat = [], loading, currentlyOpenItem} = this.state;
+    const {user, chat, loading, currentlyOpenItem} = this.state;
     const list =
       chat.length ?
       <ScrollView Style={style.listContainer}>

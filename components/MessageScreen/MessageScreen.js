@@ -48,10 +48,9 @@ class MessageScreen extends Component {
   }
 
   componentWillUnmount() {
-    const {user, key, checkedNewMessage} = this.props.navigation.state.params;
+    const {user, key} = this.props.navigation.state.params;
     const {uid} = user;
     firebase.usersRef.child(uid).child('chat').child(key).child('messages').off();
-    checkedNewMessage(key);
   }
 
   sendMessage = (newMessage) => {
@@ -62,7 +61,6 @@ class MessageScreen extends Component {
         receiver: contact,
         newMessage
       }))
-      .then()
       .catch((error) => {
         console.log(error);
       })

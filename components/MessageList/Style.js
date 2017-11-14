@@ -30,21 +30,28 @@ export default StyleSheet.create({
     width: 50,
     borderRadius:25
   },
-  textContainerStyle: {
-    width: '70%',
-    flexWrap: 'wrap',
-    paddingBottom: '4%'
+  messageContainerStyle: {
+    width: '75%',
+  },
+  messageTitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 2
   },
   textUserNameStyle: {
     fontWeight: '900',
     fontSize: 18,
     marginLeft: 10,
-    marginTop: 10,
-    flexWrap: 'wrap'
+    paddingBottom: 2
   },
-  textMessageStyle: {
-    marginTop: 5,
-    marginLeft: 10
+  textDateStyle: {
+    marginLeft: 10,
+    marginTop: 4
+  },
+  textMessageContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 12
   },
   deleteButtonContainerStyle: {
     backgroundColor: '#ffc1cc'
