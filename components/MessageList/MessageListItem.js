@@ -31,21 +31,15 @@ class MessageListItem extends Component {
     const {messages = []} = item;
     const {messagesLength = 0, uid} = this.state;
     if (messages.length > messagesLength) {
+      let receivedNewMessage = false;
       if (messages[messagesLength].user._id !== uid) {
-        this.setState({receivedNewMessage: true, messagesLength: messages.length}, () => {
-          receiveNewMessage(item.key);
-        })
+        receivedNewMessage = true;
       }
+      this.setState({receivedNewMessage, messagesLength: messages.length}, () => {
+        receiveNewMessage(item.key);
+      })
     }
   }
-
-  checkNewMessage = (index) => {
-    const {checkedNewMessage} = this.props
-    this.setState({receivedNewMessage: false}, () => {
-      checkedNewMessage(index);
-    })
-  }
-
 
   render() {
     const {onOpen, onClose, onPress, onDelete, viewdNewMessage, item} = this.props;
@@ -70,8 +64,9 @@ class MessageListItem extends Component {
       >
         <TouchableHighlight
           onPress={() => {
-            this.checkNewMessage(item.key);
-            onPress();
+            this.setState({receivedNewMessage: false}, () => {
+              onPress();
+            })
           }}
           underlayColor='#e5e5e5'>
           <View style={style.listItemStyle}>
