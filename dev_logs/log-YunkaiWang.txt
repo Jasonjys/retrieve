@@ -31,3 +31,11 @@ Week Oct 30 - Nov 5
 - add sendMessage & createChat request hanler on the server
 
 
+Week Nov 5 - Nov 12
+- fix bug in message screen
+- notify the user by changing the chat icon when they received new message
+- auto-refresh the post list only when the user created a new post or the user refresh the list
+- change the profile content subscribe functionality to be more efficient and clean
+- add singleton for current user
+
+
