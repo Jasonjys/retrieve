@@ -5,8 +5,7 @@ import style from './Style';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import matchCategory from '../../library/matchCategory';
 import httpRequest from '../../library/httpRequest';
-import {firebaseApp, usersRef} from '../../firebaseConfig';
-
+import firebase from '../../library/firebase';
 
 class DetailPage extends Component {
   state = {
@@ -20,7 +19,7 @@ class DetailPage extends Component {
 
   componentDidMount() {
     const item = this.props.navigation.state.params
-    usersRef.child(item.posterUID).once('value').then((poster) => {
+    firebase.usersRef.child(item.posterUID).once('value').then((poster) => {
       this.setState({poster: poster.val()})
     })
   }
@@ -28,14 +27,15 @@ class DetailPage extends Component {
   chatPressed = () => {
     const {poster} = this.state;
     const item = this.props.navigation.state.params;
-    const currentUser = firebaseApp.auth().currentUser;
-    const {uid, displayName, photoURL} = currentUser;
+    const user = firebase.getCurrentUser();
+    const {uid, displayName, photoURL} = user;
     httpRequest("createChat", {}, 'POST', JSON.stringify({
-      user1: {uid, displayName, photoURL},
-      user2: {uid: item.posterUID, displayName: poster.displayName, photoURL: poster.photoURL}
+      uid1: uid,
+      uid2: item.posterUID
     })).then((response) => {
       this.props.navigation.navigate('MessageScreen', {
         ...response,
+        contact: {uid: item.posterUID, displayName: poster.displayName, photoURL: poster.photoURL},
         user: {uid, displayName, photoURL}
       });
     }).catch((error) => {
@@ -96,7 +96,7 @@ class DetailPage extends Component {
                 name='chat'
                 style={{marginLeft: '10%'}}
                 color='#848484'
-                disabled={firebaseApp.auth().currentUser.uid===posterUID}
+                disabled={firebase.getCurrentUser().uid===posterUID}
                 onPress={()=> this.chatPressed()}
               />
             </View>

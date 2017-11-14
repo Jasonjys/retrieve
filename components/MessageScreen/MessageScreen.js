@@ -3,7 +3,7 @@ import {Text, Button, Image} from 'react-native';
 import stylefrom from './Style';
 import {GiftedChat} from 'react-native-gifted-chat';
 import httpRequest from '../../library/httpRequest';
-import {usersRef} from '../../firebaseConfig';
+import firebase from '../../library/firebase';
 
 class MessageScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -12,7 +12,7 @@ class MessageScreen extends Component {
       onPress={() => {
         const {user, key} = navigation.state.params;
         const {uid} = user;
-        usersRef.child(uid).child('chat').child(key).child('messages').remove();
+        firebase.usersRef.child(uid).child('chat').child(key).child('messages').remove();
       }}
       title='Clear'
     />
@@ -27,48 +27,46 @@ class MessageScreen extends Component {
   }
 
   componentDidMount() {
-    const {user, contact, messages, key} = this.props.navigation.state.params;
+    const {user, contact, contactUID, key} = this.props.navigation.state.params;
     const {uid} = user;
     this.setState({
       user,
-      contact,
-      messages
-    });
-    usersRef.child(uid).child('chat').child(key).on('value', (newMessages) => {
-      const chatInfo = newMessages.val();
-      if (chatInfo) {
-        const messages = chatInfo.messages ? chatInfo.messages : [];
-        this.setState({messages});
+      contact : {
+        ...contact,
+        uid: contactUID
       }
-    })
+    }, () => {
+      firebase.usersRef.child(uid).child('chat').child(key).child('messages').on('value', (messages) => {
+        messages = messages.val();
+        if (messages) {
+          this.setState({messages: messages.reverse()});
+        } else {
+          this.setState({messages: []})
+        }
+      })
+    });
   }
 
   componentWillUnmount() {
-    const {user, key} = this.props.navigation.state.params;
+    const {user, key, checkedNewMessage} = this.props.navigation.state.params;
     const {uid} = user;
-    usersRef.child(uid).child('chat').child(key).off();
-  }
-
-  onSend(newMessage = []) {
-    const {messages} = this.state;
-    this.setState({
-      messages: GiftedChat.append(messages, newMessage),
-    }, () => {
-      this.sendMessage(newMessage)
-    });
+    firebase.usersRef.child(uid).child('chat').child(key).child('messages').off();
+    checkedNewMessage(key);
   }
 
   sendMessage = (newMessage) => {
-    const {user, contact} = this.state;
-    httpRequest('sendMessage', {}, 'POST', JSON.stringify({
-      sender: user,
-      receiver: contact,
-      newMessage
-    }))
-    .then()
-    .catch((error) => {
-      console.log(error);
-    })
+    const {user, contact, messages} = this.state;
+    this.setState({messages: [...newMessage, ...messages]}, () => {
+      httpRequest('sendMessage', {}, 'POST', JSON.stringify({
+        sender: user,
+        receiver: contact,
+        newMessage
+      }))
+      .then()
+      .catch((error) => {
+        console.log(error);
+      })
+    });
   }
 
   render() {
@@ -76,7 +74,7 @@ class MessageScreen extends Component {
     return (
       <GiftedChat
         messages={this.state.messages}
-        onSend={(messages) => this.onSend(messages)}
+        onSend={(messages) => this.sendMessage(messages)}
         placeholder="Enter your message here..."
         showUserAvatar={true}
         renderAvatarOnTop={true}

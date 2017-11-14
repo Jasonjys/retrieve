@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {View, Button, Text, Image, TouchableHighlight} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Swipeable from 'react-native-swipeable';
-import style from './Style'
+import style from './Style';
+import moment from "moment";
+import checkTime from '../../library/checkTime'
 
 class MessageListItem extends Component {
   swipeable = null
@@ -13,8 +15,36 @@ class MessageListItem extends Component {
     }
   }
 
+  componentWillMount() {
+    const {item, user} = this.props;
+    const {uid} = user;
+    const {messages = [], key} = item;
+    this.setState({uid, key,
+      messagesLength: messages.length,
+      receivedNewMessage: false
+    });
+  }
+
+  componentWillReceiveProps(newProps) {
+    const {receiveNewMessage} = this.props;
+    const {item} = newProps;
+    const {messages = []} = item;
+    const {messagesLength = 0, uid} = this.state;
+    if (messages.length > messagesLength) {
+      let receivedNewMessage = false;
+      if (messages[messagesLength].user._id !== uid) {
+        receivedNewMessage = true;
+      }
+      this.setState({receivedNewMessage, messagesLength: messages.length}, () => {
+        receiveNewMessage(item.key);
+      })
+    }
+  }
+
   render() {
-    const {onOpen, onClose, onPress, onDelete, item, index} = this.props;
+    const {onOpen, onClose, onPress, onDelete, viewdNewMessage, item} = this.props;
+    const {contact, messages, lastModified} = item;
+    const {receivedNewMessage} = this.state;
     return (
       <Swipeable
         onRef={ref => this.swipeable = ref}
@@ -32,26 +62,36 @@ class MessageListItem extends Component {
           </TouchableHighlight>
         ]}
       >
-        <TouchableHighlight onPress={() => onPress()} underlayColor='#e5e5e5'>
+        <TouchableHighlight
+          onPress={() => {
+            this.setState({receivedNewMessage: false}, () => {
+              onPress();
+            })
+          }}
+          underlayColor='#e5e5e5'>
           <View style={style.listItemStyle}>
-            {item.contact.photoURL ? 
+            {contact.photoURL ? 
               <Image
-                source={{uri: item.contact.photoURL}}
+                source={{uri: contact.photoURL}}
                 style={style.imageStyle}
               /> :
-              <Image 
-                source={require('../../assets/images/noImage.jpg')}
+              <Image
+                source={require('../../assets/images/account_circle.png')}
                 style={style.imageStyle}
               />
             }
             <View style={style.textContainerStyle}>
               <Text style={style.textUserNameStyle}>
-                {item.contact.displayName}
+                {contact.displayName}
               </Text>
-              {item.messages ? 
-                <Text style={style.textMessageStyle} numberOfLines={1}>
-                  {item.messages[0].text}
-                </Text> : null
+              {messages ?
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={style.textMessageStyle} numberOfLines={1}>
+                    {receivedNewMessage ? <Text style={{color: 'red'}}> New </Text> : null}
+                    {messages[messages.length - 1].text}
+                  </Text>
+                  <Text style={style.textMessageStyle}>{checkTime(lastModified)}</Text>
+                </View> : null
               }
             </View>
           </View>

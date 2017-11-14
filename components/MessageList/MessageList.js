@@ -1,48 +1,58 @@
 import React, {Component}from 'react';
 import {Text, View, Image, TouchableHighlight, ScrollView} from 'react-native';
-import {ActivityIndicator} from 'antd-mobile';
-import {List, Icon} from 'react-native-elements'
-import {firebaseApp, usersRef} from '../../firebaseConfig';
+import {List, Icon} from 'react-native-elements';
 import style from './Style';
 import Swipeable from 'react-native-swipeable';
 import MessageListItem from './MessageListItem';
+import firebase from '../../library/firebase';
 
 class MessageList extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Chat',
-    tabBarIcon: ({tintColor}) => (
+    tabBarIcon: ({tintColor}) => {
+      const {params = {}} = navigation.state;
+      const {list} = params;
+      return (
       <Image
-        source={require('../../assets/images/ic_chat.png')}
+        source={
+          list ?
+          require('../../assets/images/ic_chat_notification.png') :
+          require('../../assets/images/ic_chat.png')
+          }
         style={{ tintColor: tintColor }}
-      />
-    )
+      />)
+    }
   });
 
   state = {
-    loading: true,
     chat: [],
     currentlyOpenItem: null
   }
 
   componentWillMount() {
-    const user = firebaseApp.auth().currentUser;
+    const user = firebase.getCurrentUser();
     const {uid, photoURL, displayName} = user;
-    this.setState({user: {uid, photoURL, displayName}}, () => {
-      this.fetchMessageList(uid);
-    });
-    usersRef.child(uid).on('value', (user) => {
-      user = user.val() ? user.val() : [];
-      var chat = user.chat ? user.chat : [];
-      chat = Object.keys(chat).map((key) => {
-        chat[key].key = key;
-        return chat[key];
+    this.setState({user: {uid, photoURL, displayName}});
+
+    firebase.usersRef.child(uid).child('chat').on('value', (snapShot) => {
+      const chat = snapShot.val() ? snapShot.val() : [];
+      const key = snapShot.key;
+      const promise = Object.keys(chat).map((key) => {
+        return new Promise((resolve, reject) => {
+          let singleChat = chat[key];
+          singleChat.key = key;
+          const {contactUID} = singleChat;
+          firebase.usersRef.child(contactUID).once('value').then((snapShot) => {
+            const contactUser = snapShot.val();
+            const {displayName, photoURL} = contactUser;
+            singleChat.contact = {displayName, photoURL};
+            resolve(singleChat)
+          })
+        })
       })
-      chat.sort((a, b) => {
-        return new Date(b.lastModified) - new Date(a.lastModified);
-      });
-      this.setState({
-        loading: false,
-        chat
+      Promise.all(promise).then((chat) => {
+        chat.sort((a, b) => {return new Date(b.lastModified) - new Date(a.lastModified);})
+        this.setState({chat});
       })
     })
   }
@@ -50,55 +60,54 @@ class MessageList extends Component {
   componentWillUnmount() {
     const {user} = this.state;
     const {uid} = user;
-    usersRef.child(uid).off();
-  }
-
-  fetchMessageList = (uid) => {
-    usersRef.child(uid).child('chat').once('value').then((chat) => {
-      chat = chat.val() ? chat.val() : [];
-      chat = Object.keys(chat).map((key) => {
-        chat[key].key = key;
-        return chat[key];
-      })
-      chat.sort((a, b) => {
-        return new Date(b.lastModified) - new Date(a.lastModified);
-      });
-      this.setState({
-        loading: false,
-        chat
-      });
-    })
+    firebase.usersRef.child(uid).child('chat').off();
   }
 
   deleteChat = (chat) => {
     const {key} = chat;
     const {user} = this.state;
     const {uid} = user;
-    usersRef.child(uid).child('chat').child(key).remove();
+    firebase.usersRef.child(uid).child('chat').child(key).remove();
+  }
+
+  receiveNewMessage = (chatKey) => {
+    const {params = {}} = this.props.navigation.state;
+    const {list = []} = params;
+    if (list.indexOf(chatKey) === -1) {
+      this.props.navigation.setParams({"list": [...list, chatKey]});
+    }
+  }
+
+  checkedNewMessage = (key) => {
+    const {params = {}} = this.props.navigation.state;
+    const {list = []} = params;
+    const index = list.indexOf(key);
+    if (index !== -1) {
+      this.props.navigation.setParams({list: [
+        ...list.splice(0, index),
+        ...list.splice(index + 1, list.length)
+      ]});
+    }
   }
 
   render() {
-    const {user, chat, loading, currentlyOpenItem} = this.state;
-    console.log(chat)
-    const loadingOrList = loading
-    ? <View style={style.loading}>
-        <ActivityIndicator animating text='Loading chats'/>
-      </View>
-    : chat.length === 0
-       ? <View style={{height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-            <Text style={{fontSize: 18, alignContent: 'center', color: '#a0a0a0'}}>No messages for now</Text>
-        </View>
-        : <ScrollView Style={style.listContainer}>
+    const {user, chat = [], loading, currentlyOpenItem} = this.state;
+    const list =
+      chat.length ?
+      <ScrollView Style={style.listContainer}>
         {
           chat.map((item, key) => (
             <MessageListItem
               key={item.key}
               index={key}
               item={item}
+              user={user}
+              receiveNewMessage={this.receiveNewMessage}
               onDelete={this.deleteChat}
               onPress={() => this.props.navigation.navigate('MessageScreen', {
                 ...item,
                 key: item.key,
+                checkedNewMessage: this.checkedNewMessage,
                 user
               })}
               onOpen={listItem => {
@@ -111,11 +120,17 @@ class MessageList extends Component {
             />
           ))
         }
-      </ScrollView>
+      </ScrollView> :
+      <View style={style.contentContainerStyle}>
+        <Text style={{marginTop: '50%', fontSize: 18, color: '#bababa'}}>
+          You don't have any chat at the moment.
+          To create a chat, please go to the detail post page and click the chat button.
+        </Text>
+      </View>
 
     return (
       <View style={{height: '100%', backgroundColor: 'white'}}>
-        {loadingOrList}
+        {list}
       </View>
     );
   }

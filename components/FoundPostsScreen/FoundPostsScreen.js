@@ -3,10 +3,10 @@ import {View, Text, Image} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 import {ActivityIndicator} from 'antd-mobile';
 import List from '../List/List';
-import {firebaseApp, usersRef, foundPostsRef} from '../../firebaseConfig';
 import style from './Style';
 import PTRView from 'react-native-pull-to-refresh';
-import Cardgrid from '../CardGrid/CardGrid'
+import Cardgrid from '../CardGrid/CardGrid';
+import firebase from '../../library/firebase';
 
 class FoundPostsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -36,23 +36,23 @@ class FoundPostsScreen extends Component {
 
   componentDidMount() {
     this.refreshPostlist();
-    const currentUser = firebaseApp.auth().currentUser;
-    const {uid} = currentUser;
+    const user = firebase.getCurrentUser();
+    const {uid} = user;
     this.setState({uid});
-    usersRef.child(uid).child('foundPosts').on('value', () => {
+    firebase.usersRef.child(uid).child('foundPosts').on('value', () => {
       this.refreshPostlist();
     })
   }
 
   componentWillUnmount() {
     const {uid} = this.state;
-    usersRef.child(uid).child('foundPosts').off();
+    firebase.usersRef.child(uid).child('foundPosts').off();
   }
 
   refreshPostlist = () => {
     return new Promise((resolve, reject) => {
-      foundPostsRef.once('value').then((snapShot) => {
-        var list = Object.values(snapShot.val()).reverse();
+      firebase.foundPostsRef.once('value').then((snapShot) => {
+        const list = Object.values(snapShot.val()).reverse();
         this.setState({
           loading: false,
           list
