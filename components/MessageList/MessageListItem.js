@@ -15,7 +15,7 @@ class MessageListItem extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const {item, user} = this.props;
     const {uid} = user;
     const {messages = [], key} = item;

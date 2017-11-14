@@ -26,7 +26,7 @@ class MessageScreen extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const {user, contact, contactUID, key} = this.props.navigation.state.params;
     const {uid} = user;
     this.setState({
