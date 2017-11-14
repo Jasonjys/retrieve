@@ -80,17 +80,19 @@ class MessageListItem extends Component {
                 style={style.imageStyle}
               />
             }
-            <View style={style.textContainerStyle}>
-              <Text style={style.textUserNameStyle}>
-                {contact.displayName}
-              </Text>
+            <View style={style.messageContainerStyle}>
+              <View style={style.messageTitleContainer}>
+                <Text style={style.textUserNameStyle}>
+                  {contact.displayName} 
+                </Text>
+                <Text style={style.textDateStyle}>{checkTime(lastModified)}</Text>
+              </View>
               {messages ?
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={style.textMessageStyle} numberOfLines={1}>
-                    {receivedNewMessage ? <Text style={{color: 'red'}}> New </Text> : null}
+                <View style={style.textMessageContainer}>
+                  <Text numberOfLines={1} style={{flex: 1}}>
                     {messages[messages.length - 1].text}
                   </Text>
-                  <Text style={style.textMessageStyle}>{checkTime(lastModified)}</Text>
+                  {receivedNewMessage ? <Text style={{color: 'red'}}>New</Text> : null}
                 </View> : null
               }
             </View>
