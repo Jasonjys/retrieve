@@ -140,8 +140,7 @@ class PostForm extends Component {
   render() {
     const {params} = this.props.navigation.state
     const {titleErrorMessage, categoryErrorMessage} = this.state
-    const {type} = params
-    const {found} = this.props.navigation.state.params; 
+    const {type, found} = params
     
     return (
       <KeyboardAwareScrollView style={style.container}>
