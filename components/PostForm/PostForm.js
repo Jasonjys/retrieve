@@ -141,9 +141,11 @@ class PostForm extends Component {
     const {params} = this.props.navigation.state
     const {titleErrorMessage, categoryErrorMessage} = this.state
     const {type} = params
+    const {found} = this.props.navigation.state.params; 
+    
     return (
       <KeyboardAwareScrollView style={style.container}>
-        <FormLabel>{type === 'found' || params.post ? 'Found Date' : 'Lost Date'}</FormLabel>
+        <FormLabel>{type === 'found' || found ? 'Found Date' : 'Lost Date'}</FormLabel>
         <View style={style.datePicker}>
           <DatePicker
             style={{width: 200}}
@@ -178,7 +180,7 @@ class PostForm extends Component {
           multiline={true}
           numberOfLines = {4}
           value={this.state.description}
-          placeholder={type === 'found' || params.post ? 'Found...' : 'Lost...'}
+          placeholder={type === 'found' || found ? 'Found...' : 'Lost...'}
           style={[style.input, {height: 80, fontSize: 16}]}
           clearButtonMode= "while-editing"
           onChangeText={(description)=> this.setState({description})}
@@ -186,7 +188,7 @@ class PostForm extends Component {
         <FormLabel>Location</FormLabel>
         <View style={{margin: 10}}>
           <AutoComplete
-            placeholder={type === 'found' || params.post ? 'Enter found location' : 'Enter lost location'}
+            placeholder={type === 'found' || found ? 'Enter found location' : 'Enter lost location'}
             defaultValue={this.state.location.address}
             setLocation={this.setLocation}
           />
