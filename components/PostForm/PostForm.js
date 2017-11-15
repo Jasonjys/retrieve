@@ -84,7 +84,7 @@ class PostForm extends Component {
       this.setState({categoryErrorMessage: 'Category is required!'})
       return;
     } else {
-      var itemsRef = found === false ? firebase.lostPostsRef : firebase.foundPostsRef;
+      const itemsRef = found === false ? firebase.lostPostsRef : firebase.foundPostsRef;
         itemsRef.child(post.id).update({
         title,
         date,
