@@ -76,11 +76,8 @@ class PostForm extends Component {
   }
   
   handleSave = () => {
-    //todo found and lost update
     const {title, description, date, img, location, category, type} = this.state
     const {post, found} = this.props.navigation.state.params; 
-    
-    console.log(found)
 
     if(!title || !category) {
       this.setState({titleErrorMessage: 'Title is required!'})
