@@ -7,6 +7,13 @@ import matchCategory from '../../library/matchCategory';
 class CardGrid extends Component {
 
   render() {
+    if (!this.props.list.length) {
+      return (
+        <View style={{height: '100%', alignItems: 'center'}}>
+          <Text style={{marginTop: '60%'}}>No post available</Text>
+        </View>
+      );
+    }
     return (
       <ScrollView style={{flex: 1}}>
           <View style={{height: '100%', flexDirection: 'row', flexWrap: 'wrap', marginTop: '3%', marginLeft: '2%'}}>

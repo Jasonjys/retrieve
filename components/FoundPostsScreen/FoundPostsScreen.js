@@ -56,6 +56,8 @@ class FoundPostsScreen extends Component {
         loading: false,
         list
       })
+    }).catch((error) => {
+      this.setState({loading: false})
     })
   }
 
