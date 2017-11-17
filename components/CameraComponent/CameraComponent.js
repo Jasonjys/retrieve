@@ -12,7 +12,7 @@ class CameraComponent extends Component {
     selected: ''
   }
 
-  showActionSheet = (visible) => {
+  showActionSheet = () => {
     this.ActionSheet.show()
   }
 
@@ -28,9 +28,9 @@ class CameraComponent extends Component {
   }
 
   render() {
-    let { image } = this.state;
+    let {image} = this.state;
     return (
-      <View style={{ flex: 1, width: '60%'}}>
+      <View style={{flex: 1, width: '60%'}}>
         {this.props.changeProfileIcon ?
           <View>
             <Button
