@@ -91,7 +91,7 @@ class ProfileScreen extends Component {
     ])
   }
 
-  handleEditPost = (found,item) => {
+  handleEditPost = (found, item) => {
     const type = found ? "found" : "lost"
     this.props.navigation.navigate('PostForm', {post: item, type});
   }
