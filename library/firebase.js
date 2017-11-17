@@ -1,27 +1,44 @@
 import * as firebase from 'firebase';
 
 const config = {
-    apiKey: "AIzaSyCy06AYOySGIMILWjBfCYBpG-HIWNqcHQw",
-    authDomain: "retrieve-55769.firebaseapp.com",
-    databaseURL: "https://retrieve-55769.firebaseio.com",
-    projectId: "retrieve-55769",
-    storageBucket: "",
-    messagingSenderId: "569280491909"
+  apiKey: "AIzaSyCy06AYOySGIMILWjBfCYBpG-HIWNqcHQw",
+  authDomain: "retrieve-55769.firebaseapp.com",
+  databaseURL: "https://retrieve-55769.firebaseio.com",
+  projectId: "retrieve-55769",
+  storageBucket: "",
+  messagingSenderId: "569280491909"
 };
 
-const firebaseApp = firebase.initializeApp(config);
-const getRef = () => firebaseApp.database().ref();
-const auth = firebaseApp.auth()
+export default (() => {
+  initializeApp = () => {
+    this.firebaseApp = firebase.initializeApp(config);
+  }
 
-export default {
-    auth,
+  getRef = () => {
+    return firebaseApp.database().ref();
+  }
+
+  return {
     getCurrentUser: () => {
-        return auth.currentUser;
+      return this.firebaseApp.auth().currentUser;
+    },
+    getAuth: () => {
+      if (!this.firebaseApp) {
+        this.initializeApp();
+      }
+      return this.firebaseApp.auth();
+    },
+    getLostPostsRef: () => {
+      return this.getRef().child('lostPosts')
+    },
+    getFoundPostsRef: () => {
+      return this.getRef().child('foundPosts')
+    },
+    getUsersRef: () => {
+      return this.getRef().child('users')
     },
     signOut: () => {
-        return auth.signOut();
-    },
-    lostPostsRef: getRef().child('lostPosts'),
-    foundPostsRef: getRef().child('foundPosts'),
-    usersRef: getRef().child('users')
-}
+      return this.firebaseApp.auth().signOut()
+    }
+  }
+})()

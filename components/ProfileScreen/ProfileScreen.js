@@ -38,11 +38,12 @@ class ProfileScreen extends Component {
     lostPosts: [],
     showFoundItem: true
   }
+
   componentDidMount() {
     const user = firebase.getCurrentUser();
     const {uid} = user;
 
-    firebase.usersRef.child(uid).on('value', (userSnapShot) => {
+    firebase.getUsersRef().child(uid).on('value', (userSnapShot) => {
       const userInfo = userSnapShot.val();
       if (userInfo) {
         const {photoURL, displayName, email, phoneNumber} = userInfo;
@@ -61,7 +62,7 @@ class ProfileScreen extends Component {
 
   componentWillUnmount() {
     const {uid} = this.state.userInfo;
-    firebase.usersRef.child(uid).off();
+    firebase.getUsersRef().child(uid).off();
   }
 
   handlePressTab = (showFoundItem) => {
@@ -73,7 +74,7 @@ class ProfileScreen extends Component {
     alert('Delete Post', 'Are you sure you want to delete this post?', [
       {text: 'Cancel'},
       {text: 'Yes', onPress: () => {
-        const postRef = found ? firebase.foundPostsRef : firebase.lostPostsRef;
+        const postRef = found ? firebase.getFoundPostsRef() : firebase.getLostPostsRef();
         const propertyName = found ? 'foundPosts' : 'lostPosts';
         postRef.child(id).remove();
         const {uid} = firebase.getCurrentUser();
@@ -85,13 +86,14 @@ class ProfileScreen extends Component {
         ]
         const updateObject = {}
         updateObject[propertyName] = newIds;
-        firebase.usersRef.child(uid).update(updateObject)
+        firebase.getUsersRef().child(uid).update(updateObject)
       }},
     ])
   }
 
-  handleEditPost = (found, item) => {
-    this.props.navigation.navigate('PostForm', {post: item, found});
+  handleEditPost = (found,item) => {
+    const type = found ? "found" : "lost"
+    this.props.navigation.navigate('PostForm', {post: item, type});
   }
 
   handleSignout = () => {

@@ -39,27 +39,25 @@ class FoundPostsScreen extends Component {
     const user = firebase.getCurrentUser();
     const {uid} = user;
     this.setState({uid});
-    firebase.usersRef.child(uid).child('foundPosts').on('value', () => {
+    firebase.getUsersRef().child(uid).child('foundPosts').on('value', () => {
       this.refreshPostlist();
     })
   }
 
   componentWillUnmount() {
     const {uid} = this.state;
-    firebase.usersRef.child(uid).child('foundPosts').off();
+    firebase.getUsersRef().child(uid).child('foundPosts').off();
   }
 
   refreshPostlist = () => {
-    return new Promise((resolve, reject) => {
-      firebase.foundPostsRef.once('value').then((snapShot) => {
-        const list = Object.values(snapShot.val()).reverse();
-        this.setState({
-          loading: false,
-          list
-        }, () => {
-          resolve()
-        })
+    return firebase.getFoundPostsRef().once('value').then((snapShot) => {
+      const list = Object.values(snapShot.val()).reverse();
+      this.setState({
+        loading: false,
+        list
       })
+    }).catch((error) => {
+      this.setState({loading: false})
     })
   }
 
@@ -73,7 +71,7 @@ class FoundPostsScreen extends Component {
           onRefresh={this.refreshPostlist}
           offset={65}
         >
-        <Cardgrid navigate={navigate} list={this.state.list}/>
+          <Cardgrid navigate={navigate} list={this.state.list}/>
         </PTRView>
 
     return (

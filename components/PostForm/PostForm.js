@@ -76,16 +76,16 @@ class PostForm extends Component {
   }
   
   handleSave = () => {
-    //todo found and lost update
     const {title, description, date, img, location, category, type} = this.state
-    const {id} = this.props.navigation.state.params.post;
+    const {post} = this.props.navigation.state.params; 
 
     if(!title || !category) {
       this.setState({titleErrorMessage: 'Title is required!'})
       this.setState({categoryErrorMessage: 'Category is required!'})
       return;
     } else {
-      firebase.foundPostsRef.child(id).update({
+      const itemsRef = type === 'lost' ? firebase.getLostPostsRef() : firebase.getFoundPostsRef();
+        itemsRef.child(post.id).update({
         title,
         date,
         description,
@@ -106,9 +106,9 @@ class PostForm extends Component {
     } else {
       const currentUser = firebase.getCurrentUser();
       const {uid, email, displayName, photoURL} = currentUser;
-      const user = firebase.usersRef.child(uid);
+      const user = firebase.getUsersRef().child(uid);
 
-      const itemsRef = type === "lost" ? firebase.lostPostsRef : firebase.foundPostsRef;
+      const itemsRef = type === "lost" ? firebase.getLostPostsRef() : firebase.getFoundPostsRef();
       const newPostKey = itemsRef.push({
         title,
         description,
@@ -141,9 +141,10 @@ class PostForm extends Component {
     const {params} = this.props.navigation.state
     const {titleErrorMessage, categoryErrorMessage} = this.state
     const {type} = params
+    
     return (
       <KeyboardAwareScrollView style={style.container}>
-        <FormLabel>{type === 'found' || params.post ? 'Found Date' : 'Lost Date'}</FormLabel>
+        <FormLabel>{type === 'found' ? 'Found Date' : 'Lost Date'}</FormLabel>
         <View style={style.datePicker}>
           <DatePicker
             style={{width: 200}}
@@ -178,7 +179,7 @@ class PostForm extends Component {
           multiline={true}
           numberOfLines = {4}
           value={this.state.description}
-          placeholder={type === 'found' || params.post ? 'Found...' : 'Lost...'}
+          placeholder={type === 'found' ? 'Found...' : 'Lost...'}
           style={[style.input, {height: 80, fontSize: 16}]}
           clearButtonMode= "while-editing"
           onChangeText={(description)=> this.setState({description})}
@@ -186,7 +187,7 @@ class PostForm extends Component {
         <FormLabel>Location</FormLabel>
         <View style={{margin: 10}}>
           <AutoComplete
-            placeholder={type === 'found' || params.post ? 'Enter found location' : 'Enter lost location'}
+            placeholder={type === 'found' ? 'Enter found location' : 'Enter lost location'}
             defaultValue={this.state.location.address}
             setLocation={this.setLocation}
           />

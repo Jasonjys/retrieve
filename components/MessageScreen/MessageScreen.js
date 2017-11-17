@@ -12,7 +12,7 @@ class MessageScreen extends Component {
       onPress={() => {
         const {user, key} = navigation.state.params;
         const {uid} = user;
-        firebase.usersRef.child(uid).child('chat').child(key).child('messages').remove();
+        firebase.getUsersRef().child(uid).child('chat').child(key).child('messages').remove();
       }}
       title='Clear'
     />
@@ -26,7 +26,7 @@ class MessageScreen extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const {user, contact, contactUID, key} = this.props.navigation.state.params;
     const {uid} = user;
     this.setState({
@@ -36,7 +36,7 @@ class MessageScreen extends Component {
         uid: contactUID
       }
     }, () => {
-      firebase.usersRef.child(uid).child('chat').child(key).child('messages').on('value', (messages) => {
+      firebase.getUsersRef().child(uid).child('chat').child(key).child('messages').on('value', (messages) => {
         messages = messages.val();
         if (messages) {
           this.setState({messages: messages.reverse()});
@@ -50,8 +50,10 @@ class MessageScreen extends Component {
   componentWillUnmount() {
     const {user, key, checkedNewMessage} = this.props.navigation.state.params;
     const {uid} = user;
-    firebase.usersRef.child(uid).child('chat').child(key).child('messages').off();
-    checkedNewMessage(key);
+    firebase.getUsersRef().child(uid).child('chat').child(key).child('messages').off();
+    if (checkedNewMessage) {
+      checkedNewMessage(key);
+    }
   }
 
   sendMessage = (newMessage) => {
@@ -62,7 +64,6 @@ class MessageScreen extends Component {
         receiver: contact,
         newMessage
       }))
-      .then()
       .catch((error) => {
         console.log(error);
       })
