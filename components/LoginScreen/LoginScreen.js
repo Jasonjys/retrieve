@@ -24,7 +24,7 @@ class LoginScreen extends Component {
 
   componentWillMount() {
     const {navigation} = this.props;
-    this.removeAuthListener = firebase.auth.onAuthStateChanged((user) => {
+    this.removeAuthListener = firebase.getAuth().onAuthStateChanged((user) => {
       if (user) {
         const resetAction = NavigationActions.reset({
           index: 0,
@@ -48,7 +48,7 @@ class LoginScreen extends Component {
       return;
     }
     this.setState({loading: true});
-    firebase.auth.signInWithEmailAndPassword(email, password)
+    firebase.getAuth().signInWithEmailAndPassword(email, password)
     .catch((error) => {
       // Handle Errors here.
       this.setState({loading: false});
@@ -70,10 +70,10 @@ class LoginScreen extends Component {
         firebase.auth.signInWithCredential(credential)
         .then(({uid, email, displayName, photoURL}) => {
           this.setState({loading: false});
-          firebase.usersRef.once('value').then((users) => {
+          firebase.getUsersRef().once('value').then((users) => {
             const existUser = users.val()[uid];
             if (!existUser) {
-              firebase.usersRef.child(`${uid}`).set({
+              firebase.getUsersRef().child(uid).set({
                 email,
                 displayName,
                 photoURL

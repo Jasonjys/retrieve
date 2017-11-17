@@ -13,7 +13,7 @@ class ProfileContent extends Component {
 
   removeListener = () => {
     const {posts, type} = this.props;
-    const postsRef = type ? firebase.foundPostsRef : firebase.lostPostsRef;
+    const postsRef = type ? firebase.getFoundPostsRef() : firebase.getLostPostsRef();
     posts.map((postID) => {
       postsRef.child(postsRef).off();
     });
@@ -26,7 +26,7 @@ class ProfileContent extends Component {
         loading: false
       })
     }
-    const postsRef = type ? firebase.foundPostsRef : firebase.lostPostsRef;
+    const postsRef = type ? firebase.getFoundPostsRef() : firebase.getLostPostsRef();
     const postArr = [];
     posts.forEach((postID, index) => {
       postsRef.child(postID).on('value', (singlePost) => {

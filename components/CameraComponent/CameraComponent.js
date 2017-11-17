@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import {ActivityIndicator, Clipboard, Image, Share, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import Exponent, { Constants, ImagePicker, registerRootComponent } from 'expo'
-import { Button, Icon } from 'react-native-elements';
+import React, {Component} from 'react';
+import {ActivityIndicator, Image, Share, StyleSheet, View} from 'react-native';
+import {ImagePicker} from 'expo'
+import {Button, Icon} from 'react-native-elements';
 import ActionSheet from 'react-native-actionsheet';
 import httpRequest from '../../library/httpRequest';
 
-export default class App extends Component {
+class CameraComponent extends Component {
   state = {
     image: this.props.imageUri,
     uploading: false,
@@ -26,31 +26,34 @@ export default class App extends Component {
       this._takePhoto()
     }
   }
+
   render() {
     let { image } = this.state;
-
     return (
       <View style={{ flex: 1, width: '60%'}}>
         {this.props.changeProfileIcon ?
-        <View>
-          <Button
-         title='Change Photo'
-         fontWeight='bold'
-         textStyle={{fontSize: 14}}
-         buttonStyle={{
-              backgroundColor: '#95c2e2',
-              margin: 10,
-              height: '60%',
-              shadowColor: '#000000',
-              borderRadius:10}}
-         onPress={this.showActionSheet}/>
-          <ActionSheet
-            ref={o => this.ActionSheet = o}
-            options={['Cancel','Photo library', 'Open camera']}
-            cancelButtonIndex={0}
-            destructiveButtonIndex={4}
-            onPress={this.handlePress}/>
-         </View> :
+          <View>
+            <Button
+              title='Change Photo'
+              fontWeight='bold'
+              textStyle={{fontSize: 14}}
+              buttonStyle={{
+                backgroundColor: '#95c2e2',
+                margin: 10,
+                height: '60%',
+                shadowColor: '#000000',
+                borderRadius:10
+              }}
+              onPress={this.showActionSheet}
+            />
+            <ActionSheet
+              ref={o => this.ActionSheet = o}
+              options={['Cancel','Photo library', 'Open camera']}
+              cancelButtonIndex={0}
+              destructiveButtonIndex={4}
+              onPress={this.handlePress}
+            />
+          </View> :
           this.state.image ? this._maybeRenderImage() :
             <View>
               <Button
@@ -66,41 +69,42 @@ export default class App extends Component {
                   height: 120}}
                 textStyle={{color: '#938f8f',fontWeight: 'bold'}}
                 fontSize={30}
-                onPress={this.showActionSheet}>
-                </Button>
-                <ActionSheet
+                onPress={this.showActionSheet}
+              />
+              <ActionSheet
                 ref={o => this.ActionSheet = o}
                 options={['Cancel','Photo library', 'Open camera']}
                 cancelButtonIndex={0}
                 destructiveButtonIndex={4}
                 onPress={this.handlePress}
               />
-            </View>}
-          {this._maybeRenderUploadingOverlay()}
-        </View>
-      );
-    }
+            </View>
+        }
+        {this._maybeRenderUploadingOverlay()}
+      </View>
+    );
+  }
 
-    _maybeRenderUploadingOverlay = () => {
-      if (this.state.uploading) {
-        return (
-          <View
-            style={[
-              StyleSheet.absoluteFill,
-              {
-                backgroundColor: 'rgba(0,0,0,0)',
-                alignItems: 'center',
-                justifyContent: 'center',
-              },
-            ]}>
-            <ActivityIndicator color="black" animating size="large" />
-          </View>
+  _maybeRenderUploadingOverlay = () => {
+    if (this.state.uploading) {
+      return (
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            {
+              backgroundColor: 'rgba(0,0,0,0)',
+              alignItems: 'center',
+              justifyContent: 'center',
+            },
+          ]}>
+          <ActivityIndicator color="black" animating size="large" />
+        </View>
       );
     }
   };
 
   _maybeRenderImage = () => { 
-    let { image } = this.state;
+    let {image} = this.state;
     if (!image) {
       return;
     }
@@ -118,28 +122,31 @@ export default class App extends Component {
             borderTopRightRadius: 3,
             borderTopLeftRadius: 3,
             overflow: 'hidden',
-          }}>
-        <Image source={{ uri: image }}
-        style={{
-          borderRadius: 5,
-          margin: 10,
-          width: 200,
-          height: 200,}}>
-          <Icon
-            name='clear'
-            color='white'
-            size={18}
-            containerStyle={{
-              backgroundColor: 'rgb(204, 204, 204)', 
-              height: 25, 
-              width: 25, 
-              borderRadius: 50,
-              opacity: 0.8}}
-            onPress={() => {
-              this.setState({image: ''})
-              this.props.onClearImage()
+          }}
+        >
+          <Image source={{uri: image}}
+            style={{
+              borderRadius: 5,
+              margin: 10,
+              width: 200,
+              height: 200
             }}
-          />
+          >
+            <Icon
+              name='clear'
+              color='white'
+              size={18}
+              containerStyle={{
+                backgroundColor: 'rgb(204, 204, 204)', 
+                height: 25, 
+                width: 25, 
+                borderRadius: 50,
+                opacity: 0.8}}
+              onPress={() => {
+                this.setState({image: ''})
+                this.props.onClearImage()
+              }}
+            />
           </Image>
         </View>
       </View>
@@ -210,3 +217,5 @@ async function uploadImageAsync(uri) {
 
   return httpRequest(path, {}, method, body, headers);
 }
+
+export default CameraComponent;

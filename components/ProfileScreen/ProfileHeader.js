@@ -10,9 +10,11 @@ class ProfileHeader extends Component {
   state = {
     openModal: false
   }
+
   handleEditPress = () =>{
     this.props.navigation.navigate('EditProfile', this.props.userInfo)
   }
+
   render() {
     if (this.props.userInfo) {
       const {displayName, email, photoURL, phoneNumber} = this.props.userInfo;
