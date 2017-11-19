@@ -36,12 +36,12 @@ class MessageList extends Component {
     const {uid, photoURL, displayName} = user;
     this.setState({user: {uid, photoURL, displayName}});
 
-    firebase.usersRef.child(uid).child('chat').on('value', (snapShot) => {
+    firebase.getUsersRef().child(uid).child('chat').on('value', (snapShot) => {
       const chat = snapShot.val() ? snapShot.val() : [];
       const key = snapShot.key;
       const promise = Object.keys(chat).map((key) => {
         const {contactUID} = chat[key];
-        return firebase.usersRef.child(contactUID).once('value').then((snapShot) => {
+        return firebase.getUsersRef().child(contactUID).once('value').then((snapShot) => {
           const contactUser = snapShot.val();
           const {displayName, photoURL} = contactUser;
           return {
@@ -61,14 +61,14 @@ class MessageList extends Component {
   componentWillUnmount() {
     const {user} = this.state;
     const {uid} = user;
-    firebase.usersRef.child(uid).child('chat').off();
+    firebase.getUsersRef().child(uid).child('chat').off();
   }
 
   deleteChat = (chat) => {
     const {key} = chat;
     const {user} = this.state;
     const {uid} = user;
-    firebase.usersRef.child(uid).child('chat').child(key).remove();
+    firebase.getUsersRef().child(uid).child('chat').child(key).remove();
   }
 
   receiveNewMessage = (chatKey) => {

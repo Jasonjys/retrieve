@@ -19,7 +19,7 @@ class DetailPage extends Component {
 
   componentDidMount() {
     const item = this.props.navigation.state.params
-    firebase.usersRef.child(item.posterUID).once('value').then((poster) => {
+    firebase.getUsersRef().child(item.posterUID).once('value').then((poster) => {
       this.setState({poster: poster.val()})
     })
   }

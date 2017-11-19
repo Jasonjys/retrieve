@@ -26,6 +26,7 @@ class EditProfile extends Component {
   handleUploadPicture = (url) => {
     this.setState({url})
   }
+
   handleSave = () => {
     const {name, url, phoneNumber, email} = this.state
     if (!email) {
@@ -36,7 +37,7 @@ class EditProfile extends Component {
     const {uid} = user
     user.updateProfile({displayName: name, photoURL: url, phoneNumber, email})
     .then(() => {
-      firebase.usersRef.child(uid)
+      firebase.getUsersRef().child(uid)
         .update({displayName: name, photoURL: url, phoneNumber, email})
         .then(() => {
           this.props.navigation.goBack()
@@ -77,17 +78,14 @@ class EditProfile extends Component {
           </TouchableHighlight>
           <Modal visible={this.state.openModal} transparent={true}>
             <ImageViewer
-              imageUrls={[{
-                url: this.state.url
-              }
-            ]}
-              onClick={() => {
-              this.setState({openModal: false})
-            }}/>
+              imageUrls={[{url: this.state.url}]}
+              onClick={() => this.setState({openModal: false})}
+            />
           </Modal>
           <CameraComponent
             changeProfileIcon={true}
-            onUploadImage={(url) => this.setState({url})}/>
+            onUploadImage={(url) => this.setState({url})}
+          />
         </View>
         <FormLabel>Name</FormLabel>
         <FormInput
@@ -107,7 +105,8 @@ class EditProfile extends Component {
           title='Save'
           fontWeight='bold'
           buttonStyle={style.saveButtonStyle}
-          onPress={this.handleSave}/>
+          onPress={this.handleSave}
+        />
       </KeyboardAwareScrollView>
     )
   }

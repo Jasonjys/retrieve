@@ -41,7 +41,7 @@ class SignupScreen extends Component {
       user.updateProfile({
         displayName: name,
       }).then(() => {
-        firebase.usersRef.child(uid).set({
+        firebase.getUsersRef().child(uid).set({
           email,
           displayName: name
         })

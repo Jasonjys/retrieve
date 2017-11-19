@@ -77,14 +77,14 @@ class PostForm extends Component {
   
   handleSave = () => {
     const {title, description, date, img, location, category, type} = this.state
-    const {post, found} = this.props.navigation.state.params; 
+    const {post} = this.props.navigation.state.params; 
 
     if(!title || !category) {
       this.setState({titleErrorMessage: 'Title is required!'})
       this.setState({categoryErrorMessage: 'Category is required!'})
       return;
     } else {
-      const itemsRef = found === false ? firebase.lostPostsRef : firebase.foundPostsRef;
+      const itemsRef = type === 'lost' ? firebase.getLostPostsRef() : firebase.getFoundPostsRef();
         itemsRef.child(post.id).update({
         title,
         date,
@@ -106,9 +106,9 @@ class PostForm extends Component {
     } else {
       const currentUser = firebase.getCurrentUser();
       const {uid, email, displayName, photoURL} = currentUser;
-      const user = firebase.usersRef.child(uid);
+      const user = firebase.getUsersRef().child(uid);
 
-      const itemsRef = type === "lost" ? firebase.lostPostsRef : firebase.foundPostsRef;
+      const itemsRef = type === "lost" ? firebase.getLostPostsRef() : firebase.getFoundPostsRef();
       const newPostKey = itemsRef.push({
         title,
         description,

@@ -39,23 +39,25 @@ class LostPostsScreen extends Component {
     const user = firebase.getCurrentUser();
     const {uid} = user;
     this.setState({uid})
-    firebase.usersRef.child(uid).child('lostPosts').on('value', () => {
+    firebase.getUsersRef().child(uid).child('lostPosts').on('value', () => {
       this.refreshPostlist();
     })
   }
 
   componentWillUnmount() {
     const {uid} = this.state;
-    firebase.usersRef.child(uid).child('lostPosts').off();
+    firebase.getUsersRef().child(uid).child('lostPosts').off();
   }
 
   refreshPostlist = () => {
-    return firebase.lostPostsRef.once('value').then((snapShot) => {
-      const list = Object.values(snapShot.val()).reverse();
-      this.setState({
-        loading: false,
-        list
-      })
+    return firebase.getLostPostsRef().once('value').then((snapShot) => {
+        const list = Object.values(snapShot.val()).reverse();
+        this.setState({
+          loading: false,
+          list
+        })
+    }).catch((error) => {
+      this.setState({loading: false})
     })
   }
 

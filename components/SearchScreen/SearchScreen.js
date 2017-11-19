@@ -8,7 +8,7 @@ import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import style from './Style';
 import {NavigationActions} from 'react-navigation';
 
-class Search extends Component {
+class SearchScreen extends Component {
   state = {
     type: this.props.navigation.state.params.type,
     location: '',
@@ -109,4 +109,4 @@ class Search extends Component {
     );
   }
 }
-export default Search
+export default SearchScreen
