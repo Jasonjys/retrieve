@@ -1,8 +1,4 @@
 {
   "presets": ["babel-preset-expo"],
-  "env": {
-    "development": {
-      "plugins": [["import", { "libraryName": "antd-mobile" }]]
-    }
-  }
+  "plugins": [["import", { "libraryName": "antd-mobile" }]]
 }
