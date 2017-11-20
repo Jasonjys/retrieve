@@ -79,7 +79,12 @@ class DetailPage extends Component {
           visible={this.state.openModal}
           transparent={true}
         >
-          <ImageViewer imageUrls={[{url:img}]} onClick={()=>{this.setState({openModal: false})}}/>
+          <ImageViewer
+            imageUrls={[{url:img}]}
+            onClick={()=>{this.setState({openModal: false})}}
+            saveToLocalByLongPress={false}
+            onLongPress={()=>{this.handleLongPressImage(img)}}
+          />
         </Modal>
         <View style={{width: '100%'}}>
           <FormLabel labelStyle={style.title}>{title}</FormLabel>
