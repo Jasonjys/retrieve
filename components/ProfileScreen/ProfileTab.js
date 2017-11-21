@@ -10,7 +10,9 @@ class ProfileTab extends Component {
           <View
             style={[
               style.tabItem, {
-                backgroundColor: '#aad1ed'
+                backgroundColor: '#aad1ed',
+                alignContent: 'center',
+                justifyContent: 'center'
               }
             ]}
           >
@@ -21,10 +23,12 @@ class ProfileTab extends Component {
         <TouchableHighlight style={{width: '50%'}} onPress={()=>this.props.onPressTab(false)} underlayColor='#f4bac4'>
           <View
             style={[
-            style.tabItem, {
-              backgroundColor: '#ffc1cc'
-            }
-          ]}>
+              style.tabItem, {
+                backgroundColor: '#ffc1cc',
+                alignContent: 'center',
+                justifyContent: 'center'
+            }]}
+          >
             <Text style={style.tabFont}>Lost {this.props.lost}</Text>
           </View>
         </TouchableHighlight>
