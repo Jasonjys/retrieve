@@ -45,6 +45,7 @@ class MessageListItem extends Component {
     const {onOpen, onClose, onPress, onDelete, viewdNewMessage, item} = this.props;
     const {contact, messages, lastModified} = item;
     const {receivedNewMessage} = this.state;
+    const lastMessage = messages[messages.length - 1].text ? messages[messages.length - 1].text : "[Image]";
     return (
       <Swipeable
         onRef={ref => this.swipeable = ref}
@@ -90,7 +91,7 @@ class MessageListItem extends Component {
               {messages ?
                 <View style={style.textMessageContainer}>
                   <Text numberOfLines={1} style={{flex: 1}}>
-                    {messages[messages.length - 1].text}
+                    {lastMessage}
                   </Text>
                   {receivedNewMessage ? <Text style={{color: 'red'}}>New</Text> : null}
                 </View> : null
