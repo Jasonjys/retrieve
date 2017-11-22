@@ -100,7 +100,7 @@ class MessageScreen extends Component {
 
   renderActions = (props) => {
     const options = {
-      "send Image": async (props) => {
+      "Choose Image": async (props) => {
         let pickerResult = await ImagePicker.launchImageLibraryAsync({
           allowsEditing: true,
           aspect: [4, 3],
@@ -108,7 +108,7 @@ class MessageScreen extends Component {
 
         this._handleImagePicked(pickerResult);
       },
-      "Take photo": async (props) => {
+      "Open Camera": async (props) => {
         let pickerResult = await ImagePicker.launchCameraAsync({
           allowsEditing: true,
           aspect: [4, 3],
