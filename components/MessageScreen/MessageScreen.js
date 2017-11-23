@@ -24,7 +24,8 @@ class MessageScreen extends Component {
       uid: '',
       displayName: '',
       photoURL: ''
-    }
+    },
+    messages: []
   }
 
   componentWillMount() {
@@ -41,8 +42,6 @@ class MessageScreen extends Component {
         messages = messages.val();
         if (messages) {
           this.setState({messages: messages.reverse()});
-        } else {
-          this.setState({messages: []})
         }
       })
     });
