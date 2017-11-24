@@ -1,0 +1,8 @@
+This week I work on:
+1.Deploying and publishing our application on Apple store
+2.UI bugs finxing
+
+
+
+The challenges that I faced：
+Getting certificate from Apple store, and because deploying the application with expo are stucked during the buids and cannot find out what's the error, we dicide to eject our project to xcode. And changing serverURL to a certificated URL.
