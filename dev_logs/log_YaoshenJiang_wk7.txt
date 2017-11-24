@@ -1,0 +1,3 @@
+This week I worked on:
+1. Post edit functionality
+2. Worked on UI of the search page

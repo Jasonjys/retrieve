@@ -1,0 +1,12 @@
+This week I worked on:
+1. PostForm should create a post object on firebase and I need to store it in firebase.
+2. User should has an array of id point to the posts he owns.
+3. Design the PostForm component so we can reuse it for lost/found post.
+4. Team discussed how user can search for the post
+
+Challenges:
+1. how we shoudl design and implement the PostForm component so we can reuse it
+2. how to use expo camera component so that user is able to select and take photo of the item
+3. What filter can user apply? Can user only apply single filter or muiltyple filters?
+4. What data should be sent to the server for searching?
+5. How we should display the result
