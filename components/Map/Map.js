@@ -5,7 +5,7 @@ import AutoComplete from '../AutoComplete/AutoComplete'
 import List from '../List/List'
 import BottomItemDetail from './BottomItemDetail'
 import DropdownAlert from 'react-native-dropdownalert'
-import httpRequest from '../../library/httpRequest';
+import httpsRequest from '../../library/httpsRequest';
 import style from './MapStyle'
 
 class Map extends Component {
@@ -28,7 +28,7 @@ class Map extends Component {
 
   componentDidMount() {
     const {date, keyword, category, location, type} = this.props.navigation.state.params;
-    httpRequest(type, {date, location, keyword, category})
+    httpsRequest(type, {date, location, keyword, category})
     .then((post) => {
       this.setState({
         list: post

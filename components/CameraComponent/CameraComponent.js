@@ -3,7 +3,7 @@ import {ActivityIndicator, Image, Share, StyleSheet, View} from 'react-native';
 import {ImagePicker} from 'expo'
 import {Button, Icon} from 'react-native-elements';
 import ActionSheet from 'react-native-actionsheet';
-import httpRequest from '../../library/httpRequest';
+import httpsRequest from '../../library/httpsRequest';
 
 class CameraComponent extends Component {
   state = {
@@ -215,7 +215,7 @@ async function uploadImageAsync(uri) {
     'Content-Type': 'multipart/form-data',
   };
 
-  return httpRequest(path, {}, method, body, headers);
+  return httpsRequest(path, {}, method, body, headers);
 }
 
 export default CameraComponent;

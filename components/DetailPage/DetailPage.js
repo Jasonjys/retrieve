@@ -4,7 +4,7 @@ import {View, Text, Image, ScrollView, Modal, CameraRoll, ActionSheetIOS, Toucha
 import style from './Style';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import matchCategory from '../../library/matchCategory';
-import httpRequest from '../../library/httpRequest';
+import httpsRequest from '../../library/httpsRequest';
 import firebase from '../../library/firebase';
 
 class DetailPage extends Component {
@@ -29,7 +29,7 @@ class DetailPage extends Component {
     const item = this.props.navigation.state.params;
     const user = firebase.getCurrentUser();
     const {uid, displayName, photoURL} = user;
-    httpRequest("createChat", {}, 'POST', JSON.stringify({
+    httpsRequest("createChat", {}, 'POST', JSON.stringify({
       uid1: uid,
       uid2: item.posterUID
     })).then((response) => {

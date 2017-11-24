@@ -2,7 +2,7 @@ import React, {Component}from 'react';
 import {Text, Button, Image} from 'react-native';
 import stylefrom from './Style';
 import {GiftedChat, Actions} from 'react-native-gifted-chat';
-import httpRequest from '../../library/httpRequest';
+import httpsRequest from '../../library/httpsRequest';
 import firebase from '../../library/firebase';
 import {ImagePicker} from 'expo';
 
@@ -59,7 +59,7 @@ class MessageScreen extends Component {
   sendMessage = (newMessage) => {
     const {user, contact, messages} = this.state;
     this.setState({messages: [...newMessage, ...messages]}, () => {
-      httpRequest('sendMessage', {}, 'POST', JSON.stringify({
+      httpsRequest('sendMessage', {}, 'POST', JSON.stringify({
         sender: user,
         receiver: contact,
         newMessage
@@ -162,7 +162,7 @@ async function uploadImageAsync(uri) {
     'Content-Type': 'multipart/form-data',
   };
 
-  return httpRequest(path, {}, method, body, headers);
+  return httpsRequest(path, {}, method, body, headers);
 }
 
 export default MessageScreen;
