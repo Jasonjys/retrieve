@@ -1,7 +1,7 @@
 import encodeURI from './encodeURI';
 
-export default function(path, parameter, method, body, headers) {
-    const serverURL = 'http://ec2-35-182-227-27.ca-central-1.compute.amazonaws.com'
+export default (path, parameter, method, body, headers) => {
+    const serverURL = 'https://ec2-35-182-227-27.ca-central-1.compute.amazonaws.com'
     method = method || "GET";
     body = body || {};
     headers = headers || {
