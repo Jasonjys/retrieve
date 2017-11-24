@@ -1,0 +1,3 @@
+This week I worked on:
+1. Started reading how we can publish our app to expo and build a ios standalone app
+2. A lot of bug fixing
