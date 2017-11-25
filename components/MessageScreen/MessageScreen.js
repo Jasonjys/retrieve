@@ -2,9 +2,10 @@ import React, {Component}from 'react';
 import {Text, Button, Image} from 'react-native';
 import stylefrom from './Style';
 import {GiftedChat, Actions} from 'react-native-gifted-chat';
-import httpRequest from '../../library/httpRequest';
+import httpsRequest from '../../library/httpsRequest';
 import firebase from '../../library/firebase';
 import {ImagePicker} from 'expo';
+import uploadImageAsync from '../../library/uploadImage';
 
 class MessageScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -59,7 +60,7 @@ class MessageScreen extends Component {
   sendMessage = (newMessage) => {
     const {user, contact, messages} = this.state;
     this.setState({messages: [...newMessage, ...messages]}, () => {
-      httpRequest('sendMessage', {}, 'POST', JSON.stringify({
+      httpsRequest('sendMessage', {}, 'POST', JSON.stringify({
         sender: user,
         receiver: contact,
         newMessage
@@ -143,26 +144,6 @@ class MessageScreen extends Component {
       />
     );
   }
-}
-
-async function uploadImageAsync(uri) {
-  let path = "upload";
-  let method = "POST";
-
-  let body = new FormData();
-  let uriParts = uri.split('.');
-  let fileType = uri[uri.length - 1];
-  body.append('photo', {
-    uri,
-    name: `photo.${fileType}`,
-    type: `image/${fileType}`,
-  });
-  let headers = {
-    Accept: 'application/json',
-    'Content-Type': 'multipart/form-data',
-  };
-
-  return httpRequest(path, {}, method, body, headers);
 }
 
 export default MessageScreen;

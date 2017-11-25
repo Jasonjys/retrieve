@@ -3,7 +3,8 @@ import {ActivityIndicator, Image, Share, StyleSheet, View} from 'react-native';
 import {ImagePicker} from 'expo'
 import {Button, Icon} from 'react-native-elements';
 import ActionSheet from 'react-native-actionsheet';
-import httpRequest from '../../library/httpRequest';
+import httpsRequest from '../../library/httpsRequest';
+import uploadImageAsync from '../../library/uploadImage';
 
 class CameraComponent extends Component {
   state = {
@@ -186,7 +187,7 @@ class CameraComponent extends Component {
       this.setState({ uploading: true });
 
       if (!pickerResult.cancelled) {
-        uploadResult = await uploadImageAsync(pickerResult.uri)
+        uploadResult = await uploadImageAsync(pickerResult.uri);
         this.setState({ image: uploadResult.location });
         this.props.onUploadImage(image)
       }
@@ -196,26 +197,6 @@ class CameraComponent extends Component {
     }
     this.props.onUploadImage(this.state.image)
   }
-}
-
-async function uploadImageAsync(uri) {
-  let path = "upload";
-  let method = "POST";
-
-  let body = new FormData();
-  let uriParts = uri.split('.');
-  let fileType = uri[uri.length - 1];
-  body.append('photo', {
-    uri,
-    name: `photo.${fileType}`,
-    type: `image/${fileType}`,
-  });
-  let headers = {
-    Accept: 'application/json',
-    'Content-Type': 'multipart/form-data',
-  };
-
-  return httpRequest(path, {}, method, body, headers);
 }
 
 export default CameraComponent;

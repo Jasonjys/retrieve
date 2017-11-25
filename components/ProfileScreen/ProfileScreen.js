@@ -7,7 +7,6 @@ import ProfileContent from './ProfileContent';
 import ProfileTab from './ProfileTab'
 import {Modal} from 'antd-mobile';
 import style from './Style';
-import httpRequest from '../../library/httpRequest';
 import firebase from '../../library/firebase';
 
 
