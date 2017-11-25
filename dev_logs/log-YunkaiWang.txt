@@ -31,3 +31,19 @@ Week Oct 30 - Nov 5
 - add sendMessage & createChat request hanler on the server
 
 
+Week Nov 5 - Nov 12
+- fix bug in message screen
+- notify the user by changing the chat icon when they received new message
+- auto-refresh the post list only when the user created a new post or the user refresh the list
+- change the profile content subscribe functionality to be more efficient and clean
+- add singleton for current user
+
+Week Nov 13 - Nov 19
+- add send image option through chat option
+- change singleton from current user to the entire firebaseApp object
+- read&understand the react-native-zoom-image-viewer UI library to fix the bug where it displays Chinese on long press the image
+
+Week Nov 20 - Nov 26
+- update AWS server to handle https request since all request need to be in https as required by App store
+
+
