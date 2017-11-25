@@ -9,6 +9,10 @@ import checkTime from '../../library/checkTime'
 class MessageListItem extends Component {
   swipeable = null
 
+  state = {
+    messagesLength: 0
+  }
+
   recenter() {
     if (this.swipeable) {
       this.swipeable.recenter()
@@ -29,7 +33,7 @@ class MessageListItem extends Component {
     const {receiveNewMessage} = this.props;
     const {item} = newProps;
     const {messages = []} = item;
-    const {messagesLength = 0, uid} = this.state;
+    const {messagesLength, uid} = this.state;
     if (messages.length > messagesLength) {
       let receivedNewMessage = false;
       if (messages[messagesLength].user._id !== uid) {
@@ -43,8 +47,12 @@ class MessageListItem extends Component {
 
   render() {
     const {onOpen, onClose, onPress, onDelete, viewdNewMessage, item} = this.props;
-    const {contact, messages, lastModified} = item;
+    const {contact, messages=[], lastModified} = item;
     const {receivedNewMessage} = this.state;
+    let lastMessage;
+    if (messages.length) {
+      lastMessage = messages[messages.length - 1].text ? messages[messages.length - 1].text : "[Image]";
+    }
     return (
       <Swipeable
         onRef={ref => this.swipeable = ref}
@@ -90,7 +98,7 @@ class MessageListItem extends Component {
               {messages ?
                 <View style={style.textMessageContainer}>
                   <Text numberOfLines={1} style={{flex: 1}}>
-                    {messages[messages.length - 1].text}
+                    {lastMessage}
                   </Text>
                   {receivedNewMessage ? <Text style={{color: 'red'}}>New</Text> : null}
                 </View> : null

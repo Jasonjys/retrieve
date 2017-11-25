@@ -1,0 +1,3 @@
+This week I worked on:
+1. Mostly bug fixing and UI styling
+2. Made the tab component to display numbers of accordingly posts user currently has

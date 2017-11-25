@@ -1,0 +1,10 @@
+This week I worked on:
+1. Mainly working on PostForm component
+2. User is now able to create new post
+3. User is now able to delete their post
+4. UI styling
+5. Trying to figure out how we can upload image and store them
+
+Challenges:
+1. It seems like we cannot use firebase's image storage service since expo does not support the feature
+2. Found an example expo image uploading server code. Need to understand how it works so we can use it.
