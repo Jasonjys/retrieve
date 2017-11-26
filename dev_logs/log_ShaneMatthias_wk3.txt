@@ -1,0 +1,2 @@
+Week 3:
+Changed the profile banner (Un-touchable) to a profile tab (Touchable)

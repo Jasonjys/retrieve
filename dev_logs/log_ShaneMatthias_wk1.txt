@@ -1,0 +1,2 @@
+Week 1:
+Read up and studied about react-native
