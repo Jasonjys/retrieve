@@ -1,0 +1,2 @@
+Week 2:
+Started and completed the UI component "Profile Page"
