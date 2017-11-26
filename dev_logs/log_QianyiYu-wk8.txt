@@ -1,0 +1,6 @@
+This week I work on:
+1.Keep UI bug fixing
+2.Design a new UI for main page  and working on card grid component for displaying posts instead of list
+
+The challenges that I faced：
+The styling for card grid component is hard because I am trying to put imformation above image component and make them look good, need to use flexbox for styling

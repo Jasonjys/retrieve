@@ -1,0 +1,7 @@
+This week I work on:
+1.Add tap to view functionality for profile Icon and images on the detail page and create post page
+2.UI bug fixing
+
+
+The challenges that I faced：
+Looking for a good component to use for the image viewer

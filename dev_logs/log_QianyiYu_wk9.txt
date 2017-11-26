@@ -1,0 +1,9 @@
+This week I work on:
+1.Finished card grid component, change the layout on main page (lost posts and found posts)
+2.UI bug fixing
+3.Working on D3 documentation
+
+
+
+The challenges that I faced：
+Mosts of the challenges are meet during working on D3 documentation.
