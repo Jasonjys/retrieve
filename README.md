@@ -8,3 +8,4 @@ Check out our app on youtube! https://youtu.be/Osm1LM0Xvu8
 * Login with facebook
 * View/create/delete/edit posts for lost/found items
 * Search post and view items on google map
+* Chat with the poster in real time
